@@ -36,7 +36,7 @@
     "nodemon": "2.0.7"
   },
   "optionalDependencies": {
-    "chokidar": "^3.5.1"
+    "chokidar": "3.5.1"
   },
   "peerDependenciesMeta": {
     "typescript": {
