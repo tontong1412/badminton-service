@@ -34,5 +34,13 @@
     "eslint-plugin-import": "2.23.4",
     "eslint-plugin-jest": "24.3.6",
     "nodemon": "2.0.7"
+  },
+  "optionalDependencies": {
+    "chokidar": "^3.5.1"
+  },
+  "peerDependenciesMeta": {
+    "typescript": {
+      "optional": true
+    }
   }
 }
