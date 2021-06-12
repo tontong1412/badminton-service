@@ -13,7 +13,7 @@ const tournamentSchema = new SchemaModel({
   date: Date,
   image: String,
   numberOfCourt: Number,
-  divisions: [{ type: mongoose.Schema.Types.ObjectId, ref: MONGO.COLLECTION_NAME.DIVISION }],
+  events: [{ type: mongoose.Schema.Types.ObjectId, ref: MONGO.COLLECTION_NAME.EVENT }],
 }, { versionKey: false })
 
 const tournamentModel = mongoose.model(
