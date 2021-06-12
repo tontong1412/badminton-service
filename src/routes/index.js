@@ -1,8 +1,14 @@
 import express from 'express'
 import tournamentControllers from '../controllers/tournament'
+import userControllers from '../controllers/user'
 import eventControllers from '../controllers/event'
+import authMiddlewares from '../middlewares/auth'
 
 const route = express.Router()
+
+route.post('/register', authMiddlewares.optional, userControllers.register)
+route.post('/login', authMiddlewares.optional, userControllers.login)
+route.get('/user/current', authMiddlewares.required, userControllers.getCurrentUser)
 
 route.get('/', (req, res) => {
   res.status(200).send('This is badminton-service')

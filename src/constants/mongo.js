@@ -7,6 +7,7 @@ const MONGO = {
     LINEUSER: 'lineuser',
     DIVISION: 'division',
     EVENT: 'event',
+    USER: 'user',
   },
 }
 

@@ -11,7 +11,7 @@ const createTournament = async (req, res) => {
   try {
     saveResponse = await tournamentObject.save()
   } catch (error) {
-    console.error('Error: Save tournament had failed')
+    console.error('Error: Failed to create tournament')
     throw error
   }
 

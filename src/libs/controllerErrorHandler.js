@@ -2,9 +2,9 @@ const controllerErrorHandler = (func) => async (req, res) => {
   try {
     return await func(req, res)
   } catch (error) {
-    const errorStatus = 500
-    console.log(error)
-    res.status(errorStatus).send({
+    const errorStatus = error.status || 500
+    console.error(error)
+    return res.status(errorStatus).send({
       error: error.toString(),
     })
   }

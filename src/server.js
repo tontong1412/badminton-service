@@ -3,6 +3,7 @@ import cors from 'cors'
 import { NODE_PORT } from './config'
 import routes from './routes'
 import './libs/mongo/getMongoConnect'
+import './libs/authentication'
 
 const server = express()
 server.use(
