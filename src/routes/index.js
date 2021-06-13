@@ -23,6 +23,8 @@ route.post('/player', playerControllers.create)
 route.put('/player/:id([a-z0-9]+)', playerControllers.update)
 route.delete('/player/:id([a-z0-9]+)', playerControllers.remove)
 
+route.post('/player/claim', authMiddlewares.required, playerControllers.claim)
+
 // tournament
 route.get('/tournament', tournamentControllers.getAll)
 route.get('/tournament/:id([a-z0-9]+)', tournamentControllers.getByID)

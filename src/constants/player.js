@@ -1,7 +1,7 @@
 const PLAYER = {
   GENDER: {
     MALE: 'male',
-    FEMALE: 'famale',
+    FEMALE: 'female',
   },
 }
 
