@@ -1,7 +1,4 @@
-import mongoose from 'mongoose'
 import tournament from '../../schema/tournament'
-
-const { ObjectId } = mongoose.Types
 
 const TournamentModel = tournament.model
 
@@ -11,7 +8,7 @@ const updateTournament = async (req, res) => {
   let updateResponse
   try {
     updateResponse = await TournamentModel.findOneAndUpdate(
-      { _id: ObjectId(id) },
+      { _id: id },
       body,
       { new: true },
     )

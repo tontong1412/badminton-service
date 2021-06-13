@@ -5,6 +5,7 @@ import getByID from './getByID'
 import update from './update'
 
 import register from './register'
+import leave from './leave'
 
 import controllerErrorHandler from '../../libs/controllerErrorHandler'
 
@@ -15,4 +16,5 @@ export default {
   getAll: controllerErrorHandler(getAll),
   update: controllerErrorHandler(update),
   register: controllerErrorHandler(register),
+  leave: controllerErrorHandler(leave),
 }

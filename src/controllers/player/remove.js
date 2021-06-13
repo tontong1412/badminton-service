@@ -1,7 +1,4 @@
-import mongoose from 'mongoose'
 import player from '../../schema/player'
-
-const { ObjectId } = mongoose.Types
 
 const PlayerModel = player.model
 
@@ -10,7 +7,7 @@ const removePlayer = async (req, res) => {
 
   let removeResponse
   try {
-    removeResponse = await PlayerModel.findOneAndDelete({ _id: ObjectId(id) })
+    removeResponse = await PlayerModel.findOneAndDelete({ _id: id })
   } catch (error) {
     console.error('Error: Remove player had failed')
     throw error

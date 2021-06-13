@@ -38,5 +38,6 @@ route.put('/event/:id([a-z0-9]+)', eventControllers.update)
 route.delete('/event/:id([a-z0-9]+)', eventControllers.remove)
 
 route.post('/event/register', eventControllers.register)
+route.post('/event/leave', eventControllers.leave)
 
 export default route

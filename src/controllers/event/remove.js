@@ -1,8 +1,5 @@
-import mongoose from 'mongoose'
 import event from '../../schema/event'
 import tournament from '../../schema/tournament'
-
-const { ObjectId } = mongoose.Types
 
 const EventModel = event.model
 const TournamentModel = tournament.model
@@ -12,7 +9,7 @@ const removeEvent = async (req, res) => {
 
   let removeResponse
   try {
-    removeResponse = await EventModel.findOneAndDelete({ _id: ObjectId(id) })
+    removeResponse = await EventModel.findOneAndDelete({ _id: id })
   } catch (error) {
     console.error('Error: Failed to remove event')
     throw error
@@ -22,7 +19,7 @@ const removeEvent = async (req, res) => {
     try {
       await TournamentModel.updateMany(
         {},
-        { $pull: { events: ObjectId(id) } },
+        { $pull: { events: id } },
         { multi: true },
       )
       return res.send(removeResponse.toObject())

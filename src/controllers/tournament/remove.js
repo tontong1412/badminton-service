@@ -1,7 +1,4 @@
-import mongoose from 'mongoose'
 import tournament from '../../schema/tournament'
-
-const { ObjectId } = mongoose.Types
 
 const TournamentModel = tournament.model
 
@@ -10,7 +7,7 @@ const removeTournament = async (req, res) => {
 
   let removeResponse
   try {
-    removeResponse = await TournamentModel.findOneAndDelete({ _id: ObjectId(id) })
+    removeResponse = await TournamentModel.findOneAndDelete({ _id: id })
   } catch (error) {
     console.error('Error: Remove tournament had failed')
     throw error

@@ -1,7 +1,4 @@
-import mongoose from 'mongoose'
 import player from '../../schema/player'
-
-const { ObjectId } = mongoose.Types
 
 const PlayerModel = player.model
 
@@ -11,7 +8,7 @@ const updatePlayer = async (req, res) => {
   let updateResponse
   try {
     updateResponse = await PlayerModel.findOneAndUpdate(
-      { _id: ObjectId(id) },
+      { _id: id },
       body,
       { new: true },
     )
