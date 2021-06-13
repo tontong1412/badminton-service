@@ -57,7 +57,6 @@ userSchema.methods.toAuthJSON = function () {
   }
 }
 
-mongoose.model('Users', userSchema)
 const userModel = mongoose.model(
   MONGO.COLLECTION_NAME.USER,
   userSchema,

@@ -4,8 +4,6 @@ import getAll from './getAll'
 import getByID from './getByID'
 import update from './update'
 
-import register from './register'
-
 import controllerErrorHandler from '../../libs/controllerErrorHandler'
 
 export default {
@@ -14,5 +12,4 @@ export default {
   getByID: controllerErrorHandler(getByID),
   getAll: controllerErrorHandler(getAll),
   update: controllerErrorHandler(update),
-  register: controllerErrorHandler(register),
 }

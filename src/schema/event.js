@@ -17,7 +17,7 @@ const eventSchema = new SchemaModel({
     ],
   },
   teams: [{
-    member: [{ type: SchemaModel.Types.ObjectId, ref: MONGO.COLLECTION_NAME.PLAYER }],
+    players: [{ type: SchemaModel.Types.ObjectId, ref: MONGO.COLLECTION_NAME.PLAYER }],
   }],
   limit: Number,
   seeded: Boolean,

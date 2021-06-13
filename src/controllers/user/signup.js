@@ -2,7 +2,7 @@ import userCollection from '../../schema/user'
 
 const UserModel = userCollection.model
 
-const register = async (req, res) => {
+const signup = async (req, res) => {
   const { body: { user } } = req
 
   // TODO: เปลี่ยนไปใช้ express validator
@@ -39,4 +39,4 @@ const register = async (req, res) => {
 
   return res.json({ user: saveResponse.toAuthJSON() })
 }
-export default register
+export default signup
