@@ -4,6 +4,7 @@ import jwt from 'jsonwebtoken'
 import { MONGO } from '../constants'
 import { AUTH_SECRET, AUTH_ALGORITHM } from '../config'
 
+const SchemaModel = mongoose.Schema
 const { Schema } = mongoose
 
 const userSchema = new Schema({
@@ -13,8 +14,7 @@ const userSchema = new Schema({
   },
   hash: String,
   salt: String,
-  officialName: { type: String, trim: true },
-  displayName: { type: String, trim: true },
+  playerID: { type: SchemaModel.Types.ObjectId, ref: MONGO.COLLECTION_NAME.PLAYER },
 })
 
 userSchema.pre('save', function (next) {
@@ -45,6 +45,7 @@ userSchema.methods.generateJWT = function () {
   return jwt.sign({
     email: this.email,
     id: this._id,
+    playerID: this.playerID,
     exp: parseInt(expirationDate.getTime() / 1000, 10),
   }, AUTH_SECRET)
 }
