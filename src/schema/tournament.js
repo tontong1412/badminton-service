@@ -10,10 +10,14 @@ const tournamentSchema = new SchemaModel({
     latitude: Number,
     longitude: Number,
   },
-  date: Date,
+  startDate: Date,
+  endDate: Date,
+  registerDate: Date,
+  deadlineDate: Date,
   image: String,
   numberOfCourt: Number,
   events: [{ type: mongoose.Schema.Types.ObjectId, ref: MONGO.COLLECTION_NAME.EVENT }],
+  isPublished: Boolean,
 }, { versionKey: false })
 
 const tournamentModel = mongoose.model(

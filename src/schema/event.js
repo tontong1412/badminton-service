@@ -18,6 +18,16 @@ const eventSchema = new SchemaModel({
   },
   teams: [{
     players: [{ type: SchemaModel.Types.ObjectId, ref: MONGO.COLLECTION_NAME.PLAYER }],
+    status: {
+      type: String,
+      trim: true,
+      enum: [
+        EVENT.TEAM_STATUS.IDLE,
+        EVENT.TEAM_STATUS.REJECTED,
+        EVENT.TEAM_STATUS.APPROVED,
+      ],
+      default: EVENT.TEAM_STATUS.IDLE,
+    },
   }],
   limit: Number,
   seeded: Boolean,
