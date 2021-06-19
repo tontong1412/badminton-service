@@ -12,6 +12,8 @@
             "error",
             "never"
         ],
+        "allowForLoopAfterthoughts": true,
+        "no-unsafe-optional-chaining": "off",
         "no-underscore-dangle": "off",
         "camelcase": "off",
         "no-param-reassign": "off",
@@ -26,5 +28,8 @@
                 ]
             }
         ]
+    },
+    "parserOptions": {
+        "ecmaVersion": 2020
     }
 }
