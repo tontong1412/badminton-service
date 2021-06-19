@@ -41,5 +41,6 @@ route.delete('/event/:id([a-z0-9]+)', eventControllers.remove)
 
 route.post('/event/register', authMiddlewares.required, eventControllers.register)
 route.post('/event/leave', authMiddlewares.required, eventControllers.leave)
+route.get('/event/random-order', eventControllers.randomOrder)
 
 export default route

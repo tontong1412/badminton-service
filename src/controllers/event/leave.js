@@ -5,13 +5,15 @@ const EventModel = event.model
 const leaveEvent = async (req, res) => {
   const { body, payload } = req
 
-  const selectedEvent = await EventModel.findOne({ _id: body.eventID })
-  const authorizedUser = selectedEvent.teams.find((team) => team._id == body.teamID)?.players
+  // NOTE: next mvp
+  // const selectedEvent = await EventModel.findOne({ _id: body.eventID })
+  // // eslint-disable-next-line eqeqeq
+  // const authorizedUser = selectedEvent.teams.find((team) => team._id == body.teamID)?.players
 
-  if(!authorizedUser) return res.status(404).send('Team not found')
-  if (payload.playerID && !authorizedUser.includes(payload.playerID)) {
-    return res.status(401).send('You do not have permission to perform this action')
-  }
+  // if (!authorizedUser) return res.status(404).send('Team not found')
+  // if (payload.playerID && !authorizedUser.includes(payload.playerID)) {
+  //   return res.status(401).send('You do not have permission to perform this action')
+  // }
 
   let updateResponse
   try {
