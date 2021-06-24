@@ -12,7 +12,7 @@ teamSchema.pre('save', function (next) {
     if (!docs.length) {
       next()
     } else {
-      next(new Error('user exists'))
+      next(new Error('team exists'))
     }
   })
 })

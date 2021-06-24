@@ -6,7 +6,13 @@ const getAllEvent = async (req, res) => {
   let getAllResponse
   try {
     getAllResponse = await eventModel.find({})
-    //   .populate('division.team.member').exec()
+      .populate({
+        path: 'teams',
+        populate: {
+          path: 'players'
+        }
+      })
+      .exec()
   } catch (error) {
     console.error('Error: Failed to get all event')
     throw error

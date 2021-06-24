@@ -1,9 +1,12 @@
 import mongoose from 'mongoose'
-import event from '../../schema/event'
+import eventCollection from '../../schema/event'
 import playerCollection from '../../schema/player'
+import teamCollection from '../../schema/team'
 
-const EventModel = event.model
+
+const EventModel = eventCollection.model
 const PlayerModel = playerCollection.model
+const TeamModel = teamCollection.model
 
 const { ObjectId } = mongoose.Types
 
@@ -24,21 +27,36 @@ const registerEvent = async (req, res) => {
     }
   }))
 
+  console.log(playersObject)
+  let teamObject = await TeamModel.findOne({ players: { $all: playersObject } })
+  if (!teamObject) {
+    try {
+      const newTeam = new TeamModel({ players: playersObject })
+      teamObject = await newTeam.save()
+    } catch (error) {
+      console.error('Error: Fail to create team')
+      throw error
+    }
+  }
+  console.log('teamObject', teamObject._id)
+
   let updateResponse
   try {
     updateResponse = await EventModel.findOneAndUpdate(
       { _id: body.eventID },
       {
-        $push: {
-          teams: {
-            _id: ObjectId(),
-            players: playersObject,
-          },
+        $addToSet: {
+          teams: teamObject._id
         },
       },
       { new: true },
     )
-      .populate('teams.players')
+      .populate({
+        path: 'teams',
+        populate: {
+          path: 'players'
+        }
+      })
       .exec()
   } catch (error) {
     console.log(error)

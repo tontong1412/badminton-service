@@ -21,12 +21,17 @@ const leaveEvent = async (req, res) => {
       { _id: body.eventID },
       {
         $pull: {
-          teams: { _id: body.teamID },
+          teams: body.teamID,
         },
       },
       { new: true },
     )
-      .populate('teams.players')
+      .populate({
+        path: 'teams',
+        populate: {
+          path: 'players'
+        }
+      })
       .exec()
   } catch (error) {
     console.error('Error: Fail to update event')

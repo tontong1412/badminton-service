@@ -16,19 +16,18 @@ const eventSchema = new SchemaModel({
       EVENT.FORMAT.DOUBLE_ELIMINATION,
     ],
   },
-  teams: [{
-    players: [{ type: SchemaModel.Types.ObjectId, ref: MONGO.COLLECTION_NAME.PLAYER }],
-    status: {
-      type: String,
-      trim: true,
-      enum: [
-        EVENT.TEAM_STATUS.IDLE,
-        EVENT.TEAM_STATUS.REJECTED,
-        EVENT.TEAM_STATUS.APPROVED,
-      ],
-      default: EVENT.TEAM_STATUS.IDLE,
-    },
-  }],
+  teams: [{ type: SchemaModel.Types.ObjectId, ref: MONGO.COLLECTION_NAME.TEAM },
+    // status: {
+    //   type: String,
+    //   trim: true,
+    //   enum: [
+    //     EVENT.TEAM_STATUS.IDLE,
+    //     EVENT.TEAM_STATUS.REJECTED,
+    //     EVENT.TEAM_STATUS.APPROVED,
+    //   ],
+    //   default: EVENT.TEAM_STATUS.IDLE,
+    // },
+  ],
   limit: Number,
   seeded: Boolean,
   order: SchemaModel.Types.Mixed,
