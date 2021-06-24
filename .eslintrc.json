@@ -27,6 +27,10 @@
                     "info"
                 ]
             }
+        ],
+        "comma-dangle": [
+            "error",
+            "only-multiline"
         ]
     },
     "parserOptions": {

@@ -22,8 +22,8 @@ const randomOrder = async (req, res) => {
       group: orderGroup,
       knockOut: orderKnockOut
     }
-  } else if (event.format === EVENT.FORMAT.SINGLE_ELIMINATION) {
-    order = []
+  } else {
+    order = randomMethod.knockOut(event.teams, { seeded: body.seeded, seededCount: body.seededCount })
   }
   return res.status(200).json(order)
 }
