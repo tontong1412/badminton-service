@@ -20,7 +20,7 @@ const playerSchema = new Schema({
 })
 
 playerSchema.pre('save', function (next) {
-  this.model('player').find({ officialName: this.officialName }, (err, docs) => {
+  this.model(MONGO.COLLECTION_NAME.PLAYER).find({ officialName: this.officialName }, (err, docs) => {
     if (!docs.length) {
       next()
     } else {
