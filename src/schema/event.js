@@ -4,7 +4,7 @@ import { MONGO, EVENT } from '../constants'
 const SchemaModel = mongoose.Schema
 
 var teamSchema = mongoose.Schema({
-  teamID: { type: SchemaModel.Types.ObjectId, ref: MONGO.COLLECTION_NAME.TEAM },
+  team: { type: SchemaModel.Types.ObjectId, ref: MONGO.COLLECTION_NAME.TEAM },
   status: {
     type: String,
     trim: true,

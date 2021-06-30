@@ -46,12 +46,12 @@ const registerEvent = async (req, res) => {
     updateResponse = await EventModel.findOneAndUpdate(
       { _id: body.eventID, 'teams.teamID': { $ne: ObjectId(teamObject._id) } },
       {
-        $push: { teams: { teamID: ObjectId(teamObject._id) } }
+        $push: { teams: { team: ObjectId(teamObject._id) } }
       },
       { new: true },
     )
       .populate({
-        path: 'team',
+        path: 'teams.team',
         populate: {
           path: 'players'
         }
