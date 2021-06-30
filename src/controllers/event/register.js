@@ -27,7 +27,6 @@ const registerEvent = async (req, res) => {
     }
   }))
 
-  console.log(playersObject)
   let teamObject = await TeamModel.findOne({ players: { $all: playersObject } })
   if (!teamObject) {
     try {
@@ -38,21 +37,21 @@ const registerEvent = async (req, res) => {
       throw error
     }
   }
-  console.log('teamObject', teamObject._id)
+
+  const eventExist = await EventModel.findById(body.eventID)
+  if (!eventExist) return res.status(404).send('event not found')
 
   let updateResponse
   try {
     updateResponse = await EventModel.findOneAndUpdate(
-      { _id: body.eventID },
+      { _id: body.eventID, 'teams.teamID': { $ne: ObjectId(teamObject._id) } },
       {
-        $addToSet: {
-          teams: teamObject._id
-        },
+        $push: { teams: { teamID: ObjectId(teamObject._id) } }
       },
       { new: true },
     )
       .populate({
-        path: 'teams',
+        path: 'team',
         populate: {
           path: 'players'
         }
@@ -61,11 +60,12 @@ const registerEvent = async (req, res) => {
   } catch (error) {
     console.log(error)
     console.error('Error: Fail to update event')
+    throw error
   }
   if (updateResponse) {
     return res.send(updateResponse.toObject())
   }
-  return res.status(404).send('event not found')
+  return res.status(409).send('duplicate team')
 }
 
 export default registerEvent

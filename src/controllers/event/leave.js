@@ -21,7 +21,7 @@ const leaveEvent = async (req, res) => {
       { _id: body.eventID },
       {
         $pull: {
-          teams: body.teamID,
+          teams: { teamID: body.teamID },
         },
       },
       { new: true },

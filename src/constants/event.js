@@ -9,6 +9,11 @@ const EVENT = {
     APPROVED: 'approved',
     REJECTED: 'rejected',
   },
+  PAYMENT_STATUS: {
+    PAID: 'paid',
+    PENDING: 'pending',
+    IDLE: 'idle'
+  }
 }
 
 export default EVENT
