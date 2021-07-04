@@ -6,7 +6,13 @@ const EventModel = eventCollection.model
 
 const randomOrder = async (req, res) => {
   const { body } = req
-  const event = await EventModel.findById(body.eventID)
+  const event = await EventModel.findById(body.eventID, { 'teams.status': false, 'teams.paymentStatus': false })
+    .populate({
+      path: 'teams.team',
+      populate: {
+        path: 'players'
+      }
+    })
   let order
   if (event.format === EVENT.FORMAT.ROUND_ROBIN) {
     if (event.teams < 3 * body.groupCount) return res.status(400).json({ error: 'should have at least 3 teams in 1 group' })

@@ -9,6 +9,10 @@ const MATCH = {
     DRAW: 1,
     WIN: 2,
   },
+  STEP: {
+    GROUP: 'group',
+    KNOCK_OUT: ' knockOut'
+  }
 }
 
 export default MATCH
