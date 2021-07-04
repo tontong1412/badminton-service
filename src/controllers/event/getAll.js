@@ -7,7 +7,7 @@ const getAllEvent = async (req, res) => {
   try {
     getAllResponse = await eventModel.find({})
       .populate({
-        path: 'team',
+        path: 'teams.team',
         populate: {
           path: 'players'
         }

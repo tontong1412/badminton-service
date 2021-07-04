@@ -44,7 +44,7 @@ const registerEvent = async (req, res) => {
   let updateResponse
   try {
     updateResponse = await EventModel.findOneAndUpdate(
-      { _id: body.eventID, 'teams.teamID': { $ne: ObjectId(teamObject._id) } },
+      { _id: body.eventID, 'teams.team': { $ne: ObjectId(teamObject._id) } },
       {
         $push: { teams: { team: ObjectId(teamObject._id) } }
       },
