@@ -21,13 +21,13 @@ const leaveEvent = async (req, res) => {
       { _id: body.eventID },
       {
         $pull: {
-          teams: { teamID: body.teamID },
+          teams: { team: body.teamID },
         },
       },
       { new: true },
     )
       .populate({
-        path: 'teams',
+        path: 'teams.team',
         populate: {
           path: 'players'
         }
