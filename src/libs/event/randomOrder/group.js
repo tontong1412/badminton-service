@@ -10,7 +10,7 @@ const group = (playerList, groupCount) => {
     order[i] = []
     for (let j = 0; j < playerPerGroup; j++) {
       const chosenIndex = randomNoDup(playerCount, chosen)
-      order[i].push(playerList[chosenIndex])
+      order[i].push(playerList[chosenIndex].team)
       // order[i].push(chosenIndex)
       chosen.push(chosenIndex)
     }
@@ -18,7 +18,7 @@ const group = (playerList, groupCount) => {
   for (let i = 0; i < extraPlayer; i++) {
     const group = i % groupCount
     const chosenIndex = randomNoDup(playerCount, chosen)
-    order[group].push(playerList[chosenIndex])
+    order[group].push(playerList[chosenIndex].team)
     // order[group].push(chosenIndex)
     chosen.push(chosenIndex)
   }

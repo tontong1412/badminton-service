@@ -3,7 +3,7 @@ import { MATCH } from '../../../constants'
 
 const { ObjectId } = mongoose.Types
 
-const arrangeMatchRoundRobin = (event, eventOrder, qualifiedPerGroup, { groupPlayTime = 20, knockOutPlayTime = 30 } = {}) => {
+const arrangeMatchRoundRobin = (event, eventOrder,) => {
   const { order } = event
 
   let arrangedMatches = []
@@ -12,9 +12,7 @@ const arrangeMatchRoundRobin = (event, eventOrder, qualifiedPerGroup, { groupPla
   order.group.forEach((groupObj, groupIndex) => {
     const tempGroupObj = groupObj
     if (tempGroupObj.length % 2 === 1) { // add dummy player
-      tempGroupObj.unshift({
-        team: { players: [] },
-      })
+      tempGroupObj.unshift(null)
     }
 
     const totalRound = tempGroupObj.length - 1
@@ -26,13 +24,13 @@ const arrangeMatchRoundRobin = (event, eventOrder, qualifiedPerGroup, { groupPla
     const roundRobinTeam = tempGroupObj.slice(1, tempGroupObj.length)
 
     for (let round = 0; round < totalRound; round++) {
-      if (standTeam.team.players && standTeam.team.players.length) {
+      if (standTeam) {
         arrangedMatches.push({
           eventID: ObjectId(event._id),
           format: event.format,
           level: event.level,
-          teamA: roundRobinTeam[roundRobinTeam.length - 1],
-          teamB: standTeam,
+          teamA: { team: roundRobinTeam[roundRobinTeam.length - 1] },
+          teamB: { team: standTeam },
           step: MATCH.STEP.GROUP,
           round,
           groupOrder: groupIndex,
@@ -45,8 +43,8 @@ const arrangeMatchRoundRobin = (event, eventOrder, qualifiedPerGroup, { groupPla
           eventID: ObjectId(event._id),
           format: event.format,
           level: event.level,
-          teamA: roundRobinTeam[roundRobinTeam.length - 2 - j],
-          teamB: roundRobinTeam[j],
+          teamA: { team: roundRobinTeam[roundRobinTeam.length - 2 - j] },
+          teamB: { team: roundRobinTeam[j] },
           step: MATCH.STEP.GROUP,
           round,
           groupOrder: groupIndex,
@@ -61,7 +59,6 @@ const arrangeMatchRoundRobin = (event, eventOrder, qualifiedPerGroup, { groupPla
 
   const totalRound = Math.log2(order.knockOut.length)
   const tempKnockOutTeam = order.knockOut
-  const knockOutMatch = []
   for (let i = 0; i < totalRound; i++) {
     const knockOutTeam = [...tempKnockOutTeam]
     tempKnockOutTeam.length = 0
@@ -75,11 +72,11 @@ const arrangeMatchRoundRobin = (event, eventOrder, qualifiedPerGroup, { groupPla
           teamB: null,
           step: MATCH.STEP.KNOCK_OUT,
           round: Math.pow(2, totalRound - i),
+          eventOrder,
         })
         tempKnockOutTeam.push({ teamA: null, teamB: null })
       }
     })
-
   }
   return arrangedMatches
   // return knockOutMatch

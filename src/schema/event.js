@@ -43,7 +43,10 @@ const eventSchema = new SchemaModel({
   teams: [teamSchema],
   limit: Number,
   seeded: Boolean,
-  order: SchemaModel.Types.Mixed,
+  order: {
+    group: [[{ type: SchemaModel.Types.ObjectId, ref: MONGO.COLLECTION_NAME.TEAM }]],
+    knockOut: [{ type: SchemaModel.Types.Mixed, ref: MONGO.COLLECTION_NAME.TEAM }]
+  },
 }, { versionKey: false })
 
 const eventModel = mongoose.model(

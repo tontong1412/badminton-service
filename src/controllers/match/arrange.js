@@ -1,10 +1,11 @@
+import moment from 'moment'
 import tournamentCollection from '../../schema/tournament'
-import eventCollection from '../../schema/event'
+import matchCollection from '../../schema/match'
 import arrangeMatchLib from '../../libs/match/arrange'
 import { EVENT, MATCH } from '../../constants'
 
 const TournamentModel = tournamentCollection.model
-const EventModel = eventCollection.model
+const MatchModel = matchCollection.model
 
 const arrangeMatch = async (req, res) => {
   const { body } = req
@@ -51,10 +52,34 @@ const arrangeMatch = async (req, res) => {
   })
 
   // arrange time 
+  // ตอนนี้ทำได้แค่จัดแข่งแบบ 2 วันจบ
+  // วันแรก group วันที่สอง knock out
+  let knockOutCount = 0
+  roundRobinMatches.forEach((match, index) => {
+    match.matchNumber = index + 1
+    if (match.step === MATCH.STEP.GROUP) {
+      match.date = moment(body.startTime.group)
+        .add(body.matchDuration.group * index, 'minutes')
+    } else if (match.step === MATCH.STEP.KNOCK_OUT) {
+      match.date = moment(body.startTime.knockOut)
+        .add(1, 'days')
+        .add(body.matchDuration.knockOut * knockOutCount, 'minutes')
+      knockOutCount++
+    }
+  })
 
   // save to db
+  let saveResponse
+  try {
+    saveResponse = await MatchModel.insertMany(roundRobinMatches)
+  } catch (error) {
+    console.error('Error: Failed to create match')
+    throw error
+  }
 
-  return res.status(200).send(roundRobinMatches)
+  // Todo: หาวิธี return create result with populate team
+
+  return res.status(200).send(saveResponse)
 
 }
 export default arrangeMatch
