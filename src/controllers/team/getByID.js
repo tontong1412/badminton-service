@@ -8,6 +8,7 @@ const getByIDteam = async (req, res) => {
   let getByIDResponse
   try {
     getByIDResponse = await TeamModel.findById(id)
+      .populate('players')
   } catch (error) {
     console.error('Error: Get by ID team had failed')
     throw error

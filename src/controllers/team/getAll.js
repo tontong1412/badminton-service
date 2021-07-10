@@ -6,7 +6,7 @@ const getAllteam = async (req, res) => {
   let getAllResponse
   try {
     getAllResponse = await TeamModel.find({})
-      .populate('players').exec()
+      .populate('players')
   } catch (error) {
     console.error('Error: Get all team had failed')
     throw error
