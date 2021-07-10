@@ -32,6 +32,7 @@ const matchSchema = new SchemaModel({
   round: { type: Number, default: 0 },
   groupOrder: Number,
   eventOrder: Number,
+  bracketOrder: Number,
   status: {
     type: String,
     default: MATCH.STATUS.WAITING,

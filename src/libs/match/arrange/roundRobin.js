@@ -73,12 +73,12 @@ const arrangeMatchRoundRobin = (event, eventOrder,) => {
           step: MATCH.STEP.KNOCK_OUT,
           round: Math.pow(2, totalRound - i),
           eventOrder,
+          bracketOrder: (index - 1) / 2
         })
         tempKnockOutTeam.push({ teamA: null, teamB: null })
       }
     })
   }
   return arrangedMatches
-  // return knockOutMatch
 }
 export default arrangeMatchRoundRobin

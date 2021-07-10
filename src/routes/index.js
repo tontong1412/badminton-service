@@ -54,6 +54,9 @@ route.post('/event/leave', authMiddlewares.required, eventControllers.leave)
 route.get('/event/random-order', eventControllers.randomOrder)
 
 // match
+route.get('/match', matchControllers.getAll)
+route.get('/match/:id([a-z0-9]+)', matchControllers.getByID)
 route.post('/match/arrange', matchControllers.arrange)
+route.post('/match/set-score', matchControllers.setScore)
 
 export default route
