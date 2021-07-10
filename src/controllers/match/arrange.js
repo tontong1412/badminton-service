@@ -17,6 +17,14 @@ const arrangeMatch = async (req, res) => {
     })
     .exec()
 
+  // เคลียร์ match ที่เคย arrange ไว้ก่อน
+  try {
+    await MatchModel.deleteMany({ eventID: { $in: tournament.events } })
+  } catch (error) {
+    console.error('Error: Failed to reset matches in tournament')
+    throw error
+  }
+
   // sort event by number of match
   tournament.events.sort((a, b) => {
     const matchCountA = a.order.group.reduce((prev, group) => {
@@ -29,13 +37,18 @@ const arrangeMatch = async (req, res) => {
   })
 
   // arrange round robin
-  const arrangedRoundRobinMatches = await Promise.all(tournament.events.map((event, index) => arrangeMatchLib.roundRobin(event, index)))
-  const roundRobinMatches = arrangedRoundRobinMatches.reduce((prev, curr) => {
+  const arrangedMatches = await Promise.all(tournament.events.map((event, index) => {
+    if (event.format === EVENT.FORMAT.ROUND_ROBIN) {
+      return arrangeMatchLib.roundRobin(event, index)
+    }
+    return []
+  }))
+  const sortedArrangedMatches = arrangedMatches.reduce((prev, curr) => {
     return [...prev, ...curr]
   }, [])
 
   // sort match round robin
-  roundRobinMatches.sort((a, b) => {
+  sortedArrangedMatches.sort((a, b) => {
     if (a.step === b.step) {
       if (a.round === b.round) {
         if (a.eventOrder === b.eventOrder) {
@@ -55,7 +68,7 @@ const arrangeMatch = async (req, res) => {
   // ตอนนี้ทำได้แค่จัดแข่งแบบ 2 วันจบ
   // วันแรก group วันที่สอง knock out
   let knockOutCount = 0
-  roundRobinMatches.forEach((match, index) => {
+  sortedArrangedMatches.forEach((match, index) => {
     match.matchNumber = index + 1
     if (match.step === MATCH.STEP.GROUP) {
       match.date = moment(body.startTime.group)
@@ -69,17 +82,29 @@ const arrangeMatch = async (req, res) => {
   })
 
   // save to db
-  let saveResponse
   try {
-    saveResponse = await MatchModel.insertMany(roundRobinMatches)
+    await MatchModel.insertMany(sortedArrangedMatches)
   } catch (error) {
     console.error('Error: Failed to create match')
     throw error
   }
 
-  // Todo: หาวิธี return create result with populate team
+  // return create result with populate team
+  let allMatches
+  try {
+    allMatches = await MatchModel.find({ eventID: { $in: tournament.events } })
+      .populate({
+        path: 'teamA.team teamB.team',
+        populate: {
+          path: 'players'
+        }
+      })
+  } catch (error) {
+    console.error('Error: Failed to get matches')
+    throw error
+  }
 
-  return res.status(200).send(saveResponse)
+  return res.status(200).send(allMatches)
 
 }
 export default arrangeMatch
