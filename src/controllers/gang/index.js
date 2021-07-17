@@ -4,6 +4,7 @@ import getAll from './getAll'
 import getByID from './getByID'
 import update from './update'
 import register from './register'
+import addQueue from './addQueue'
 
 import controllerErrorHandler from '../../libs/controllerErrorHandler'
 
@@ -14,4 +15,5 @@ export default {
   getAll: controllerErrorHandler(getAll),
   update: controllerErrorHandler(update),
   register: controllerErrorHandler(register),
+  addQueue: controllerErrorHandler(addQueue)
 }

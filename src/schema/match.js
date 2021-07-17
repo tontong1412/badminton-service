@@ -6,7 +6,7 @@ const SchemaModel = mongoose.Schema
 const matchSchema = new SchemaModel({
   eventID: mongoose.Types.ObjectId,
   gangID: mongoose.Types.ObjectId,
-  shuttlecockUsed: Number,
+  shuttlecockUsed: { type: Number, default: 0 },
   matchNumber: Number,
   teamA: {
     team: { type: SchemaModel.Types.ObjectId, ref: MONGO.COLLECTION_NAME.TEAM },
@@ -31,7 +31,7 @@ const matchSchema = new SchemaModel({
       // EVENT.FORMAT.DOUBLE_ELIMINATION,
     ],
   },
-  round: { type: Number, default: 0 },
+  round: Number,
   groupOrder: Number,
   eventOrder: Number,
   bracketOrder: Number,
