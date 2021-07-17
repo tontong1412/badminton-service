@@ -14,7 +14,10 @@ const getAllMatch = async (req, res) => {
     console.error('Error: Failed to find tournament')
   }
 
-  const query = tournament ? { eventID: { $in: tournament.events } } : {}
+  const userQuery = { ...req.query }
+  delete userQuery.tournamentID
+  const query = tournament ? { eventID: { $in: tournament.events }, ...userQuery } : { ...userQuery }
+
 
   let getAllResponse
   try {

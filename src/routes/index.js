@@ -6,7 +6,6 @@ import eventControllers from '../controllers/event'
 import playerControllers from '../controllers/player'
 import matchControllers from '../controllers/match'
 import authMiddlewares from '../middlewares/auth'
-import match from '../schema/match'
 
 const route = express.Router()
 
@@ -52,6 +51,7 @@ route.delete('/event/:id([a-z0-9]+)', eventControllers.remove)
 route.post('/event/register', authMiddlewares.required, eventControllers.register)
 route.post('/event/leave', authMiddlewares.required, eventControllers.leave)
 route.get('/event/random-order', eventControllers.randomOrder)
+route.post('/event/round-up', eventControllers.roundUp)
 
 // match
 route.get('/match', matchControllers.getAll)
