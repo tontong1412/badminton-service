@@ -39,9 +39,10 @@ const setScore = async (req, res) => {
   }
 
   // update player in next match for knock out type
-  if (currentMatch.round > 2 // not final round
-    && currentMatch.step === MATCH.STEP.KNOCK_OUT
-    || currentMatch.format === EVENT.FORMAT.SINGLE_ELIMINATION) {
+  if (currentMatch.round
+    && currentMatch.round > 2 // not final round
+    && (currentMatch.step === MATCH.STEP.KNOCK_OUT
+      || currentMatch.format === EVENT.FORMAT.SINGLE_ELIMINATION)) {
     if (scoreSetA === scoreSetB) return res.status(400).send('should have winner for knock out round')
     const winTeam = scoreSetA > scoreSetB ? 'teamA' : 'teamB'
     const nextMatchTeam = currentMatch.bracketOrder % 2 === 0 ? 'teamA' : 'teamB'
