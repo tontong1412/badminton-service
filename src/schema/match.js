@@ -5,6 +5,8 @@ const SchemaModel = mongoose.Schema
 
 const matchSchema = new SchemaModel({
   eventID: mongoose.Types.ObjectId,
+  gangID: mongoose.Types.ObjectId,
+  shuttlecockUsed: Number,
   matchNumber: Number,
   teamA: {
     team: { type: SchemaModel.Types.ObjectId, ref: MONGO.COLLECTION_NAME.TEAM },
@@ -48,7 +50,6 @@ const matchSchema = new SchemaModel({
       MATCH.STEP.KNOCK_OUT,
     ],
   }
-
 }, { versionKey: false })
 
 const matchModel = mongoose.model(

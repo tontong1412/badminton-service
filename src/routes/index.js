@@ -1,5 +1,6 @@
 import express from 'express'
 import tournamentControllers from '../controllers/tournament'
+import gangControllers from '../controllers/gang'
 import teamControllers from '../controllers/team'
 import userControllers from '../controllers/user'
 import eventControllers from '../controllers/event'
@@ -33,6 +34,14 @@ route.get('/tournament/:id([a-z0-9]+)', tournamentControllers.getByID)
 route.post('/tournament', tournamentControllers.create)
 route.put('/tournament/:id([a-z0-9]+)', tournamentControllers.update)
 route.delete('/tournament/:id([a-z0-9]+)', tournamentControllers.remove)
+
+// gang
+route.get('/gang', gangControllers.getAll)
+route.get('/gang/:id([a-z0-9]+)', gangControllers.getByID)
+route.post('/gang', authMiddlewares.required, gangControllers.create)
+route.put('/gang/:id([a-z0-9]+)', gangControllers.update)
+route.delete('/gang/:id([a-z0-9]+)', gangControllers.remove)
+route.post('/gang/register', gangControllers.register)
 
 // team
 route.get('/team', teamControllers.getAll)
