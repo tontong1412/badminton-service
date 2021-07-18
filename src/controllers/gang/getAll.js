@@ -7,10 +7,13 @@ const getAllGang = async (req, res) => {
   try {
     getAllResponse = await GangModel.find({})
       .populate({
-        path: 'creator players',
+        path: 'creator players queue',
         select: ['playerID', 'displayName', 'officialName'],
         populate: {
-          path: 'playerID'
+          path: 'playerID teamA.team teamB.team',
+          populate: {
+            path: 'players'
+          }
         }
       })
   } catch (error) {

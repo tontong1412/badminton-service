@@ -43,6 +43,7 @@ route.put('/gang/:id([a-z0-9]+)', gangControllers.update)
 route.delete('/gang/:id([a-z0-9]+)', gangControllers.remove)
 route.post('/gang/register', gangControllers.register)
 route.post('/gang/add-queue', gangControllers.addQueue)
+route.post('/gang/remove-queue', gangControllers.removeQueue)
 
 // team
 route.get('/team', teamControllers.getAll)

@@ -52,13 +52,12 @@ const addQueue = async (req, res) => {
     throw error
   }
 
-
   let updateResponse
   try {
     updateResponse = await GangModel.findOneAndUpdate(
       { _id: body.gangID },
       {
-        $push: { queue: createMatchResponse._id }
+        $push: { queue: createMatchResponse._id },
       },
       { new: true },
     )
