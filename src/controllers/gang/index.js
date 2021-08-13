@@ -6,6 +6,7 @@ import update from './update'
 import register from './register'
 import addQueue from './addQueue'
 import removeQueue from './removeQueue'
+import getBill from './getBill'
 
 import controllerErrorHandler from '../../libs/controllerErrorHandler'
 
@@ -17,5 +18,6 @@ export default {
   update: controllerErrorHandler(update),
   register: controllerErrorHandler(register),
   addQueue: controllerErrorHandler(addQueue),
-  removeQueue: controllerErrorHandler(removeQueue)
+  removeQueue: controllerErrorHandler(removeQueue),
+  getBill: controllerErrorHandler(getBill)
 }

@@ -39,6 +39,11 @@ const matchSchema = new SchemaModel({
     type: String,
     default: MATCH.STATUS.WAITING,
     trim: true,
+    enum: [
+      MATCH.STATUS.WAITING,
+      MATCH.STATUS.PLAYING,
+      MATCH.STATUS.FINISHED
+    ]
   },
   court: Number,
   date: Date,

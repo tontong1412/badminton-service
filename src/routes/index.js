@@ -37,13 +37,15 @@ route.delete('/tournament/:id([a-z0-9]+)', tournamentControllers.remove)
 
 // gang
 route.get('/gang', gangControllers.getAll)
-route.get('/gang/:id([a-z0-9]+)', gangControllers.getByID)
+
 route.post('/gang', authMiddlewares.required, gangControllers.create)
 route.put('/gang/:id([a-z0-9]+)', gangControllers.update)
 route.delete('/gang/:id([a-z0-9]+)', gangControllers.remove)
 route.post('/gang/register', gangControllers.register)
 route.post('/gang/add-queue', gangControllers.addQueue)
 route.post('/gang/remove-queue', gangControllers.removeQueue)
+route.get('/gang/bill', gangControllers.getBill)
+route.get('/gang/:id([a-z0-9]+)', gangControllers.getByID)
 
 // team
 route.get('/team', teamControllers.getAll)
@@ -68,6 +70,8 @@ route.post('/event/round-up', eventControllers.roundUp)
 route.get('/match', matchControllers.getAll)
 route.get('/match/:id([a-z0-9]+)', matchControllers.getByID)
 route.post('/match/arrange', matchControllers.arrange)
+route.put('/match/:id([a-z0-9]+)', matchControllers.update)
 route.post('/match/set-score', matchControllers.setScore)
+route.post('/match/manage-shuttlecock', matchControllers.manageShuttlecock)
 
 export default route

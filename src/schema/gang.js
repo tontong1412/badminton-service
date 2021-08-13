@@ -23,8 +23,8 @@ const gangSchema = new SchemaModel({
   isPrivate: { type: Boolean, default: true },
   image: String,
   numberOfCourt: Number,
-  creator: { type: SchemaModel.Types.ObjectId, ref: MONGO.COLLECTION_NAME.USER },
-  managers: [{ type: SchemaModel.Types.ObjectId, ref: MONGO.COLLECTION_NAME.USER }],
+  creator: { type: SchemaModel.Types.ObjectId, ref: MONGO.COLLECTION_NAME.PLAYER },
+  managers: [{ type: SchemaModel.Types.ObjectId, ref: MONGO.COLLECTION_NAME.PLAYER }],
   courtFee: {
     type: {
       type: String,

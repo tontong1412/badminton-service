@@ -3,9 +3,9 @@ import gang from '../../schema/gang'
 const GangModel = gang.model
 
 const createGang = async (req, res) => {
-  const { body, payload: { id } } = req
+  const { body, payload: { playerID } } = req
 
-  const gangObject = new GangModel({ ...body, creator: id })
+  const gangObject = new GangModel({ ...body, creator: playerID })
 
   let saveResponse
   try {
