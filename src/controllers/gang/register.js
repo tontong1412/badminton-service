@@ -12,7 +12,7 @@ const registerGang = async (req, res) => {
   if (body.player._id) {
     player = body.player._id
   } else {
-    const playerResponse = await PlayerModel.findOne({ displayName: body.player.displayName })
+    const playerResponse = await PlayerModel.findOne(body.player)
     if (playerResponse) {
       player = playerResponse._id
     } else {

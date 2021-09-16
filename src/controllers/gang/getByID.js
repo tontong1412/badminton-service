@@ -8,6 +8,16 @@ const getByIDGang = async (req, res) => {
   let getByIDResponse
   try {
     getByIDResponse = await GangModel.findById(id)
+      .populate({
+        path: 'creator players queue',
+        select: ['playerID', 'displayName', 'officialName', 'shuttlecockUsed'],
+        populate: {
+          path: 'playerID teamA.team teamB.team',
+          populate: {
+            path: 'players'
+          }
+        }
+      })
   } catch (error) {
     console.error('Error: Get by ID gang had failed')
     throw error

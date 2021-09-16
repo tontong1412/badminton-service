@@ -55,6 +55,7 @@ userSchema.methods.toAuthJSON = function () {
     _id: this._id,
     email: this.email,
     token: this.generateJWT(),
+    playerID: this.playerID
   }
 }
 
