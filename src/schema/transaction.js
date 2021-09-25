@@ -6,7 +6,10 @@ const { Schema } = mongoose
 const transactionSchema = new Schema({
   gangID: { type: mongoose.Schema.Types.ObjectId, ref: MONGO.COLLECTION_NAME.GANG },
   date: Date,
-  paymentCode: String,
+  payment: {
+    code: String,
+    name: String
+  },
   courtFee: Number,
   shuttlecockUsed: Number,
   total: Number,

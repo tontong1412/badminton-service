@@ -36,7 +36,7 @@ route.put('/tournament/:id([a-z0-9]+)', tournamentControllers.update)
 route.delete('/tournament/:id([a-z0-9]+)', tournamentControllers.remove)
 
 // gang
-route.get('/gang', gangControllers.getAll)
+route.get('/gang', authMiddlewares.optional, gangControllers.getAll)
 
 route.post('/gang', authMiddlewares.required, gangControllers.create)
 route.put('/gang/:id([a-z0-9]+)', gangControllers.update)

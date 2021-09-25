@@ -48,7 +48,7 @@ const getBill = async (req, res) => {
       total,
       reciever: gang.creator,
       payer: query.playerID,
-      paymentCode: gang.paymentCode,
+      payment: gang.payment,
       date: moment().startOf('day')
     },
     {

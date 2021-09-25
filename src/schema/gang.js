@@ -37,9 +37,13 @@ const gangSchema = new SchemaModel({
     amount: Number
   },
   shuttlecockFee: Number,
-  paymentCode: String,
+  payment: {
+    code: String,
+    name: String
+  },
   queue: [{ type: SchemaModel.Types.ObjectId, ref: MONGO.COLLECTION_NAME.MATCH }],
-  players: [{ type: SchemaModel.Types.ObjectId, ref: MONGO.COLLECTION_NAME.PLAYER }]
+  players: [{ type: SchemaModel.Types.ObjectId, ref: MONGO.COLLECTION_NAME.PLAYER }],
+  isActive: { type: Boolean, default: true }
 }, { versionKey: false })
 
 const gangModel = mongoose.model(
