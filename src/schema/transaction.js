@@ -12,6 +12,7 @@ const transactionSchema = new Schema({
   },
   courtFee: Number,
   shuttlecockUsed: Number,
+  shuttlecockFee: Number,
   total: Number,
   reciever: { type: mongoose.Schema.Types.ObjectId, ref: MONGO.COLLECTION_NAME.PLAYER },
   payer: { type: mongoose.Schema.Types.ObjectId, ref: MONGO.COLLECTION_NAME.PLAYER },

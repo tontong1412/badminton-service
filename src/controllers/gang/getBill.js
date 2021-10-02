@@ -15,8 +15,6 @@ const getBill = async (req, res) => {
 
   const findPromiseALL = [GangModel.findById(query.gangID), TeamModel.find({ players: query.playerID })]
 
-  // const gang = await GangModel.findById(query.gangID)
-  // const teamsDoc = await TeamModel.find({ players: query.playerID })
   const [gang, teamsDoc] = await Promise.all(findPromiseALL)
   const teams = teamsDoc.map(elm => elm._id)
   const matches = await MatchModel.find({
@@ -30,7 +28,7 @@ const getBill = async (req, res) => {
 
   const courtFee = gang.courtFee.type === GANG.COURT_FEE_TYPE.BUFFET
     ? gang.courtFee.amount
-    : gang.courtFee.amount / gang.players.length
+    : Math.ceil(gang.courtFee.amount / gang.players.length)
 
   const shuttlecockUsed = matches.reduce((prev, curr) => {
     return prev + curr.shuttlecockUsed
@@ -48,6 +46,7 @@ const getBill = async (req, res) => {
       gangID: query.gangID,
       courtFee,
       shuttlecockUsed,
+      shuttlecockFee: gang.shuttlecockFee,
       total,
       reciever: gang.creator,
       payer: query.playerID,
