@@ -25,10 +25,13 @@ const removeQueue = async (req, res) => {
       { new: true },
     )
       .populate({
-        path: 'queue',
+        path: 'creator players queue',
+        select: ['playerID', 'displayName', 'officialName'],
         populate: {
-          path: 'teamA.team teamB.team',
-          populate: 'players'
+          path: 'playerID teamA.team teamB.team',
+          populate: {
+            path: 'players'
+          }
         }
       })
   } catch (error) {

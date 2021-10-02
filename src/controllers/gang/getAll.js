@@ -8,12 +8,13 @@ const getAllGang = async (req, res) => {
   let searchOptions = {
     ...query
   }
-  if (payload.playerID) {
+  if (payload?.playerID) {
     searchOptions = {
       ...searchOptions,
       $or: [
         { 'creator': payload.playerID },
-        { 'managers': payload.playerID }
+        { 'managers': payload.playerID },
+        { 'players': payload.playerID }
       ],
     }
   }
