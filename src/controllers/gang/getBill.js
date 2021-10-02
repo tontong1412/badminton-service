@@ -13,8 +13,11 @@ const TransactionModel = transactionCollection.model
 const getBill = async (req, res) => {
   const { query } = req
 
-  const gang = await GangModel.findById(query.gangID)
-  const teamsDoc = await TeamModel.find({ players: query.playerID })
+  const findPromiseALL = [GangModel.findById(query.gangID), TeamModel.find({ players: query.playerID })]
+
+  // const gang = await GangModel.findById(query.gangID)
+  // const teamsDoc = await TeamModel.find({ players: query.playerID })
+  const [gang, teamsDoc] = await Promise.all(findPromiseALL)
   const teams = teamsDoc.map(elm => elm._id)
   const matches = await MatchModel.find({
     gangID: query.gangID,
