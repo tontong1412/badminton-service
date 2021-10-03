@@ -32,14 +32,20 @@ const setScore = async (req, res) => {
         scoreLabel: score
       },
       { new: true }
-    )
+    ).populate({
+      path: 'teamA.team teamB.team',
+      populate: {
+        path: 'players'
+      }
+    })
   } catch (error) {
     console.error('Error: Failed to update score')
     throw error
   }
 
   // update player in next match for knock out type
-  if (currentMatch.round
+  if (currentMatch.eventID
+    && currentMatch.round
     && currentMatch.round > 2 // not final round
     && (currentMatch.step === MATCH.STEP.KNOCK_OUT
       || currentMatch.format === EVENT.FORMAT.SINGLE_ELIMINATION)) {

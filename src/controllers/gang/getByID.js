@@ -10,7 +10,7 @@ const getByIDGang = async (req, res) => {
     getByIDResponse = await GangModel.findById(id)
       .populate({
         path: 'creator players queue',
-        select: ['playerID', 'displayName', 'officialName', 'shuttlecockUsed', 'status'],
+        select: ['playerID', 'displayName', 'officialName', 'shuttlecockUsed', 'status', 'scoreLabel'],
         populate: {
           path: 'playerID teamA.team teamB.team',
           populate: {

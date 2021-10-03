@@ -46,6 +46,7 @@ route.post('/gang/add-queue', gangControllers.addQueue)
 route.post('/gang/remove-queue', gangControllers.removeQueue)
 route.get('/gang/bill', gangControllers.getBill)
 route.get('/gang/:id([a-z0-9]+)', gangControllers.getByID)
+route.post('/gang/update-queue', gangControllers.updateQueue)
 
 // team
 route.get('/team', teamControllers.getAll)
