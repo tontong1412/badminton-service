@@ -1,26 +1,23 @@
 import gangCollection from '../../schema/gang'
-import matchCollection from '../../schema/match'
 
 const GangModel = gangCollection.model
-const MatchModel = matchCollection.model
 
-const removeQueue = async (req, res) => {
+const removePlayer = async (req, res) => {
   const { body } = req
-
-  await MatchModel.findByIdAndDelete(body.matchID)
+  // TODO: เช็คว่ามีชื่อใน match ไหนหรือเปล่าก่อนลบ
 
   let updateResponse
   try {
     updateResponse = await GangModel.findOneAndUpdate(
       { _id: body.gangID },
       {
-        $pull: { queue: body.matchID },
+        $pull: { players: body.playerID },
       },
       { new: true },
     )
       .populate({
         path: 'creator players queue',
-        select: ['playerID', 'displayName', 'officialName'],
+        select: ['playerID', 'displayName', 'officialName', 'shuttlecockUsed', 'status', 'scoreLabel'],
         populate: {
           path: 'playerID teamA.team teamB.team',
           populate: {
@@ -39,4 +36,4 @@ const removeQueue = async (req, res) => {
   return res.status(404).send('gang not found')
 }
 
-export default removeQueue
+export default removePlayer

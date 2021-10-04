@@ -8,6 +8,9 @@ import addQueue from './addQueue'
 import removeQueue from './removeQueue'
 import getBill from './getBill'
 import updateQueue from './updateQueue'
+import close from './close'
+import removePlayer from './removePlayer'
+import stat from './stat'
 
 import controllerErrorHandler from '../../libs/controllerErrorHandler'
 
@@ -21,5 +24,8 @@ export default {
   addQueue: controllerErrorHandler(addQueue),
   removeQueue: controllerErrorHandler(removeQueue),
   getBill: controllerErrorHandler(getBill),
-  updateQueue: controllerErrorHandler(updateQueue)
+  updateQueue: controllerErrorHandler(updateQueue),
+  close: controllerErrorHandler(close),
+  removePlayer: controllerErrorHandler(removePlayer),
+  stat: controllerErrorHandler(stat),
 }
