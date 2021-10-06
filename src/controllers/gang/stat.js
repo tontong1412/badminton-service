@@ -24,7 +24,7 @@ const Stat = async (req, res) => {
       return prev + curr.shuttlecockUsed
     }, 0)
     const totalMatchPlayed = gang?.queue?.length
-    const totalIncome = (totalPlayer * (gang?.courtFee.type === 'buffet' ? gang?.courtFee.amount : gang?.courtFee.amount / totalPlayer)) + (totalShuttlecockUsed * gang.shuttlecockFee)
+    const totalIncome = (totalPlayer * (gang?.courtFee.type === 'buffet' ? gang?.courtFee.amount : gang?.courtFee.amount / totalPlayer)) + (totalShuttlecockUsed * gang.shuttlecockFee * 4)
 
     return res.send({
       totalPlayer,
