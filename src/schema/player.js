@@ -17,6 +17,7 @@ const playerSchema = new Schema({
     ],
   },
   userID: { type: SchemaModel.Types.ObjectId, ref: MONGO.COLLECTION_NAME.USER },
+  photo: String
 })
 
 playerSchema.pre('save', function (next) {
