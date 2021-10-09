@@ -20,7 +20,7 @@ const gangSchema = new SchemaModel({
   },
   startTime: Date,
   endTime: Date,
-  isPrivate: { type: Boolean, default: true },
+  isPrivate: { type: Boolean, default: false },
   image: String,
   numberOfCourt: Number,
   creator: { type: SchemaModel.Types.ObjectId, ref: MONGO.COLLECTION_NAME.PLAYER },
@@ -43,7 +43,8 @@ const gangSchema = new SchemaModel({
   },
   queue: [{ type: SchemaModel.Types.ObjectId, ref: MONGO.COLLECTION_NAME.MATCH }],
   players: [{ type: SchemaModel.Types.ObjectId, ref: MONGO.COLLECTION_NAME.PLAYER }],
-  isActive: { type: Boolean, default: true }
+  isActive: { type: Boolean, default: true },
+  reference: { type: Number, default: 0 }
 }, { versionKey: false })
 
 const gangModel = mongoose.model(

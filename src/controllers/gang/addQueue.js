@@ -44,7 +44,8 @@ const addQueue = async (req, res) => {
       teamB: {
         team: teamBObject._id
       },
-      date: moment().startOf('day')
+      date: moment().startOf('day'),
+      reference: body.reference
     })
     createMatchResponse = await newMatch.save()
   } catch (error) {

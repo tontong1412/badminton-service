@@ -19,7 +19,7 @@ const getBill = async (req, res) => {
   const teams = teamsDoc.map(elm => elm._id)
   const matches = await MatchModel.find({
     gangID: query.gangID,
-    date: moment().startOf('day'),
+    reference: gang.reference,
     $or: [
       { 'teamA.team': { $in: teams } },
       { 'teamB.team': { $in: teams } },
@@ -40,7 +40,7 @@ const getBill = async (req, res) => {
     {
       gangID: query.gangID,
       payer: query.playerID,
-      date: moment().startOf('day')
+      reference: gang.reference
       // TODO: ใช้อย่างอื่น ref ที่ไม่ใช่วันที่ (เผื่อบางก๊วนเลิกตีสองไรงี้) อาจทำ increment ref ที่จะเพิ่มทุกครั้งที่ close gang 
       // แล้วเวลา find match ก็ใช้ id จาก queue เลย
     },
@@ -53,7 +53,8 @@ const getBill = async (req, res) => {
       reciever: gang.creator,
       payer: query.playerID,
       payment: gang.payment,
-      date: moment().startOf('day')
+      date: moment().startOf('day'),
+      reference: gang.reference
     },
     {
       upsert: true,

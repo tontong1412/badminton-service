@@ -24,7 +24,8 @@ const transactionSchema = new Schema({
       TRANSACTION.STATUS.PENDING,
       TRANSACTION.STATUS.PAID,
     ],
-  }
+  },
+  reference: { type: Number, default: 0 }
 })
 
 transactionSchema.pre('save', function (next) {

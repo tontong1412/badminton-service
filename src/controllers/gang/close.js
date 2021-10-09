@@ -8,11 +8,10 @@ const Close = async (req, res) => {
   try {
     await GangModel.findByIdAndUpdate(body.gangID, {
       queue: [],
-      players: []
+      players: [],
+      $inc: { 'reference': 1 }
     })
-
     return res.status(200).send('success')
-
   } catch (error) {
     console.log(error)
   }

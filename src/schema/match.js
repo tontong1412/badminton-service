@@ -54,7 +54,8 @@ const matchSchema = new SchemaModel({
       MATCH.STEP.GROUP,
       MATCH.STEP.KNOCK_OUT,
     ],
-  }
+  },
+  reference: { type: Number, default: 0 }
 }, { versionKey: false })
 
 const matchModel = mongoose.model(
