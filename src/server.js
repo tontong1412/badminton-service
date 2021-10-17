@@ -7,8 +7,8 @@ import './libs/authentication'
 
 const server = express()
 server.use(
-  express.json(),
-  express.urlencoded({ extended: true }),
+  express.json({ extended: false, limit: '50mb' }),
+  express.urlencoded({ limit: '50mb', extended: false, parameterLimit: 50000 }),
   cors(),
 )
 server.use(routes)
