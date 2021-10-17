@@ -4,6 +4,7 @@ import getAll from './getAll'
 import getByID from './getByID'
 import update from './update'
 import manageShuttlecock from './manageShuttlecock'
+import getStat from './stat'
 
 import controllerErrorHandler from '../../libs/controllerErrorHandler'
 
@@ -13,5 +14,6 @@ export default {
   getAll: controllerErrorHandler(getAll),
   getByID: controllerErrorHandler(getByID),
   update: controllerErrorHandler(update),
-  manageShuttlecock: controllerErrorHandler(manageShuttlecock)
+  manageShuttlecock: controllerErrorHandler(manageShuttlecock),
+  getStat: controllerErrorHandler(getStat)
 }

@@ -72,10 +72,12 @@ route.post('/event/round-up', eventControllers.roundUp)
 
 // match
 route.get('/match', matchControllers.getAll)
+route.get('/match/:id([a-z0-9]+)/stat', matchControllers.getStat)
 route.get('/match/:id([a-z0-9]+)', matchControllers.getByID)
 route.post('/match/arrange', matchControllers.arrange)
 route.put('/match/:id([a-z0-9]+)', matchControllers.update)
 route.post('/match/set-score', matchControllers.setScore)
 route.post('/match/manage-shuttlecock', matchControllers.manageShuttlecock)
+
 
 export default route
