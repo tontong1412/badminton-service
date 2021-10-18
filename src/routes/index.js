@@ -79,5 +79,7 @@ route.put('/match/:id([a-z0-9]+)', matchControllers.update)
 route.post('/match/set-score', matchControllers.setScore)
 route.post('/match/manage-shuttlecock', matchControllers.manageShuttlecock)
 
+route.post('/mock', (req, res) => res.status(200).send())
+
 
 export default route

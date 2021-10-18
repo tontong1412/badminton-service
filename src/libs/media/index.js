@@ -5,7 +5,6 @@ const uploadPhoto = (photo, folder, name) => {
     folder,
     public_id: name
   }, (error, result) => {
-    console.log(result, error)
     if (error) throw error
     return result
   })
