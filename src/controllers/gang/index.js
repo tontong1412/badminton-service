@@ -11,6 +11,7 @@ import updateQueue from './updateQueue'
 import close from './close'
 import removePlayer from './removePlayer'
 import stat from './stat'
+import getMyGang from './getMyGang'
 
 import controllerErrorHandler from '../../libs/controllerErrorHandler'
 
@@ -28,4 +29,5 @@ export default {
   close: controllerErrorHandler(close),
   removePlayer: controllerErrorHandler(removePlayer),
   stat: controllerErrorHandler(stat),
+  getMyGang: controllerErrorHandler(getMyGang)
 }

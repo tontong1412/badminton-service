@@ -2,13 +2,21 @@ import gang from '../../schema/gang'
 
 const GangModel = gang.model
 
-const getAllGang = async (req, res) => {
-  const { query = {} } = req
-  let searchOptions = {
-    ...query,
-    isPrivate: false,
+const getMyGang = async (req, res) => {
+  const { payload } = req
+  let searchOptions = {}
+  if (payload?.playerID) {
+    searchOptions = {
+      ...searchOptions,
+      $or: [
+        { 'creator': payload.playerID },
+        { 'managers': payload.playerID },
+        { 'players': payload.playerID },
+      ],
+    }
+  } else {
+    return res.status(401).send()
   }
-
   let getAllResponse
   try {
     getAllResponse = await GangModel.find(searchOptions)
@@ -30,4 +38,4 @@ const getAllGang = async (req, res) => {
   return res.send(getAllResponse)
 }
 
-export default getAllGang
+export default getMyGang
