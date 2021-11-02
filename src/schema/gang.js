@@ -49,7 +49,8 @@ const gangSchema = new SchemaModel({
     name: String,
     tel: String,
     lineID: String
-  }
+  },
+  area: String
 }, { versionKey: false })
 
 const gangModel = mongoose.model(
