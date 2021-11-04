@@ -52,6 +52,7 @@ route.post('/gang/remove-player', gangControllers.removePlayer)
 route.get('/gang/stat/:id([a-z0-9]+)', gangControllers.stat)
 route.delete('/gang/:id([a-z0-9]+)', tournamentControllers.remove)
 route.get('/gang/my-gang', authMiddlewares.required, gangControllers.getMyGang)
+route.post('/gang/addManager', authMiddlewares.required, gangControllers.addManager)
 
 // team
 route.get('/team', teamControllers.getAll)
