@@ -7,12 +7,14 @@ import eventControllers from '../controllers/event'
 import playerControllers from '../controllers/player'
 import matchControllers from '../controllers/match'
 import authMiddlewares from '../middlewares/auth'
+import transactionControllers from '../controllers/transaction'
 
 const route = express.Router()
 
 // general
 route.get('/', (req, res) => { res.status(200).send('This is badminton-service') })
 route.get('/healthz', (req, res) => { res.status(200).send('OK') })
+route.post('/mock', (req, res) => res.status(200).send())
 
 // user
 route.post('/signup', authMiddlewares.optional, userControllers.signup)
@@ -82,7 +84,8 @@ route.put('/match/:id([a-z0-9]+)', matchControllers.update)
 route.post('/match/set-score', matchControllers.setScore)
 route.post('/match/manage-shuttlecock', matchControllers.manageShuttlecock)
 
-route.post('/mock', (req, res) => res.status(200).send())
+// transaction
+route.put('/transaction/:id([a-z0-9]+)', transactionControllers.update)
 
 
 export default route
