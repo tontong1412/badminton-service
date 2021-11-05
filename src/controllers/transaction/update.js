@@ -5,16 +5,13 @@ const TransactionModel = transaction.model
 const updatetransaction = async (req, res) => {
   const { body, params: { id } } = req
 
-  console.log(body)
-  console.log(id)
-
   let updateResponse
   try {
     updateResponse = await TransactionModel.findOneAndUpdate(
       { _id: id },
       body,
       { new: true },
-    )
+    ).populate('reciever payer')
   } catch (error) {
     console.error('Error: Update transaction failed')
     throw error
