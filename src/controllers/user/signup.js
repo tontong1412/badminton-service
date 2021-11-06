@@ -31,7 +31,7 @@ const signup = async (req, res) => {
     saveResponse = await userObject.save()
   } catch (error) {
     if (error.message === 'user exists') {
-      return res.status(400).json({ error: 'user exists' })
+      return res.status(400).send({ message: 'อีเมลนี้มีผู้ใช้งานแล้ว' })
     }
     console.error('Error: Failed to create user')
     throw error
