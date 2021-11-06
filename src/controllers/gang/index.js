@@ -15,6 +15,7 @@ import getMyGang from './getMyGang'
 
 import controllerErrorHandler from '../../libs/controllerErrorHandler'
 import addManager from './addManager'
+import removeManager from './removeManager'
 
 export default {
   create: controllerErrorHandler(create),
@@ -31,5 +32,6 @@ export default {
   removePlayer: controllerErrorHandler(removePlayer),
   stat: controllerErrorHandler(stat),
   getMyGang: controllerErrorHandler(getMyGang),
-  addManager: controllerErrorHandler(addManager)
+  addManager: controllerErrorHandler(addManager),
+  removeManager: controllerErrorHandler(removeManager)
 }
