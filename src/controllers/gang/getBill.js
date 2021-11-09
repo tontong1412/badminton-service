@@ -34,28 +34,38 @@ const getBill = async (req, res) => {
     return prev + curr.shuttlecockUsed
   }, 0)
 
-  const total = courtFee + (shuttlecockUsed * gang.shuttlecockFee)
+  const shuttlecockTotal = shuttlecockUsed * gang.shuttlecockFee
 
-  const response = await TransactionModel.findOneAndUpdate(
-    {
-      gangID: query.gangID,
-      payer: query.playerID,
-      reference: gang.reference
-      // TODO: ใช้อย่างอื่น ref ที่ไม่ใช่วันที่ (เผื่อบางก๊วนเลิกตีสองไรงี้) อาจทำ increment ref ที่จะเพิ่มทุกครั้งที่ close gang 
-      // แล้วเวลา find match ก็ใช้ id จาก queue เลย
-    },
+  const findExist = await TransactionModel.findOne({
+    gangID: query.gangID,
+    payer: query.playerID,
+    reference: gang.reference
+  })
+
+  let totalOther = 0
+
+  if (findExist) {
+    totalOther = findExist.other?.reduce((prev, curr) => {
+      return prev + curr.amount
+    }, totalOther)
+  }
+  const total = courtFee + shuttlecockTotal + totalOther
+
+  const response = await TransactionModel.findByIdAndUpdate(findExist?._id,
     {
       gangID: query.gangID,
       courtFee,
       shuttlecockUsed,
       shuttlecockFee: gang.shuttlecockFee,
+      shuttlecockTotal,
       total,
       reciever: gang.creator,
       payer: query.playerID,
       payment: gang.payment,
       date: moment().startOf('day'),
       reference: gang.reference,
-      matches: matches.map(elm => elm._id)
+      matches: matches.map(elm => elm._id),
+      totalOther,
     },
     {
       upsert: true,

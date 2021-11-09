@@ -13,6 +13,7 @@ const transactionSchema = new Schema({
   courtFee: Number,
   shuttlecockUsed: Number,
   shuttlecockFee: Number,
+  shuttlecockTotal: Number,
   total: Number,
   reciever: { type: mongoose.Schema.Types.ObjectId, ref: MONGO.COLLECTION_NAME.PLAYER },
   payer: { type: mongoose.Schema.Types.ObjectId, ref: MONGO.COLLECTION_NAME.PLAYER },
@@ -26,7 +27,12 @@ const transactionSchema = new Schema({
     ],
   },
   reference: { type: Number, default: 0 },
-  matches: [{ type: mongoose.Schema.Types.ObjectId, ref: MONGO.COLLECTION_NAME.MATCH }]
+  matches: [{ type: mongoose.Schema.Types.ObjectId, ref: MONGO.COLLECTION_NAME.MATCH }],
+  other: [{
+    name: String,
+    amount: Number
+  }],
+  totalOther: Number
 })
 
 transactionSchema.pre('save', function (next) {
