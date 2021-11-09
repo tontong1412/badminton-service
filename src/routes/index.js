@@ -87,6 +87,8 @@ route.post('/match/set-score', matchControllers.setScore)
 route.post('/match/manage-shuttlecock', matchControllers.manageShuttlecock)
 
 // transaction
+route.put('/transaction/:id([a-z0-9]+)/add-other', transactionControllers.addOther)
+route.put('/transaction/:id([a-z0-9]+)/remove-other', transactionControllers.removeOther)
 route.put('/transaction/:id([a-z0-9]+)', transactionControllers.update)
 
 
