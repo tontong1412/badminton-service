@@ -54,14 +54,21 @@ const getBill = async (req, res) => {
       payer: query.playerID,
       payment: gang.payment,
       date: moment().startOf('day'),
-      reference: gang.reference
+      reference: gang.reference,
+      matches: matches.map(elm => elm._id)
     },
     {
       upsert: true,
       returnNewDocument: true,
       new: true
     }
-  ).populate('reciever payer')
+  ).populate({
+    path: 'reciever payer matches',
+    populate: {
+      path: 'teamA.team teamB.team',
+      populate: 'players'
+    }
+  })
   return res.json(response)
 }
 export default getBill

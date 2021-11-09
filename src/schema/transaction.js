@@ -25,7 +25,8 @@ const transactionSchema = new Schema({
       TRANSACTION.STATUS.PAID,
     ],
   },
-  reference: { type: Number, default: 0 }
+  reference: { type: Number, default: 0 },
+  matches: [{ type: mongoose.Schema.Types.ObjectId, ref: MONGO.COLLECTION_NAME.MATCH }]
 })
 
 transactionSchema.pre('save', function (next) {
