@@ -41,6 +41,7 @@ route.delete('/tournament/:id([a-z0-9]+)', tournamentControllers.remove)
 route.get('/gang', authMiddlewares.optional, gangControllers.getAll)
 
 route.post('/gang', authMiddlewares.required, gangControllers.create)
+route.get('/gang/:id([a-z0-9]+)/bill', gangControllers.getAllBill)
 route.put('/gang/:id([a-z0-9]+)', gangControllers.update)
 route.delete('/gang/:id([a-z0-9]+)', gangControllers.remove)
 route.post('/gang/register', gangControllers.register)
