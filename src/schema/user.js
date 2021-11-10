@@ -15,6 +15,8 @@ const userSchema = new Schema({
   hash: String,
   salt: String,
   playerID: { type: SchemaModel.Types.ObjectId, ref: MONGO.COLLECTION_NAME.PLAYER },
+}, {
+  timestamps: { createdAt: true, updatedAt: true }
 })
 
 userSchema.pre('save', function (next) {

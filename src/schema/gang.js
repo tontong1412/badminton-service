@@ -51,7 +51,10 @@ const gangSchema = new SchemaModel({
     lineID: String
   },
   area: String
-}, { versionKey: false })
+}, {
+  versionKey: false,
+  timestamps: { createdAt: true, updatedAt: true }
+})
 
 const gangModel = mongoose.model(
   MONGO.COLLECTION_NAME.GANG,

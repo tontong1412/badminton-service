@@ -56,7 +56,10 @@ const matchSchema = new SchemaModel({
     ],
   },
   reference: { type: Number, default: 0 }
-}, { versionKey: false })
+}, {
+  versionKey: false,
+  timestamps: { createdAt: true, updatedAt: true }
+})
 
 const matchModel = mongoose.model(
   MONGO.COLLECTION_NAME.MATCH,

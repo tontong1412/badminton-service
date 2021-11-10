@@ -33,6 +33,8 @@ const transactionSchema = new Schema({
     amount: Number
   }],
   totalOther: Number
+}, {
+  timestamps: { createdAt: true, updatedAt: true }
 })
 
 transactionSchema.pre('save', function (next) {

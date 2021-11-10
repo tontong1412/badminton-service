@@ -18,7 +18,10 @@ const tournamentSchema = new SchemaModel({
   numberOfCourt: Number,
   events: [{ type: mongoose.Schema.Types.ObjectId, ref: MONGO.COLLECTION_NAME.EVENT }],
   isPublished: Boolean,
-}, { versionKey: false })
+}, {
+  versionKey: false,
+  timestamps: { createdAt: true, updatedAt: true }
+})
 
 const tournamentModel = mongoose.model(
   MONGO.COLLECTION_NAME.TOURNAMENT,
