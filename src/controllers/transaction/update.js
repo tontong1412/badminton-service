@@ -11,7 +11,13 @@ const updatetransaction = async (req, res) => {
       { _id: id },
       body,
       { new: true },
-    ).populate('reciever payer')
+    ).populate({
+      path: 'reciever payer matches',
+      populate: {
+        path: 'teamA.team teamB.team',
+        populate: 'players'
+      }
+    })
   } catch (error) {
     console.error('Error: Update transaction failed')
     throw error
