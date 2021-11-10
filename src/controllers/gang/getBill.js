@@ -51,7 +51,12 @@ const getBill = async (req, res) => {
   }
   const total = courtFee + shuttlecockTotal + totalOther
 
-  const response = await TransactionModel.findByIdAndUpdate(findExist?._id,
+  const response = await TransactionModel.findOneAndUpdate(
+    {
+      gangID: query.gangID,
+      payer: query.playerID,
+      reference: gang.reference
+    },
     {
       gangID: query.gangID,
       courtFee,
