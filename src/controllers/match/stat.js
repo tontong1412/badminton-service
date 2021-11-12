@@ -5,9 +5,6 @@ const MatchModel = match.model
 const getMatchStat = async (req, res) => {
   const { id } = req.params
 
-  console.log(id)
-
-
   try {
     const match = await MatchModel.findById(id)
       .populate({
@@ -45,8 +42,8 @@ const getMatchStat = async (req, res) => {
     totalMatchPlayed.forEach(curr => {
       if (curr.teamA.scoreSet > curr.teamB.scoreSet) {
         countingResult[curr.teamA.team] += 1
-      } else if (curr.teamB.score > curr.teamA.scoreSet) {
-        countingResult[curr.teamB.team += 1]
+      } else if (curr.teamB.scoreSet > curr.teamA.scoreSet) {
+        countingResult[curr.teamB.team] += 1
       } else {
         countingResult.tie += 1
       }

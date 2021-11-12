@@ -13,8 +13,8 @@ const setScore = async (req, res) => {
   let scoreDiffB = 0
   score.forEach(set => {
     const [scoreA, scoreB] = set.split('-')
-    if (scoreA > scoreB) scoreSetA++
-    if (scoreB > scoreA) scoreSetB++
+    if (Number(scoreA) > Number(scoreB)) scoreSetA++
+    if (Number(scoreB) > Number(scoreA)) scoreSetB++
     scoreDiffA = scoreDiffA + Number(scoreA) - Number(scoreB)
     scoreDiffB = scoreDiffB + Number(scoreB) - Number(scoreA)
   })
