@@ -35,8 +35,8 @@ const updateQueue = async (req, res) => {
     updateMatchResponse = await MatchModel.findByIdAndUpdate(
       body.matchID,
       {
-        teamA: { team: teamAObject._id },
-        teamB: { team: teamBObject._id },
+        'teamA.team': teamAObject._id,
+        'teamB.team': teamBObject._id,
       }
     )
     res.send(updateMatchResponse)
