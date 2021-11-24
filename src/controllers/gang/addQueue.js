@@ -53,7 +53,8 @@ const addQueue = async (req, res) => {
             }
           ]
         },
-        { reference: body.reference }
+        { reference: body.reference },
+        { gangID: body.gangID }
       ]
     })
     if (matchExist.length > 0) {
