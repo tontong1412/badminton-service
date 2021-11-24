@@ -34,6 +34,34 @@ const addQueue = async (req, res) => {
     }
   }
 
+  if (!body.force) {
+    const matchExist = await MatchModel.find({
+      $and: [
+        {
+          $or: [
+            {
+              $and: [
+                { 'teamA.team': teamAObject._id },
+                { 'teamB.team': teamBObject._id },
+              ]
+            },
+            {
+              $and: [
+                { 'teamA.team': teamBObject._id },
+                { 'teamB.team': teamAObject._id },
+              ]
+            }
+          ]
+        },
+        { reference: body.reference },
+        { gangID: body.gangID }
+      ]
+    })
+    if (matchExist.length > 0) {
+      return res.status(400).send({ message: "match exist" })
+    }
+  }
+
   let createMatchResponse
   try {
     const newMatch = new MatchModel({
