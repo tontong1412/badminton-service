@@ -17,6 +17,8 @@ import controllerErrorHandler from '../../libs/controllerErrorHandler'
 import addManager from './addManager'
 import removeManager from './removeManager'
 import getAllBill from './getAllBill'
+import addMember from './addMember'
+import removeMember from './removeMember'
 
 export default {
   create: controllerErrorHandler(create),
@@ -35,5 +37,7 @@ export default {
   getMyGang: controllerErrorHandler(getMyGang),
   addManager: controllerErrorHandler(addManager),
   removeManager: controllerErrorHandler(removeManager),
-  getAllBill: controllerErrorHandler(getAllBill)
+  getAllBill: controllerErrorHandler(getAllBill),
+  addMember: controllerErrorHandler(addMember),
+  removeMember: controllerErrorHandler(removeMember),
 }

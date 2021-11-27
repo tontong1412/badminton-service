@@ -11,6 +11,7 @@ const getMyGang = async (req, res) => {
       $or: [
         { 'creator': payload.playerID },
         { 'managers': payload.playerID },
+        { 'members': payload.playerID },
         { 'players': payload.playerID },
       ],
     }
