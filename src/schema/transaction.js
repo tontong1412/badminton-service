@@ -32,7 +32,8 @@ const transactionSchema = new Schema({
     name: String,
     amount: Number
   }],
-  totalOther: Number
+  totalOther: Number,
+  slip: String,
 }, {
   timestamps: { createdAt: true, updatedAt: true }
 })

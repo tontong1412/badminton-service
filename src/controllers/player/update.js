@@ -1,5 +1,6 @@
 import player from '../../schema/player'
 import { uploadPhoto } from '../../libs/media'
+import { CLOUDINARY } from '../../config'
 
 const PlayerModel = player.model
 
@@ -9,7 +10,7 @@ const updatePlayer = async (req, res) => {
   let updateResponse
   try {
     if (body.photo) {
-      const photoUrl = await uploadPhoto(body.photo, 'player', id)
+      const photoUrl = await uploadPhoto(body.photo, `${CLOUDINARY.PREFIX}player`, id)
       body.photo = photoUrl.url
     }
     updateResponse = await PlayerModel.findOneAndUpdate(

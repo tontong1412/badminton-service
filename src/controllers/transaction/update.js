@@ -1,9 +1,16 @@
 import transaction from '../../schema/transaction'
+import { uploadPhoto } from '../../libs/media'
+import { CLOUDINARY } from '../../config'
 
 const TransactionModel = transaction.model
 
 const updatetransaction = async (req, res) => {
   const { body, params: { id } } = req
+
+  if (body.slip) {
+    const slipUrl = await uploadPhoto(body.slip, `${CLOUDINARY.PREFIX || ''}transaction`, id)
+    body.slip = slipUrl.url
+  }
 
   let updateResponse
   try {
