@@ -43,6 +43,7 @@ const gangSchema = new SchemaModel({
   },
   queue: [{ type: SchemaModel.Types.ObjectId, ref: MONGO.COLLECTION_NAME.MATCH }],
   players: [{ type: SchemaModel.Types.ObjectId, ref: MONGO.COLLECTION_NAME.PLAYER }],
+  members: [{ type: SchemaModel.Types.ObjectId, ref: MONGO.COLLECTION_NAME.PLAYER }],
   isActive: { type: Boolean, default: true },
   reference: { type: Number, default: 0 },
   contact: {

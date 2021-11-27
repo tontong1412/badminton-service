@@ -57,6 +57,8 @@ route.delete('/gang/:id([a-z0-9]+)', tournamentControllers.remove)
 route.get('/gang/my-gang', authMiddlewares.required, gangControllers.getMyGang)
 route.post('/gang/add-manager', authMiddlewares.required, gangControllers.addManager)
 route.post('/gang/remove-manager', authMiddlewares.required, gangControllers.removeManager)
+route.post('/gang/add-member', authMiddlewares.required, gangControllers.addMember)
+route.post('/gang/remove-member', authMiddlewares.required, gangControllers.removeMember)
 
 // team
 route.get('/team', teamControllers.getAll)
