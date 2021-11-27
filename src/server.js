@@ -6,23 +6,31 @@ import './libs/mongo/getMongoConnect'
 import './libs/authentication'
 
 const server = express()
-const whitelist = ['https://dev.badminstar.com', 'https://badminstar.com']
-if (NODE_ENV === 'development') {
-  whitelist.push('http://localhost:3000')
-}
-const corsOptions = {
-  origin: function (origin, callback) {
-    if (whitelist.indexOf(origin) !== -1) {
-      callback(null, true)
-    } else {
-      callback(new Error('Not allowed by CORS'))
-    }
-  }
-}
+
+// Add headers before the routes are defined
+server.use(function (req, res, next) {
+
+  // Website you wish to allow to connect
+  res.setHeader('Access-Control-Allow-Origin', '*');
+
+  // Request methods you wish to allow
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+
+  // // Request headers you wish to allow
+  // res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+
+  // Set to true if you need the website to include cookies in the requests sent
+  // to the API (e.g. in case you use sessions)
+  res.setHeader('Access-Control-Allow-Credentials', true);
+
+  // Pass to next layer of middleware
+  next();
+});
+
 server.use(
   express.json({ extended: false, limit: '50mb' }),
   express.urlencoded({ limit: '50mb', extended: false, parameterLimit: 50000 }),
-  cors(corsOptions),
+  cors(),
 )
 server.use(routes)
 
