@@ -20,8 +20,9 @@ const transactionSchema = new Schema({
   status: {
     type: String,
     trim: true,
-    default: TRANSACTION.STATUS.PENDING,
+    default: TRANSACTION.STATUS.NOT_PAID,
     enum: [
+      TRANSACTION.STATUS.NOT_PAID,
       TRANSACTION.STATUS.PENDING,
       TRANSACTION.STATUS.PAID,
     ],
