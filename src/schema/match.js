@@ -5,6 +5,8 @@ const SchemaModel = mongoose.Schema
 
 const matchSchema = new SchemaModel({
   eventID: mongoose.Types.ObjectId,
+  gangID: mongoose.Types.ObjectId,
+  shuttlecockUsed: { type: Number, default: 0 },
   matchNumber: Number,
   teamA: {
     team: { type: SchemaModel.Types.ObjectId, ref: MONGO.COLLECTION_NAME.TEAM },
@@ -29,7 +31,7 @@ const matchSchema = new SchemaModel({
       // EVENT.FORMAT.DOUBLE_ELIMINATION,
     ],
   },
-  round: { type: Number, default: 0 },
+  round: Number,
   groupOrder: Number,
   eventOrder: Number,
   bracketOrder: Number,
@@ -37,6 +39,11 @@ const matchSchema = new SchemaModel({
     type: String,
     default: MATCH.STATUS.WAITING,
     trim: true,
+    enum: [
+      MATCH.STATUS.WAITING,
+      MATCH.STATUS.PLAYING,
+      MATCH.STATUS.FINISHED
+    ]
   },
   court: Number,
   date: Date,
@@ -47,9 +54,12 @@ const matchSchema = new SchemaModel({
       MATCH.STEP.GROUP,
       MATCH.STEP.KNOCK_OUT,
     ],
-  }
-
-}, { versionKey: false })
+  },
+  reference: { type: Number, default: 0 }
+}, {
+  versionKey: false,
+  timestamps: { createdAt: true, updatedAt: true }
+})
 
 const matchModel = mongoose.model(
   MONGO.COLLECTION_NAME.MATCH,

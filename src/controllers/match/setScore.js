@@ -13,8 +13,8 @@ const setScore = async (req, res) => {
   let scoreDiffB = 0
   score.forEach(set => {
     const [scoreA, scoreB] = set.split('-')
-    if (scoreA > scoreB) scoreSetA++
-    if (scoreB > scoreA) scoreSetB++
+    if (Number(scoreA) > Number(scoreB)) scoreSetA++
+    if (Number(scoreB) > Number(scoreA)) scoreSetB++
     scoreDiffA = scoreDiffA + Number(scoreA) - Number(scoreB)
     scoreDiffB = scoreDiffB + Number(scoreB) - Number(scoreA)
   })
@@ -32,16 +32,23 @@ const setScore = async (req, res) => {
         scoreLabel: score
       },
       { new: true }
-    )
+    ).populate({
+      path: 'teamA.team teamB.team',
+      populate: {
+        path: 'players'
+      }
+    })
   } catch (error) {
     console.error('Error: Failed to update score')
     throw error
   }
 
   // update player in next match for knock out type
-  if (currentMatch.round > 2 // not final round
-    && currentMatch.step === MATCH.STEP.KNOCK_OUT
-    || currentMatch.format === EVENT.FORMAT.SINGLE_ELIMINATION) {
+  if (currentMatch.eventID
+    && currentMatch.round
+    && currentMatch.round > 2 // not final round
+    && (currentMatch.step === MATCH.STEP.KNOCK_OUT
+      || currentMatch.format === EVENT.FORMAT.SINGLE_ELIMINATION)) {
     if (scoreSetA === scoreSetB) return res.status(400).send('should have winner for knock out round')
     const winTeam = scoreSetA > scoreSetB ? 'teamA' : 'teamB'
     const nextMatchTeam = currentMatch.bracketOrder % 2 === 0 ? 'teamA' : 'teamB'

@@ -25,7 +25,9 @@ var teamSchema = mongoose.Schema({
     ],
     default: EVENT.TEAM_STATUS.IDLE,
   }
-}, { _id: false });
+}, {
+  _id: false,
+});
 
 const eventSchema = new SchemaModel({
   name: { type: String, trim: true },
@@ -47,7 +49,10 @@ const eventSchema = new SchemaModel({
     group: [[{ type: SchemaModel.Types.ObjectId, ref: MONGO.COLLECTION_NAME.TEAM }]],
     knockOut: [{ type: SchemaModel.Types.Mixed, ref: MONGO.COLLECTION_NAME.TEAM }]
   },
-}, { versionKey: false })
+}, {
+  versionKey: false,
+  timestamps: { createdAt: true, updatedAt: true }
+})
 
 const eventModel = mongoose.model(
   MONGO.COLLECTION_NAME.EVENT,

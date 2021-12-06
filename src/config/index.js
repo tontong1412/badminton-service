@@ -2,6 +2,10 @@ require('dotenv').config()
 
 import MONGO from './mongo'
 
+const CLOUDINARY = {
+  PREFIX: process.env.CLOUDINARY_PREFIX
+}
+
 const {
   NODE_ENV,
   NODE_PORT,
@@ -15,4 +19,5 @@ export {
   MONGO,
   AUTH_SECRET,
   AUTH_ALGORITHM,
+  CLOUDINARY
 }

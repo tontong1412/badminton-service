@@ -5,6 +5,8 @@ const { Schema } = mongoose
 
 const teamSchema = new Schema({
   players: [{ type: mongoose.Schema.Types.ObjectId, ref: MONGO.COLLECTION_NAME.PLAYER }],
+}, {
+  timestamps: { createdAt: true, updatedAt: true }
 })
 
 teamSchema.pre('save', function (next) {
