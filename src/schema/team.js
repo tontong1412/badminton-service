@@ -10,8 +10,6 @@ const teamSchema = new Schema({
 })
 
 teamSchema.pre('save', function (next) {
-  console.log('===========================')
-  console.log(this.players)
   this.model(MONGO.COLLECTION_NAME.TEAM).find({
     players: {
       $all: this.players,

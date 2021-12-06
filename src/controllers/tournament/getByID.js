@@ -8,7 +8,12 @@ const getByIDTournament = async (req, res) => {
   let getByIDResponse
   try {
     getByIDResponse = await TournamentModel.findById(id)
-      .populate('events')
+      .populate({
+        path: 'teams.team events.order',
+        populate: {
+          path: 'players'
+        }
+      })
   } catch (error) {
     console.error('Error: Get by ID tournament had failed')
     throw error
