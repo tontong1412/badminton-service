@@ -27,20 +27,30 @@ const registerEvent = async (req, res) => {
     }
   }))
 
-  let teamObject = await TeamModel.findOne({ players: { $all: playersObject } })
+  let teamObject = await TeamModel.findOne({
+    players: {
+      $all: playersObject,
+      $size: playersObject.length
+    }
+  })
+
+  console.log('teamObject')
+  console.log(teamObject)
+
   if (!teamObject) {
     try {
+      console.log('playersObject', playersObject)
       const newTeam = new TeamModel({ players: playersObject })
       teamObject = await newTeam.save()
     } catch (error) {
+      console.log('========')
+      console.log(error)
       console.error('Error: Fail to create team')
       throw error
     }
   }
-
   const eventExist = await EventModel.findById(body.eventID)
   if (!eventExist) return res.status(404).send('event not found')
-
   let updateResponse
   try {
     updateResponse = await EventModel.findOneAndUpdate(
@@ -65,7 +75,7 @@ const registerEvent = async (req, res) => {
   if (updateResponse) {
     return res.send(updateResponse.toObject())
   }
-  return res.status(409).send('duplicate team')
+  return res.status(409).send('already register')
 }
 
 export default registerEvent

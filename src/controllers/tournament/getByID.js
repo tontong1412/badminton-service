@@ -8,6 +8,7 @@ const getByIDTournament = async (req, res) => {
   let getByIDResponse
   try {
     getByIDResponse = await TournamentModel.findById(id)
+      .populate('events')
   } catch (error) {
     console.error('Error: Get by ID tournament had failed')
     throw error

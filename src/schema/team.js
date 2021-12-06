@@ -8,7 +8,14 @@ const teamSchema = new Schema({
 })
 
 teamSchema.pre('save', function (next) {
-  this.model(MONGO.COLLECTION_NAME.TEAM).find({ players: { $all: this.players } }, (err, docs) => {
+  console.log('===========================')
+  console.log(this.players)
+  this.model(MONGO.COLLECTION_NAME.TEAM).find({
+    players: {
+      $all: this.players,
+      $size: this.players.length
+    }
+  }, (err, docs) => {
     if (!docs.length) {
       next()
     } else {
