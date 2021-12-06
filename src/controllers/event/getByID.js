@@ -8,6 +8,12 @@ const getByIDEvent = async (req, res) => {
   let getByIDResponse
   try {
     getByIDResponse = await EventModel.findById(id)
+      .populate({
+        path: 'teams.team',
+        populate: {
+          path: 'players'
+        }
+      })
   } catch (error) {
     console.error('Error: Failed to get event by id')
     throw error
