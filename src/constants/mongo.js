@@ -5,6 +5,11 @@ const MONGO = {
     TRANSACTION: 'transaction',
     PLAYER: 'player',
     LINEUSER: 'lineuser',
+    DIVISION: 'division',
+    EVENT: 'event',
+    USER: 'user',
+    TEAM: 'team',
+    GANG: 'gang'
   },
 }
 

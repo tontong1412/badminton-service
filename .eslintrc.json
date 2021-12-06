@@ -1,20 +1,39 @@
 {
-  "env": {
-      "jest": true
-  },
-  "extends": "airbnb-base",
-  "plugins": [
-      "import",
-      "jest"
-  ],
-  "rules": {
-      "semi": [
-          "error",
-          "never"
-      ],
-      "no-underscore-dangle":"off",
-      "camelcase":"off",
-      "no-param-reassign":"off",
-      "import/first":"off"
-  }
+    "env": {
+        "jest": true
+    },
+    "extends": "airbnb-base",
+    "plugins": [
+        "import",
+        "jest"
+    ],
+    "rules": {
+        "semi": [
+            "error",
+            "never"
+        ],
+        "allowForLoopAfterthoughts": true,
+        "no-unsafe-optional-chaining": "off",
+        "no-underscore-dangle": "off",
+        "camelcase": "off",
+        "no-param-reassign": "off",
+        "import/first": "off",
+        "no-console": [
+            "warn",
+            {
+                "allow": [
+                    "warn",
+                    "error",
+                    "info"
+                ]
+            }
+        ],
+        "comma-dangle": [
+            "error",
+            "only-multiline"
+        ]
+    },
+    "parserOptions": {
+        "ecmaVersion": 2020
+    }
 }
