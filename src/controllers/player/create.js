@@ -15,7 +15,7 @@ const createPlayer = async (req, res) => {
     console.log(error.message)
     if (error.message === 'user exists') {
       const player = await PlayerModel.findOne({ officialName: body.officialName })
-      res.send(player)
+      return res.status(409).send(player)
     }
     throw error
   }
