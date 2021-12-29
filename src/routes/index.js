@@ -75,9 +75,11 @@ route.put('/event/:id([a-z0-9]+)', eventControllers.update)
 route.delete('/event/:id([a-z0-9]+)', eventControllers.remove)
 
 route.post('/event/register', authMiddlewares.required, eventControllers.register)
-route.post('/event/leave', authMiddlewares.required, eventControllers.leave)
+route.post('/event/leave', eventControllers.leave)
 route.get('/event/random-order', eventControllers.randomOrder)
 route.post('/event/round-up', eventControllers.roundUp)
+route.post('/event/team-status', eventControllers.updateStatus)
+route.post('/event/payment-status', eventControllers.updatePaymentStatus)
 
 // match
 route.get('/match', matchControllers.getAll)

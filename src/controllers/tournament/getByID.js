@@ -9,9 +9,12 @@ const getByIDTournament = async (req, res) => {
   try {
     getByIDResponse = await TournamentModel.findById(id)
       .populate({
-        path: 'teams.team events.order',
+        path: 'events events.teams',
         populate: {
-          path: 'players'
+          path: 'players teams.team',
+          populate: {
+            path: 'players'
+          }
         }
       })
   } catch (error) {

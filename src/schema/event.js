@@ -4,6 +4,7 @@ import { MONGO, EVENT } from '../constants'
 const SchemaModel = mongoose.Schema
 
 var teamSchema = mongoose.Schema({
+  _id: { type: mongoose.Schema.Types.ObjectId },
   team: { type: SchemaModel.Types.ObjectId, ref: MONGO.COLLECTION_NAME.TEAM },
   status: {
     type: String,
@@ -27,6 +28,7 @@ var teamSchema = mongoose.Schema({
   }
 }, {
   _id: false,
+  timestamps: { createdAt: true, updatedAt: true }
 });
 
 const eventSchema = new SchemaModel({
