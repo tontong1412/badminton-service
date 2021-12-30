@@ -28,7 +28,7 @@ var teamSchema = mongoose.Schema({
   },
   slip: String,
   note: String,
-  isSubstitution: { type: Boolean, default: false }
+  isInQueue: { type: Boolean, default: false }
 }, {
   _id: false,
   timestamps: { createdAt: true, updatedAt: true }

@@ -33,6 +33,28 @@ const leaveEvent = async (req, res) => {
         }
       })
       .exec()
+
+    if (updateResponse.limit) {
+      const waitingList = updateResponse.teams
+        .filter(team => team.isInQueue)
+        .sort((a, b) => Date.parse(b.createdAt) - Date.parse(a.createdAt))
+
+      if (waitingList.length > 0) {
+        const tempResponse = await EventModel.findOneAndUpdate(
+          {
+            _id: updateResponse._id,
+            'teams._id': waitingList[0]._id
+          },
+          {
+            $set: { 'teams.$.isInQueue': false }
+          },
+          { new: true },
+        )
+        updateResponse = tempResponse
+      }
+    }
+
+
   } catch (error) {
     console.error('Error: Fail to update event')
   }
