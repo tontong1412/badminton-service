@@ -37,7 +37,7 @@ const leaveEvent = async (req, res) => {
     if (updateResponse.limit) {
       const waitingList = updateResponse.teams
         .filter(team => team.isInQueue)
-        .sort((a, b) => Date.parse(b.createdAt) - Date.parse(a.createdAt))
+        .sort((a, b) => Date.parse(a.createdAt) - Date.parse(b.createdAt))
 
       if (waitingList.length > 0) {
         const tempResponse = await EventModel.findOneAndUpdate(
