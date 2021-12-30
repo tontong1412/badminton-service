@@ -48,7 +48,7 @@ const leaveEvent = async (req, res) => {
           {
             $set: {
               'teams.$.isInQueue': false,
-              'team.$.note': 'แทนคู่ที่ถอนตัว'
+              'teams.$.note': 'แทนคู่ที่ถอนตัว'
             }
           },
           { new: true },
