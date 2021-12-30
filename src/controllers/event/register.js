@@ -58,7 +58,7 @@ const registerEvent = async (req, res) => {
           teams: {
             team: ObjectId(teamObject._id),
             _id: new mongoose.Types.ObjectId(),
-            isSubstitution: event.limit ? event.team.length >= event.limit : false
+            isSubstitution: event.limit ? event.teams.length >= event.limit : false
           }
         }
       },
