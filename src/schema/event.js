@@ -25,7 +25,10 @@ var teamSchema = mongoose.Schema({
       EVENT.PAYMENT_STATUS.PAID
     ],
     default: EVENT.TEAM_STATUS.IDLE,
-  }
+  },
+  slip: String,
+  note: String,
+  isSubstitution: { type: Boolean, default: false }
 }, {
   _id: false,
   timestamps: { createdAt: true, updatedAt: true }

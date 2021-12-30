@@ -46,8 +46,8 @@ const registerEvent = async (req, res) => {
       throw error
     }
   }
-  const eventExist = await EventModel.findById(body.eventID)
-  if (!eventExist) return res.status(404).send('event not found')
+  const event = await EventModel.findById(body.eventID)
+  if (!event) return res.status(404).send('event not found')
 
   let updateResponse
   try {
@@ -57,7 +57,8 @@ const registerEvent = async (req, res) => {
         $push: {
           teams: {
             team: ObjectId(teamObject._id),
-            _id: new mongoose.Types.ObjectId()
+            _id: new mongoose.Types.ObjectId(),
+            isSubstitution: event.limit ? event.team.length >= event.limit : false
           }
         }
       },
