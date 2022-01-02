@@ -34,28 +34,28 @@ const leaveEvent = async (req, res) => {
       })
       .exec()
 
-    if (updateResponse.limit) {
-      const waitingList = updateResponse.teams
-        .filter(team => team.isInQueue)
-        .sort((a, b) => Date.parse(a.createdAt) - Date.parse(b.createdAt))
+    // if (updateResponse.limit) {
+    //   const waitingList = updateResponse.teams
+    //     .filter(team => team.isInQueue)
+    //     .sort((a, b) => Date.parse(a.createdAt) - Date.parse(b.createdAt))
 
-      if (waitingList.length > 0) {
-        const tempResponse = await EventModel.findOneAndUpdate(
-          {
-            _id: updateResponse._id,
-            'teams._id': waitingList[0]._id
-          },
-          {
-            $set: {
-              'teams.$.isInQueue': false,
-              'teams.$.note': 'แทนคู่ที่ถอนตัว'
-            }
-          },
-          { new: true },
-        )
-        updateResponse = tempResponse
-      }
-    }
+    //   if (waitingList.length > 0) {
+    //     const tempResponse = await EventModel.findOneAndUpdate(
+    //       {
+    //         _id: updateResponse._id,
+    //         'teams._id': waitingList[0]._id
+    //       },
+    //       {
+    //         $set: {
+    //           'teams.$.isInQueue': false,
+    //           'teams.$.note': 'แทนคู่ที่ถอนตัว'
+    //         }
+    //       },
+    //       { new: true },
+    //     )
+    //     updateResponse = tempResponse
+    //   }
+    // }
 
 
   } catch (error) {

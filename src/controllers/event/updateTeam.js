@@ -13,7 +13,9 @@ const updateStatus = async (req, res) => {
         'teams._id': body.teamID
       },
       {
-        $set: { 'teams.$.status': body.status }
+        $set: {
+          [`teams.$.${body.field}`]: body.value
+        }
       },
       { new: true },
     )

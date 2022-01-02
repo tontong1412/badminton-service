@@ -5,18 +5,22 @@ const MatchModel = match.model
 const TournamentModel = tournamentCollection.model
 
 const getAllMatch = async (req, res) => {
-  const { tournamentID } = req.query
+  const { tournamentID, eventID, gangID } = req.query
 
-  let tournament
-  try {
-    tournament = await TournamentModel.findById(tournamentID)
-  } catch (error) {
-    console.error('Error: Failed to find tournament')
+  let query = { ...req.query }
+  if (tournamentID) {
+    let tournament
+    try {
+      tournament = await TournamentModel.findById(tournamentID)
+    } catch (error) {
+      console.error('Error: Failed to find tournament')
+    }
+    const userQuery = { ...req.query }
+
+    query = tournament ? { eventID: { $in: tournament.events }, ...userQuery } : { ...userQuery }
   }
+  delete query.tournamentID
 
-  const userQuery = { ...req.query }
-  delete userQuery.tournamentID
-  const query = tournament ? { eventID: { $in: tournament.events }, ...userQuery } : { ...userQuery }
 
 
   let getAllResponse

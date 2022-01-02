@@ -8,7 +8,7 @@ import register from './register'
 import leave from './leave'
 import randomOrder from './randomOrder'
 import roundUp from './roundUp'
-import updateStatus from './updateStatus'
+import updateTeam from './updateTeam'
 import updatePaymentStatus from './updatePaymentStatus'
 
 import controllerErrorHandler from '../../libs/controllerErrorHandler'
@@ -23,6 +23,6 @@ export default {
   leave: controllerErrorHandler(leave),
   randomOrder: controllerErrorHandler(randomOrder),
   roundUp: controllerErrorHandler(roundUp),
-  updateStatus: controllerErrorHandler(updateStatus),
+  updateTeam: controllerErrorHandler(updateTeam),
   updatePaymentStatus: controllerErrorHandler(updatePaymentStatus)
 }

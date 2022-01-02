@@ -3,7 +3,7 @@ import { MATCH } from '../../../constants'
 
 const { ObjectId } = mongoose.Types
 
-const arrangeMatchRoundRobin = (event, eventOrder,) => {
+const arrangeMatchRoundRobin = (event, eventOrder) => {
   const { order } = event
 
   let arrangedMatches = []
