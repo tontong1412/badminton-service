@@ -38,6 +38,8 @@ const eventSchema = new SchemaModel({
   name: { type: String, trim: true },
   level: { type: mongoose.Schema.Types.ObjectId },
   description: String,
+  fee: String,
+  prize: String,
   format: {
     type: String,
     trim: true,
