@@ -33,9 +33,11 @@ route.post('/player/claim', authMiddlewares.required, playerControllers.claim)
 // tournament
 route.get('/tournament', tournamentControllers.getAll)
 route.get('/tournament/:id([a-z0-9]+)', tournamentControllers.getByID)
-route.post('/tournament', tournamentControllers.create)
+route.post('/tournament', authMiddlewares.required, tournamentControllers.create)
 route.put('/tournament/:id([a-z0-9]+)', tournamentControllers.update)
 route.delete('/tournament/:id([a-z0-9]+)', tournamentControllers.remove)
+route.post('/tournament/add-manager', authMiddlewares.required, tournamentControllers.addManager)
+route.post('/tournament/remove-manager', authMiddlewares.required, tournamentControllers.removeManager)
 
 // gang
 route.get('/gang', authMiddlewares.optional, gangControllers.getAll)

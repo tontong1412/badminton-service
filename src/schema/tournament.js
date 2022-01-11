@@ -16,7 +16,6 @@ const tournamentSchema = new SchemaModel({
   registerDate: Date,
   deadlineDate: Date,
   image: String,
-  numberOfCourt: Number,
   events: [{ type: mongoose.Schema.Types.ObjectId, ref: MONGO.COLLECTION_NAME.EVENT }],
   isPublished: Boolean,
   status: {
@@ -26,11 +25,15 @@ const tournamentSchema = new SchemaModel({
     enum: [
       TOURNAMENT.STATUS.PREPARE,
       TOURNAMENT.STATUS.REGISTER,
+      TOURNAMENT.STATUS.DRAW,
+      TOURNAMENT.STATUS.ARRANGE,
       TOURNAMENT.STATUS.ONGOING,
       TOURNAMENT.STATUS.FINISH,
     ],
   },
-  registerOpen: Boolean
+  registerOpen: Boolean,
+  managers: [{ type: mongoose.Schema.Types.ObjectId, ref: MONGO.COLLECTION_NAME.PLAYER }],
+  creator: { type: mongoose.Schema.Types.ObjectId, ref: MONGO.COLLECTION_NAME.PLAYER }
 }, {
   versionKey: false,
   timestamps: { createdAt: true, updatedAt: true }

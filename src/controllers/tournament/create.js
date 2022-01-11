@@ -3,9 +3,9 @@ import tournament from '../../schema/tournament'
 const TournamentModel = tournament.model
 
 const createTournament = async (req, res) => {
-  const { body } = req
+  const { body, payload: { playerID } } = req
 
-  const tournamentObject = new TournamentModel(body)
+  const tournamentObject = new TournamentModel({ ...body, creator: playerID })
 
   let saveResponse
   try {
