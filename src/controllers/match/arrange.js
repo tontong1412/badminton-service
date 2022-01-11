@@ -69,19 +69,21 @@ const arrangeMatch = async (req, res) => {
   // วันแรก group วันที่สอง knock out
   let knockOutCount = 0
   let i = 0
+  let j = 0
+  let isKnockOut
   sortedArrangedMatches.forEach((match, index) => {
     match.matchNumber = index + 1
     if (match.step === MATCH.STEP.GROUP) {
       match.date = moment(body.startTime.group)
         .add(body.matchDuration.group * i, 'minutes')
     } else if (match.step === MATCH.STEP.KNOCK_OUT) {
+      if (!isKnockOut) isKnockOut = true
       match.date = moment(body.startTime.knockOut)
-        .add(1, 'days')
-        .add(body.matchDuration.knockOut * knockOutCount, 'minutes')
+        .add(body.matchDuration.knockOut * j, 'minutes')
       knockOutCount++
     }
-    if (i < 4) i++
-    else i = 0
+    if (index % body.numberOfCourt === body.numberOfCourt - 1) i++
+    if (isKnockOut && knockOutCount % body.numberOfCourt === 0) j++
   })
 
   // save to db
