@@ -29,6 +29,7 @@ var teamSchema = mongoose.Schema({
   slip: String,
   note: String,
   isInQueue: { type: Boolean, default: false },
+  contact: { type: SchemaModel.Types.ObjectId, ref: MONGO.COLLECTION_NAME.PLAYER }
 }, {
   _id: false,
   timestamps: { createdAt: true, updatedAt: true }
