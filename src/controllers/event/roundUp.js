@@ -1,7 +1,10 @@
 import matchCollection from '../../schema/match'
 import { MATCH } from '../../constants'
+import eventCollection from '../../schema/event'
 
 const MatchModel = matchCollection.model
+const EventModel = eventCollection.model
+
 const roundUp = async (req, res) => {
   const { eventID, order } = req.body
   try {
@@ -21,6 +24,13 @@ const roundUp = async (req, res) => {
     }
   } catch (error) {
     console.error('Error: Failed to update match')
+    throw error
+  }
+
+  try {
+    await EventModel.findByIdAndUpdate(eventID, { step: MATCH.STEP.KNOCK_OUT })
+  } catch (error) {
+    console.log('Error: Failed to update event')
     throw error
   }
 

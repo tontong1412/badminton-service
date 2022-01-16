@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-import { MONGO, EVENT } from '../constants'
+import { MONGO, EVENT, MATCH } from '../constants'
 
 const SchemaModel = mongoose.Schema
 
@@ -28,7 +28,7 @@ var teamSchema = mongoose.Schema({
   },
   slip: String,
   note: String,
-  isInQueue: { type: Boolean, default: false }
+  isInQueue: { type: Boolean, default: false },
 }, {
   _id: false,
   timestamps: { createdAt: true, updatedAt: true }
@@ -55,6 +55,14 @@ const eventSchema = new SchemaModel({
   order: {
     group: [[{ type: SchemaModel.Types.ObjectId, ref: MONGO.COLLECTION_NAME.TEAM }]],
     knockOut: [{ type: SchemaModel.Types.Mixed, ref: MONGO.COLLECTION_NAME.TEAM }]
+  },
+  step: {
+    type: String,
+    trim: true,
+    enum: [
+      MATCH.STEP.GROUP,
+      MATCH.STEP.KNOCK_OUT,
+    ],
   },
 }, {
   versionKey: false,
