@@ -17,6 +17,8 @@ const registerEvent = async (req, res) => {
 
   const playersObject = await Promise.all(body.players.map(async (player) => {
     if (player._id) {
+      console.log('============================')
+      console.log(player)
       await PlayerModel.findByIdAndUpdate(player._id, player)
       return player._id
     }
