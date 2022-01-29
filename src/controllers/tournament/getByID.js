@@ -12,7 +12,7 @@ const getByIDTournament = async (req, res) => {
     await getByIDResponse.populate({
       path: 'events events.teams events.order managers',
       populate: {
-        path: `players teams.team`,
+        path: `players teams.team teams.contact`,
         populate: {
           path: 'players group.team',
           populate: {
@@ -31,7 +31,7 @@ const getByIDTournament = async (req, res) => {
     await getByIDResponse.populate({
       path: ` events events.teams ${populateEvent.join(' ')}`,
       populate: {
-        path: `team players teams.team ${populateGroup.join(' ')}`,
+        path: `team players teams.contact teams.team ${populateGroup.join(' ')}`,
         populate: {
           path: 'team players'
         }

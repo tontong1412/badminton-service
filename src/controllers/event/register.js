@@ -16,9 +16,8 @@ const registerEvent = async (req, res) => {
   const { body } = req
 
   const playersObject = await Promise.all(body.players.map(async (player) => {
+
     if (player._id) {
-      console.log('============================')
-      console.log(player)
       await PlayerModel.findByIdAndUpdate(player._id, player)
       return player._id
     }
@@ -75,8 +74,6 @@ const registerEvent = async (req, res) => {
   }
   const event = await EventModel.findById(body.eventID)
   if (!event) return res.status(404).send('event not found')
-  console.log(teamObject)
-  console.log(contactID())
   let updateResponse
   try {
     updateResponse = await EventModel.findOneAndUpdate(
