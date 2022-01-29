@@ -4,7 +4,6 @@ const TransactionModal = transactionCollection.model
 
 const addOther = async (req, res) => {
   const { body, params } = req
-  console.log(body)
 
   const totalAmount = body.reduce((prev, curr) => {
     return prev + curr.amount

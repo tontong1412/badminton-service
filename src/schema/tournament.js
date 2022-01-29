@@ -33,7 +33,12 @@ const tournamentSchema = new SchemaModel({
   },
   registerOpen: Boolean,
   managers: [{ type: mongoose.Schema.Types.ObjectId, ref: MONGO.COLLECTION_NAME.PLAYER }],
-  creator: { type: mongoose.Schema.Types.ObjectId, ref: MONGO.COLLECTION_NAME.PLAYER }
+  creator: { type: mongoose.Schema.Types.ObjectId, ref: MONGO.COLLECTION_NAME.PLAYER },
+  payment: {
+    code: String,
+    name: String,
+    bank: String
+  }
 }, {
   versionKey: false,
   timestamps: { createdAt: true, updatedAt: true }

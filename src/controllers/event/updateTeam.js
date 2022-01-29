@@ -1,9 +1,28 @@
 import event from '../../schema/event'
+import { uploadPhoto } from '../../libs/media'
+import { CLOUDINARY } from '../../config'
 
 const EventModel = event.model
 
 const updateStatus = async (req, res) => {
   const { body } = req
+
+  if (body.slip) {
+    const slipUrl = await uploadPhoto(body.slip, `${CLOUDINARY.PREFIX || ''}event/${body.eventID}/team`, body.teamID)
+    body.field = 'slip'
+    body.value = slipUrl.url
+  }
+
+  let updateObj = {
+    [`teams.$.${body.field}`]: body.value
+  }
+
+  if (body.slip) {
+    updateObj = {
+      ...updateObj,
+      'teams.$.paymentStatus': body.paymentStatus
+    }
+  }
 
   let updateResponse
   try {
@@ -13,9 +32,7 @@ const updateStatus = async (req, res) => {
         'teams._id': body.teamID
       },
       {
-        $set: {
-          [`teams.$.${body.field}`]: body.value
-        }
+        $set: updateObj
       },
       { new: true },
     )

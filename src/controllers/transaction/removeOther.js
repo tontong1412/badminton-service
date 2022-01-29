@@ -4,7 +4,6 @@ const TransactionModal = transactionCollection.model
 
 const removeOther = async (req, res) => {
   const { body, params } = req
-  console.log(body)
 
   let updateResponse
   try {
