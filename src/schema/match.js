@@ -8,6 +8,7 @@ const matchSchema = new SchemaModel({
   gangID: mongoose.Types.ObjectId,
   shuttlecockUsed: { type: Number, default: 0 },
   matchNumber: Number,
+  eventName: String,
   teamA: {
     team: { type: SchemaModel.Types.ObjectId, ref: MONGO.COLLECTION_NAME.TEAM },
     scoreSet: { type: Number, default: 0 },

@@ -3,7 +3,7 @@ import { MATCH } from '../../../constants'
 
 const { ObjectId } = mongoose.Types
 
-const arrangeMatchRoundRobin = (event, eventOrder,) => {
+const arrangeMatchRoundRobin = (event, eventOrder) => {
   const { order } = event
 
   let arrangedMatches = []
@@ -27,6 +27,7 @@ const arrangeMatchRoundRobin = (event, eventOrder,) => {
       if (standTeam) {
         arrangedMatches.push({
           eventID: ObjectId(event._id),
+          eventName: event.name,
           format: event.format,
           level: event.level,
           teamA: { team: roundRobinTeam[roundRobinTeam.length - 1] },
@@ -41,6 +42,7 @@ const arrangeMatchRoundRobin = (event, eventOrder,) => {
       for (let j = 0; j < (roundRobinTeam.length - 1) / 2; j++) {
         arrangedMatches.push({
           eventID: ObjectId(event._id),
+          eventName: event.name,
           format: event.format,
           level: event.level,
           teamA: { team: roundRobinTeam[roundRobinTeam.length - 2 - j] },
@@ -66,6 +68,7 @@ const arrangeMatchRoundRobin = (event, eventOrder,) => {
       if (index % 2 === 1) {
         arrangedMatches.push({
           eventID: ObjectId(event._id),
+          eventName: event.name,
           format: event.format,
           level: event.level,
           teamA: null,

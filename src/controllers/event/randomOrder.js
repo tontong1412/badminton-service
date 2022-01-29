@@ -34,7 +34,14 @@ const randomOrder = async (req, res) => {
 
   // Todo: save to event
 
-  return res.status(200).json(order)
+  const saveResponse = await EventModel.findByIdAndUpdate(
+    body.eventID,
+    { order },
+    { new: true }
+  )
+
+
+  return res.status(200).json(saveResponse)
 }
 
 export default randomOrder

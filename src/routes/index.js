@@ -33,9 +33,11 @@ route.post('/player/claim', authMiddlewares.required, playerControllers.claim)
 // tournament
 route.get('/tournament', tournamentControllers.getAll)
 route.get('/tournament/:id([a-z0-9]+)', tournamentControllers.getByID)
-route.post('/tournament', tournamentControllers.create)
+route.post('/tournament', authMiddlewares.required, tournamentControllers.create)
 route.put('/tournament/:id([a-z0-9]+)', tournamentControllers.update)
 route.delete('/tournament/:id([a-z0-9]+)', tournamentControllers.remove)
+route.post('/tournament/add-manager', authMiddlewares.required, tournamentControllers.addManager)
+route.post('/tournament/remove-manager', authMiddlewares.required, tournamentControllers.removeManager)
 
 // gang
 route.get('/gang', authMiddlewares.optional, gangControllers.getAll)
@@ -76,9 +78,9 @@ route.delete('/event/:id([a-z0-9]+)', eventControllers.remove)
 
 route.post('/event/register', authMiddlewares.required, eventControllers.register)
 route.post('/event/leave', eventControllers.leave)
-route.get('/event/random-order', eventControllers.randomOrder)
+route.post('/event/random-order', eventControllers.randomOrder)
 route.post('/event/round-up', eventControllers.roundUp)
-route.post('/event/team-status', eventControllers.updateStatus)
+route.post('/event/team', eventControllers.updateTeam)
 route.post('/event/payment-status', eventControllers.updatePaymentStatus)
 
 // match

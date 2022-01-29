@@ -13,13 +13,15 @@ const updateStatus = async (req, res) => {
         'teams._id': body.teamID
       },
       {
-        $set: { 'teams.$.status': body.status }
+        $set: {
+          [`teams.$.${body.field}`]: body.value
+        }
       },
       { new: true },
     )
     const populateArray = updateResponse.order.group.map((group, i) => `order.group.${i}`)
     await updateResponse.populate({
-      path: `order.knockOut ${populateArray.join(' ')}`,
+      path: `${populateArray.join(' ')}`,
       populate: {
         path: 'players'
       }
