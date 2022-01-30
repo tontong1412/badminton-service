@@ -16,6 +16,8 @@ const tournamentSchema = new SchemaModel({
   registerDate: Date,
   deadlineDate: Date,
   image: String,
+  logo: String,
+  poster: String,
   events: [{ type: mongoose.Schema.Types.ObjectId, ref: MONGO.COLLECTION_NAME.EVENT }],
   isPublished: Boolean,
   status: {
@@ -28,6 +30,7 @@ const tournamentSchema = new SchemaModel({
       TOURNAMENT.STATUS.DRAW,
       TOURNAMENT.STATUS.ARRANGE,
       TOURNAMENT.STATUS.ONGOING,
+      TOURNAMENT.STATUS.KNOCKOUT,
       TOURNAMENT.STATUS.FINISH,
     ],
   },
@@ -38,7 +41,8 @@ const tournamentSchema = new SchemaModel({
     code: String,
     name: String,
     bank: String
-  }
+  },
+  contact: { type: mongoose.Schema.Types.ObjectId, ref: MONGO.COLLECTION_NAME.PLAYER }
 }, {
   versionKey: false,
   timestamps: { createdAt: true, updatedAt: true }
