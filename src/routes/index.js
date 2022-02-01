@@ -38,6 +38,7 @@ route.put('/tournament/:id([a-z0-9]+)', tournamentControllers.update)
 route.delete('/tournament/:id([a-z0-9]+)', tournamentControllers.remove)
 route.post('/tournament/add-manager', authMiddlewares.required, tournamentControllers.addManager)
 route.post('/tournament/remove-manager', authMiddlewares.required, tournamentControllers.removeManager)
+route.get('/tournament/my-tournament', authMiddlewares.optional, tournamentControllers.getMyTournament)
 
 // gang
 route.get('/gang', authMiddlewares.optional, gangControllers.getAll)
@@ -85,12 +86,14 @@ route.post('/event/payment-status', eventControllers.updatePaymentStatus)
 
 // match
 route.get('/match', matchControllers.getAll)
+route.get('/match/next', authMiddlewares.required, matchControllers.getNextMatch)
 route.get('/match/:id([a-z0-9]+)/stat', matchControllers.getStat)
 route.get('/match/:id([a-z0-9]+)', matchControllers.getByID)
 route.post('/match/arrange', matchControllers.arrange)
 route.put('/match/:id([a-z0-9]+)', matchControllers.update)
 route.post('/match/set-score', matchControllers.setScore)
 route.post('/match/manage-shuttlecock', matchControllers.manageShuttlecock)
+route.get('/match/next', authMiddlewares.required, matchControllers.getNextMatch)
 
 // transaction
 route.put('/transaction/:id([a-z0-9]+)/add-other', transactionControllers.addOther)

@@ -8,9 +8,8 @@ const getByIDTournament = async (req, res) => {
   let getByIDResponse
   try {
     getByIDResponse = await TournamentModel.findById(id)
-    console.log(getByIDResponse)
     await getByIDResponse.populate({
-      path: 'events events.teams events.order managers',
+      path: 'events events.teams events.order managers contact',
       populate: {
         path: `players teams.team teams.contact`,
         populate: {
@@ -27,7 +26,6 @@ const getByIDTournament = async (req, res) => {
       return `events.${i}`
     }))
 
-    console.log(getByIDResponse)
     await getByIDResponse.populate({
       path: ` events events.teams ${populateEvent.join(' ')}`,
       populate: {

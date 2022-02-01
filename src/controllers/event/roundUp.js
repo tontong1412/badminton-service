@@ -1,9 +1,11 @@
 import matchCollection from '../../schema/match'
-import { MATCH } from '../../constants'
+import { MATCH, TOURNAMENT } from '../../constants'
 import eventCollection from '../../schema/event'
+import tournamentCollection from '../../schema/tournament'
 
 const MatchModel = matchCollection.model
 const EventModel = eventCollection.model
+const TournamentModel = tournamentCollection.model
 
 const roundUp = async (req, res) => {
   const { eventID, order } = req.body
@@ -33,6 +35,18 @@ const roundUp = async (req, res) => {
     console.log('Error: Failed to update event')
     throw error
   }
+
+
+  const eventGroupStep = await EventModel.find({ step: MATCH.STEP.GROUP })
+  if (!eventGroupStep.length) {
+    try {
+      await TournamentModel.findOneAndUpdate({ events: eventID }, { status: TOURNAMENT.STATUS.KNOCKOUT })
+    } catch (error) {
+      console.log('Error: Failed to update tournament')
+      throw error
+    }
+  }
+
 
   let response
   try {

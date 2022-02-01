@@ -5,7 +5,8 @@ const TOURNAMENT = {
     DRAW: 'draw',
     ARRANGE: 'arrange',
     ONGOING: 'ongoing',
-    FINISH: 'finish'
+    FINISH: 'finish',
+    KNOCKOUT: 'knockOut'
   }
 }
 export default TOURNAMENT

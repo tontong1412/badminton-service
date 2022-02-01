@@ -5,6 +5,7 @@ import getByID from './getByID'
 import update from './update'
 import addManager from './addManager'
 import removeManager from './removeManager'
+import getMyTournament from './getMyTournament'
 
 import controllerErrorHandler from '../../libs/controllerErrorHandler'
 
@@ -16,4 +17,5 @@ export default {
   update: controllerErrorHandler(update),
   addManager: controllerErrorHandler(addManager),
   removeManager: controllerErrorHandler(removeManager),
+  getMyTournament: controllerErrorHandler(getMyTournament),
 }
