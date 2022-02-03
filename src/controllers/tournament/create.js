@@ -32,7 +32,7 @@ const createTournament = async (req, res) => {
   const tournamentObject = new TournamentModel({
     ...body,
     creator: playerID,
-    contact: contactID()
+    contact: await contactID()
   })
 
   let saveResponse

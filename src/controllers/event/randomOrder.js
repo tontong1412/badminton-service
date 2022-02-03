@@ -19,7 +19,7 @@ const randomOrder = async (req, res) => {
     const orderGroup = randomMethod.group(event.teams, body.groupCount)
     const qualifiedTeams = Array.apply(null, Array(body.qualifiedPerGroup)).reduce((prev, curr, rank) => {
       Array.apply(null, Array(body.groupCount)).forEach((val, group) => {
-        prev.push(`rank ${rank + 1} of group ${group + 1}`)
+        prev.push(`ที่ ${rank + 1} กลุ่ม ${group + 1}`)
       })
       return prev
     }, [])
