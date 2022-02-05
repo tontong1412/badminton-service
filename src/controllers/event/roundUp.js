@@ -29,18 +29,19 @@ const roundUp = async (req, res) => {
     throw error
   }
 
+  let event
   try {
-    await EventModel.findByIdAndUpdate(eventID, { step: MATCH.STEP.KNOCK_OUT })
+    event = await EventModel.findByIdAndUpdate(eventID, { step: MATCH.STEP.KNOCK_OUT })
   } catch (error) {
     console.log('Error: Failed to update event')
     throw error
   }
 
-
-  const eventGroupStep = await EventModel.find({ step: MATCH.STEP.GROUP })
+  // มั่ว
+  const eventGroupStep = await EventModel.find({ tournamentID: event.tournamentID, step: MATCH.STEP.GROUP })
   if (!eventGroupStep.length) {
     try {
-      await TournamentModel.findOneAndUpdate({ events: eventID }, { status: TOURNAMENT.STATUS.KNOCKOUT })
+      await TournamentModel.findByIdAndUpdate(event.tournamentID, { status: TOURNAMENT.STATUS.KNOCKOUT })
     } catch (error) {
       console.log('Error: Failed to update tournament')
       throw error

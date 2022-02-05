@@ -36,6 +36,7 @@ var teamSchema = mongoose.Schema({
 });
 
 const eventSchema = new SchemaModel({
+  tournamentID: { type: mongoose.Schema.Types.ObjectId, ref: MONGO.COLLECTION_NAME.TOURNAMENT },
   name: { type: String, trim: true },
   level: { type: mongoose.Schema.Types.ObjectId },
   description: String,
