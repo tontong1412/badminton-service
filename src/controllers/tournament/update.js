@@ -35,11 +35,11 @@ const updateTournament = async (req, res) => {
     body.contact = contactId
   }
 
-  if (body.logo && body.logo.match(/http:\/\/res.cloudinary.com\/badminstar/g).length === 0) {
+  if (body.logo && body.logo.match(/http:\/\/res.cloudinary.com\/badminstar/g)?.length === 0) {
     const photoUrl = await uploadPhoto(body.logo, `${CLOUDINARY.PREFIX}tournament/logo`, id)
     body.logo = photoUrl.url
   }
-  if (body.poster && body.poster.match(/http:\/\/res.cloudinary.com\/badminstar/g).length === 0) {
+  if (body.poster && body.poster.match(/http:\/\/res.cloudinary.com\/badminstar/g)?.length === 0) {
     const photoUrl = await uploadPhoto(body.poster, `${CLOUDINARY.PREFIX}tournament/poster`, id)
     body.poster = photoUrl.url
   }
