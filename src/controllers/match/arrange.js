@@ -8,9 +8,14 @@ const TournamentModel = tournamentCollection.model
 const MatchModel = matchCollection.model
 
 const arrangeMatch = async (req, res) => {
-  const { body } = req
+  const {
+    tournamentID,
+    numberOfCourt,
+    startTime,
+    matchDuration
+  } = req.body
 
-  const tournament = await TournamentModel.findById(body.tournamentID)
+  const tournament = await TournamentModel.findById(tournamentID)
     .populate({
       path: 'events',
       select: ['order', 'name', 'format', 'level']
@@ -69,19 +74,22 @@ const arrangeMatch = async (req, res) => {
   // วันแรก group วันที่สอง knock out
   let knockOutCount = 0
   let i = 0
+  let j = 0
+  let isKnockOut
   sortedArrangedMatches.forEach((match, index) => {
     match.matchNumber = index + 1
     if (match.step === MATCH.STEP.GROUP) {
-      match.date = moment(body.startTime.group)
-        .add(body.matchDuration.group * i, 'minutes')
+      match.date = moment(startTime.group)
+        .add(matchDuration.group * i, 'minutes')
+      if (index % numberOfCourt === numberOfCourt - 1) i++
     } else if (match.step === MATCH.STEP.KNOCK_OUT) {
-      match.date = moment(body.startTime.knockOut)
-        .add(1, 'days')
-        .add(body.matchDuration.knockOut * knockOutCount, 'minutes')
+      if (!isKnockOut) isKnockOut = true
+      match.date = moment(startTime.knockOut || moment(startTime.group).add(matchDuration.group * i, 'minutes'))
+        .add(matchDuration.knockOut * j, 'minutes')
       knockOutCount++
     }
-    if (i < 4) i++
-    else i = 0
+
+    if (isKnockOut && knockOutCount % numberOfCourt === 0) j++
   })
 
   // save to db

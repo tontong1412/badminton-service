@@ -2,19 +2,24 @@ import event from '../../schema/event'
 
 const EventModel = event.model
 
-const updateEvent = async (req, res) => {
-  const { body, params: { id } } = req
+const updatePaymentStatus = async (req, res) => {
+  const { body } = req
 
   let updateResponse
   try {
     updateResponse = await EventModel.findOneAndUpdate(
-      { _id: id },
-      body,
+      {
+        _id: body.eventID,
+        'teams._id': body.teamID
+      },
+      {
+        $set: { 'teams.$.paymentStatus': body.paymentStatus }
+      },
       { new: true },
     )
     const populateArray = updateResponse.order.group.map((group, i) => `order.group.${i}`)
     await updateResponse.populate({
-      path: `${populateArray.join(' ')}`,
+      path: `order.knockOut ${populateArray.join(' ')}`,
       populate: {
         path: 'players'
       }
@@ -31,4 +36,4 @@ const updateEvent = async (req, res) => {
   return res.status(404).send('event not found')
 }
 
-export default updateEvent
+export default updatePaymentStatus

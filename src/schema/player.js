@@ -16,8 +16,11 @@ const playerSchema = new Schema({
       PLAYER.GENDER.FEMALE,
     ],
   },
+  birthDate: Date,
   userID: { type: SchemaModel.Types.ObjectId, ref: MONGO.COLLECTION_NAME.USER },
-  photo: String
+  photo: String,
+  lineID: String,
+  tel: String
 }, {
   timestamps: { createdAt: true, updatedAt: true }
 })

@@ -33,9 +33,12 @@ route.post('/player/claim', authMiddlewares.required, playerControllers.claim)
 // tournament
 route.get('/tournament', tournamentControllers.getAll)
 route.get('/tournament/:id([a-z0-9]+)', tournamentControllers.getByID)
-route.post('/tournament', tournamentControllers.create)
+route.post('/tournament', authMiddlewares.required, tournamentControllers.create)
 route.put('/tournament/:id([a-z0-9]+)', tournamentControllers.update)
 route.delete('/tournament/:id([a-z0-9]+)', tournamentControllers.remove)
+route.post('/tournament/add-manager', authMiddlewares.required, tournamentControllers.addManager)
+route.post('/tournament/remove-manager', authMiddlewares.required, tournamentControllers.removeManager)
+route.get('/tournament/my-tournament', authMiddlewares.optional, tournamentControllers.getMyTournament)
 
 // gang
 route.get('/gang', authMiddlewares.optional, gangControllers.getAll)
@@ -75,18 +78,22 @@ route.put('/event/:id([a-z0-9]+)', eventControllers.update)
 route.delete('/event/:id([a-z0-9]+)', eventControllers.remove)
 
 route.post('/event/register', authMiddlewares.required, eventControllers.register)
-route.post('/event/leave', authMiddlewares.required, eventControllers.leave)
-route.get('/event/random-order', eventControllers.randomOrder)
+route.post('/event/leave', eventControllers.leave)
+route.post('/event/random-order', eventControllers.randomOrder)
 route.post('/event/round-up', eventControllers.roundUp)
+route.post('/event/team', eventControllers.updateTeam)
+route.post('/event/payment-status', eventControllers.updatePaymentStatus)
 
 // match
 route.get('/match', matchControllers.getAll)
+route.get('/match/next', authMiddlewares.required, matchControllers.getNextMatch)
 route.get('/match/:id([a-z0-9]+)/stat', matchControllers.getStat)
 route.get('/match/:id([a-z0-9]+)', matchControllers.getByID)
 route.post('/match/arrange', matchControllers.arrange)
 route.put('/match/:id([a-z0-9]+)', matchControllers.update)
 route.post('/match/set-score', matchControllers.setScore)
 route.post('/match/manage-shuttlecock', matchControllers.manageShuttlecock)
+route.get('/match/next', authMiddlewares.required, matchControllers.getNextMatch)
 
 // transaction
 route.put('/transaction/:id([a-z0-9]+)/add-other', transactionControllers.addOther)

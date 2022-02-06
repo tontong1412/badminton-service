@@ -1,5 +1,6 @@
 import mongoose from 'mongoose'
 import { MONGO } from '../constants'
+import { TOURNAMENT } from '../constants'
 
 const SchemaModel = mongoose.Schema
 
@@ -15,9 +16,33 @@ const tournamentSchema = new SchemaModel({
   registerDate: Date,
   deadlineDate: Date,
   image: String,
-  numberOfCourt: Number,
+  logo: String,
+  poster: String,
   events: [{ type: mongoose.Schema.Types.ObjectId, ref: MONGO.COLLECTION_NAME.EVENT }],
   isPublished: Boolean,
+  status: {
+    type: String,
+    trim: true,
+    default: TOURNAMENT.STATUS.PREPARE,
+    enum: [
+      TOURNAMENT.STATUS.PREPARE,
+      TOURNAMENT.STATUS.REGISTER,
+      TOURNAMENT.STATUS.DRAW,
+      TOURNAMENT.STATUS.ARRANGE,
+      TOURNAMENT.STATUS.ONGOING,
+      TOURNAMENT.STATUS.KNOCKOUT,
+      TOURNAMENT.STATUS.FINISH,
+    ],
+  },
+  registerOpen: Boolean,
+  managers: [{ type: mongoose.Schema.Types.ObjectId, ref: MONGO.COLLECTION_NAME.PLAYER }],
+  creator: { type: mongoose.Schema.Types.ObjectId, ref: MONGO.COLLECTION_NAME.PLAYER },
+  payment: {
+    code: String,
+    name: String,
+    bank: String
+  },
+  contact: { type: mongoose.Schema.Types.ObjectId, ref: MONGO.COLLECTION_NAME.PLAYER }
 }, {
   versionKey: false,
   timestamps: { createdAt: true, updatedAt: true }
