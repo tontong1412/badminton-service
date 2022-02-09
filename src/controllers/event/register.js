@@ -40,12 +40,12 @@ const registerEvent = async (req, res) => {
       await PlayerModel.findByIdAndUpdate(contact._id, contact)
       return contact._id
     }
-    const playerResponse = await PlayerModel.findOneAndUpdate({ displayName: contact.name }, contact)
+    const playerResponse = await PlayerModel.findOneAndUpdate({ officialName: contact.officialName }, contact)
     if (playerResponse) return playerResponse._id
     try {
       const playerObject = new PlayerModel({
         ...contact,
-        officialName: contact.name
+        officialName: contact.officialName
       })
       const saveResponse = await playerObject.save()
       return saveResponse._id
