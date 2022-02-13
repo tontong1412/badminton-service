@@ -1,10 +1,11 @@
 import matchCollection from '../../schema/match'
 import { MATCH, EVENT } from '../../constants'
+import socket from '../../server'
 
 const MatchModel = matchCollection.model
 
 const setScore = async (req, res) => {
-  const { matchID, score } = req.body
+  const { matchID, score, status = MATCH.STATUS.FINISHED } = req.body
 
   // calculate score
   let scoreSetA = 0
@@ -28,7 +29,7 @@ const setScore = async (req, res) => {
         'teamB.scoreSet': scoreSetB,
         'teamA.scoreDiff': scoreDiffA,
         'teamB.scoreDiff': scoreDiffB,
-        status: MATCH.STATUS.FINISHED,
+        status,
         scoreLabel: score
       },
       { new: true }
@@ -69,6 +70,7 @@ const setScore = async (req, res) => {
     }
 
   }
+  socket.emit('update-score')
   return res.status(200).send(currentMatch)
 
 }
