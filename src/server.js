@@ -1,6 +1,6 @@
 import express from 'express'
 import cors from 'cors'
-import { NODE_PORT } from './config'
+import { NODE_PORT, CLIENT } from './config'
 import routes from './routes'
 import { Server } from "socket.io"
 import { createServer } from "http"
@@ -18,7 +18,7 @@ server.use(routes)
 const httpServer = createServer(server)
 const io = new Server(httpServer, {
   cors: {
-    origin: "http://localhost:3000",
+    origin: [CLIENT],
     methods: ["GET", "POST"]
   }
 });
