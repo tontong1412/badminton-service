@@ -14,8 +14,8 @@ const matchSchema = new SchemaModel({
     scoreSet: { type: Number, default: 0 },
     score: { type: Number, default: 0 },
     scoreDiff: { type: Number, default: 0 },
-    serving: Number,
-    receiving: Number,
+    serving: { type: Number, default: 0 },
+    receiving: { type: Number, default: 0 },
     isServing: Boolean
   },
   teamB: {
@@ -23,8 +23,8 @@ const matchSchema = new SchemaModel({
     scoreSet: { type: Number, default: 0 },
     score: { type: Number, default: 0 },
     scoreDiff: { type: Number, default: 0 },
-    serving: Number,
-    receiving: Number,
+    serving: { type: Number, default: 0 },
+    receiving: { type: Number, default: 0 },
     isServing: Boolean
   },
   level: { type: mongoose.Schema.Types.ObjectId },
@@ -54,6 +54,7 @@ const matchSchema = new SchemaModel({
   },
   court: Number,
   date: Date,
+  umpire: { type: SchemaModel.Types.ObjectId, ref: MONGO.COLLECTION_NAME.PLAYER },
   step: {
     type: String,
     trim: true,

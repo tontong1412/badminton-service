@@ -37,6 +37,7 @@ const tournamentSchema = new SchemaModel({
   registerOpen: Boolean,
   managers: [{ type: mongoose.Schema.Types.ObjectId, ref: MONGO.COLLECTION_NAME.PLAYER }],
   creator: { type: mongoose.Schema.Types.ObjectId, ref: MONGO.COLLECTION_NAME.PLAYER },
+  umpires: [{ type: mongoose.Schema.Types.ObjectId, ref: MONGO.COLLECTION_NAME.PLAYER }],
   payment: {
     code: String,
     name: String,
