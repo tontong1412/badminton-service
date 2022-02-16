@@ -5,7 +5,6 @@ const MatchModel = match.model
 
 const updateMatch = async (req, res) => {
   const { body, params: { id } } = req
-  console.log(body)
   let updateResponse
   try {
     updateResponse = await MatchModel.findOneAndUpdate(

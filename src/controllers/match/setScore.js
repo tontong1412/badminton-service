@@ -29,7 +29,7 @@ const setScore = async (req, res) => {
         'teamB.scoreSet': scoreSetB,
         'teamA.scoreDiff': scoreDiffA,
         'teamB.scoreDiff': scoreDiffB,
-        status,
+        status: (scoreSetA >= 2 || scoreSetB >= 2) ? 'finished' : status,
         scoreLabel: score
       },
       { new: true }
