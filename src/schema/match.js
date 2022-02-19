@@ -16,7 +16,7 @@ const matchSchema = new SchemaModel({
     scoreDiff: { type: Number, default: 0 },
     serving: { type: Number, default: 0 },
     receiving: { type: Number, default: 0 },
-    isServing: Boolean
+    isServing: { type: Boolean, default: true }
   },
   teamB: {
     team: { type: SchemaModel.Types.ObjectId, ref: MONGO.COLLECTION_NAME.TEAM },
@@ -25,7 +25,7 @@ const matchSchema = new SchemaModel({
     scoreDiff: { type: Number, default: 0 },
     serving: { type: Number, default: 0 },
     receiving: { type: Number, default: 0 },
-    isServing: Boolean
+    isServing: { type: Boolean, default: false }
   },
   level: { type: mongoose.Schema.Types.ObjectId },
   scoreLabel: [{ type: String, trim: true }],
