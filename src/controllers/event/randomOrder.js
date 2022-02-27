@@ -16,23 +16,58 @@ const randomOrder = async (req, res) => {
   let order
   if (event.format === EVENT.FORMAT.ROUND_ROBIN) {
     if (event.teams < 3 * body.groupCount) return res.status(400).json({ error: 'should have at least 3 teams in 1 group' })
-    const orderGroup = randomMethod.group(event.teams, body.groupCount)
-    const qualifiedTeams = Array.apply(null, Array(body.qualifiedPerGroup)).reduce((prev, curr, rank) => {
-      Array.apply(null, Array(body.groupCount)).forEach((val, group) => {
-        prev.push(`ที่ ${rank + 1} กลุ่ม ${group + 1}`)
-      })
-      return prev
-    }, [])
-    const orderKnockOut = randomMethod.knockOut(qualifiedTeams, { seeded: true, seededCount: qualifiedTeams.length })
+
+    let orderGroup
+    if (body.groupOrder) {
+      orderGroup = body.groupOrder
+    } else {
+      orderGroup = randomMethod.group(event.teams, body.groupCount)
+    }
+
+    // for random knockout draw
+    // const qualifiedTeams = Array.apply(null, Array(body.qualifiedPerGroup)).reduce((prev, curr, rank) => {
+    //   Array.apply(null, Array(body.groupCount)).forEach((val, group) => {
+    //     prev.push(`ที่ ${rank + 1} กลุ่ม ${group + 1}`)
+    //   })
+    //   return prev
+    // }, [])
+    // const orderKnockOut = randomMethod.knockOut(qualifiedTeams, { seeded: true, seededCount: qualifiedTeams.length })
+
+    const orderKnockOut = Array.apply(null, Array(body.qualifiedPerGroup)).map(() => 'รอผลรอบแบ่งกลุ่ม')
     order = {
       group: orderGroup,
       knockOut: orderKnockOut
     }
-  } else {
+  } else if (event.format === EVENT.FORMAT.ROUND_ROBIN_CONSOLATION) {
+    if (event.teams < 3 * body.groupCount) return res.status(400).json({ error: 'should have at least 3 teams in 1 group' })
+
+    let orderGroup
+    if (body.groupOrder) {
+      orderGroup = body.groupOrder
+    } else {
+      orderGroup = randomMethod.group(event.teams, body.groupCount)
+    }
+
+    // for random knockout draw
+    // const qualifiedTeams = Array.apply(null, Array(body.qualifiedPerGroup)).reduce((prev, curr, rank) => {
+    //   Array.apply(null, Array(body.groupCount)).forEach((val, group) => {
+    //     prev.push(`ที่ ${rank + 1} กลุ่ม ${group + 1}`)
+    //   })
+    //   return prev
+    // }, [])
+    // const orderKnockOut = randomMethod.knockOut(qualifiedTeams, { seeded: true, seededCount: qualifiedTeams.length })
+
+    const orderKnockOut = Array.apply(null, Array(body.qualifiedPerGroup)).map(() => 'รอผลรอบแบ่งกลุ่ม')
+    const orderConsolation = Array.apply(null, Array(body.consolationQualified)).map(() => 'รอผลรอบแบ่งกลุ่ม')
+    order = {
+      group: orderGroup,
+      knockOut: orderKnockOut,
+      consolation: orderConsolation
+    }
+  }
+  else {
     order = randomMethod.knockOut(event.teams, { seeded: body.seeded, seededCount: body.seededCount })
   }
-
-  // Todo: save to event
 
   const saveResponse = await EventModel.findByIdAndUpdate(
     body.eventID,

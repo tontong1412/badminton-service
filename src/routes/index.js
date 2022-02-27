@@ -38,6 +38,8 @@ route.put('/tournament/:id([a-z0-9]+)', tournamentControllers.update)
 route.delete('/tournament/:id([a-z0-9]+)', tournamentControllers.remove)
 route.post('/tournament/add-manager', authMiddlewares.required, tournamentControllers.addManager)
 route.post('/tournament/remove-manager', authMiddlewares.required, tournamentControllers.removeManager)
+route.post('/tournament/add-umpire', authMiddlewares.required, tournamentControllers.addUmpire)
+route.post('/tournament/remove-umpire', authMiddlewares.required, tournamentControllers.removeUmpire)
 route.get('/tournament/my-tournament', authMiddlewares.optional, tournamentControllers.getMyTournament)
 
 // gang

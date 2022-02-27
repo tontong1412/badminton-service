@@ -8,9 +8,10 @@ const TournamentModel = tournamentCollection.model
 const MatchModel = matchCollection.model
 
 const arrangeMatch = async (req, res) => {
-  const {
+  let {
     tournamentID,
     numberOfCourt,
+    numberOfCourtKnockOut,
     startTime,
     matchDuration
   } = req.body
@@ -43,7 +44,7 @@ const arrangeMatch = async (req, res) => {
 
   // arrange round robin
   const arrangedMatches = await Promise.all(tournament.events.map((event, index) => {
-    if (event.format === EVENT.FORMAT.ROUND_ROBIN) {
+    if (event.format === EVENT.FORMAT.ROUND_ROBIN || event.format === EVENT.FORMAT.ROUND_ROBIN_CONSOLATION) {
       return arrangeMatchLib.roundRobin(event, index)
     }
     return []
@@ -52,21 +53,38 @@ const arrangeMatch = async (req, res) => {
     return [...prev, ...curr]
   }, [])
 
+  sortedArrangedMatches.sort((a, b) => {
+    if (a.step === 'group') return -1
+    if (b.step === 'group') return 1
+    return a.step === 'knockOut' ? 1 : -1
+  })
+
   // sort match round robin
   sortedArrangedMatches.sort((a, b) => {
-    if (a.step === b.step) {
-      if (a.round === b.round) {
-        if (a.eventOrder === b.eventOrder) {
-          return a.groupOrder - b.groupOrder
+    if (a.step === 'group' || b.step === 'group') {
+      if (a.step === b.step) {
+        if (a.round === b.round) {
+          if (a.eventOrder === b.eventOrder) {
+            return a.groupOrder - b.groupOrder
+          }
+          return a.eventOrder - b.eventOrder
         }
-        return a.eventOrder > b.eventOrder ? 1 : -1
+        return a.round - b.round
       }
-      if (a.step === MATCH.STEP.GROUP) {
-        return a.round > b.round ? 1 : -1
-      }
-      return a.round < b.round ? 1 : -1
+      return a.step === 'group' ? -1 : 1
     }
-    return a.step === MATCH.STEP.KNOCK_OUT ? 1 : -1
+
+    if (a.round === b.round) {
+      if (a.eventOrder === b.eventOrder) {
+        if (a.groupOrder === b.groupOrder) {
+          return a.step === 'knockOut' ? 1 : -1
+        }
+        return a.groupOrder - b.groupOrder
+      }
+      return a.eventOrder > b.eventOrder ? 1 : -1
+
+    }
+    return a.round < b.round ? 1 : -1
   })
 
   // arrange time 
@@ -82,8 +100,9 @@ const arrangeMatch = async (req, res) => {
       match.date = moment(startTime.group)
         .add(matchDuration.group * i, 'minutes')
       if (index % numberOfCourt === numberOfCourt - 1) i++
-    } else if (match.step === MATCH.STEP.KNOCK_OUT) {
+    } else if (match.step === MATCH.STEP.KNOCK_OUT || match.step === MATCH.STEP.CONSOLATION) {
       if (!isKnockOut) isKnockOut = true
+      if (numberOfCourtKnockOut) numberOfCourt = numberOfCourtKnockOut
       match.date = moment(startTime.knockOut || moment(startTime.group).add(matchDuration.group * i, 'minutes'))
         .add(matchDuration.knockOut * j, 'minutes')
       knockOutCount++

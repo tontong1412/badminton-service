@@ -32,7 +32,7 @@ const getNextMatch = async (req, res) => {
       })
 
     const tournament = await TournamentModel.findById(query.tournamentID)
-    const latestMatch = await MatchModel.find({
+    let latestMatch = await MatchModel.findOne({
       $and: [
         { eventID: { $in: tournament.events } },
         { status: 'playing' }
@@ -47,9 +47,47 @@ const getNextMatch = async (req, res) => {
         }
       })
 
+    if (!latestMatch) {
+      latestMatch = await MatchModel.findOne({
+        $and: [
+          { eventID: { $in: tournament.events } },
+          { status: 'finished' }
+        ]
+
+      })
+        .sort({ matchNumber: -1 })
+        .populate({
+          path: 'teamA.team teamB.team',
+          populate: {
+            path: 'players'
+          }
+        })
+    }
+
+    const myMatch = await MatchModel.find({
+      $and: [
+        { eventID: query.eventID },
+        {
+          $or: [
+            { 'teamA.team': { $in: teams } },
+            { 'teamB.team': { $in: teams } },
+          ]
+        },
+      ]
+
+    })
+      .sort({ matchNumber: 1 })
+      .populate({
+        path: 'teamA.team teamB.team',
+        populate: {
+          path: 'players'
+        }
+      })
+
     return res.send({
       nextMatch,
-      latestMatch
+      latestMatch,
+      myMatch
     })
   } catch (error) {
     console.error('Fail to get next match')

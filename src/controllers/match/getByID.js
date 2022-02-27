@@ -9,7 +9,7 @@ const getByIDmatch = async (req, res) => {
   try {
     getByIDResponse = await MatchModel.findById(id)
       .populate({
-        path: 'teamA.team teamB.team',
+        path: 'teamA.team teamB.team umpire',
         populate: {
           path: 'players'
         }

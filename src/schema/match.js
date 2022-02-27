@@ -14,12 +14,18 @@ const matchSchema = new SchemaModel({
     scoreSet: { type: Number, default: 0 },
     score: { type: Number, default: 0 },
     scoreDiff: { type: Number, default: 0 },
+    serving: { type: Number, default: 0 },
+    receiving: { type: Number, default: 0 },
+    isServing: { type: Boolean, default: true }
   },
   teamB: {
     team: { type: SchemaModel.Types.ObjectId, ref: MONGO.COLLECTION_NAME.TEAM },
     scoreSet: { type: Number, default: 0 },
     score: { type: Number, default: 0 },
     scoreDiff: { type: Number, default: 0 },
+    serving: { type: Number, default: 0 },
+    receiving: { type: Number, default: 0 },
+    isServing: { type: Boolean, default: false }
   },
   level: { type: mongoose.Schema.Types.ObjectId },
   scoreLabel: [{ type: String, trim: true }],
@@ -28,6 +34,7 @@ const matchSchema = new SchemaModel({
     trim: true,
     enum: [
       EVENT.FORMAT.ROUND_ROBIN,
+      EVENT.FORMAT.ROUND_ROBIN_CONSOLATION,
       EVENT.FORMAT.SINGLE_ELIMINATION,
       // EVENT.FORMAT.DOUBLE_ELIMINATION,
     ],
@@ -48,12 +55,14 @@ const matchSchema = new SchemaModel({
   },
   court: Number,
   date: Date,
+  umpire: { type: SchemaModel.Types.ObjectId, ref: MONGO.COLLECTION_NAME.PLAYER },
   step: {
     type: String,
     trim: true,
     enum: [
       MATCH.STEP.GROUP,
       MATCH.STEP.KNOCK_OUT,
+      MATCH.STEP.CONSOLATION,
     ],
   },
   reference: { type: Number, default: 0 }

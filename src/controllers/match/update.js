@@ -1,10 +1,10 @@
 import match from '../../schema/match'
+import socket from '../../server'
 
 const MatchModel = match.model
 
 const updateMatch = async (req, res) => {
   const { body, params: { id } } = req
-
   let updateResponse
   try {
     updateResponse = await MatchModel.findOneAndUpdate(
@@ -23,6 +23,7 @@ const updateMatch = async (req, res) => {
   }
 
   if (updateResponse) {
+    socket.emit('update-match')
     return res.send(updateResponse.toObject())
   }
 

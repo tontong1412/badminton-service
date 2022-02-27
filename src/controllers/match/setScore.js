@@ -1,10 +1,11 @@
 import matchCollection from '../../schema/match'
 import { MATCH, EVENT } from '../../constants'
+import socket from '../../server'
 
 const MatchModel = matchCollection.model
 
 const setScore = async (req, res) => {
-  const { matchID, score } = req.body
+  const { matchID, score, status = MATCH.STATUS.FINISHED } = req.body
 
   // calculate score
   let scoreSetA = 0
@@ -28,7 +29,7 @@ const setScore = async (req, res) => {
         'teamB.scoreSet': scoreSetB,
         'teamA.scoreDiff': scoreDiffA,
         'teamB.scoreDiff': scoreDiffB,
-        status: MATCH.STATUS.FINISHED,
+        status: (scoreSetA >= 2 || scoreSetB >= 2) ? 'finished' : status,
         scoreLabel: score
       },
       { new: true }
@@ -48,6 +49,7 @@ const setScore = async (req, res) => {
     && currentMatch.round
     && currentMatch.round > 2 // not final round
     && (currentMatch.step === MATCH.STEP.KNOCK_OUT
+      || currentMatch.step === MATCH.STEP.CONSOLATION
       || currentMatch.format === EVENT.FORMAT.SINGLE_ELIMINATION)) {
     if (scoreSetA === scoreSetB) return res.status(400).send('should have winner for knock out round')
     const winTeam = scoreSetA > scoreSetB ? 'teamA' : 'teamB'
@@ -57,6 +59,7 @@ const setScore = async (req, res) => {
         {
           eventID: currentMatch.eventID,
           round: currentMatch.round / 2,
+          step: currentMatch.step,
           bracketOrder: Math.floor(currentMatch.bracketOrder / 2)
         },
         {
@@ -69,6 +72,7 @@ const setScore = async (req, res) => {
     }
 
   }
+  socket.emit('update-score')
   return res.status(200).send(currentMatch)
 
 }

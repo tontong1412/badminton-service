@@ -19,7 +19,8 @@ const getMyTournament = async (req, res) => {
       $or: [
         { events: { $in: myEvents } },
         { creator: payload.playerID },
-        { manager: payload.playerID }
+        { managers: payload.playerID },
+        { umpires: payload.playerID }
       ],
     }).populate({
       path: 'events events.teams events.order managers',

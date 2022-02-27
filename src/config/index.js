@@ -11,6 +11,7 @@ const {
   NODE_PORT,
   AUTH_SECRET,
   AUTH_ALGORITHM,
+  CLIENT
 } = process.env
 
 export {
@@ -19,5 +20,6 @@ export {
   MONGO,
   AUTH_SECRET,
   AUTH_ALGORITHM,
+  CLIENT,
   CLOUDINARY
 }
