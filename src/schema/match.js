@@ -34,6 +34,7 @@ const matchSchema = new SchemaModel({
     trim: true,
     enum: [
       EVENT.FORMAT.ROUND_ROBIN,
+      EVENT.FORMAT.ROUND_ROBIN_CONSOLATION,
       EVENT.FORMAT.SINGLE_ELIMINATION,
       // EVENT.FORMAT.DOUBLE_ELIMINATION,
     ],
@@ -61,6 +62,7 @@ const matchSchema = new SchemaModel({
     enum: [
       MATCH.STEP.GROUP,
       MATCH.STEP.KNOCK_OUT,
+      MATCH.STEP.CONSOLATION,
     ],
   },
   reference: { type: Number, default: 0 }

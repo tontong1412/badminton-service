@@ -59,6 +59,8 @@ const arrangeMatchRoundRobin = (event, eventOrder) => {
     }
   })
 
+
+  // knockout
   const totalRound = Math.log2(order.knockOut.length)
   const tempKnockOutTeam = order.knockOut
   for (let i = 0; i < totalRound; i++) {
@@ -82,6 +84,34 @@ const arrangeMatchRoundRobin = (event, eventOrder) => {
       }
     })
   }
+
+  // consolation
+  if (event.format === 'roundRobinConsolation') {
+    const totalRoundConsolation = Math.log2(order.consolation.length)
+    const tempConsolationTeam = order.consolation
+    for (let i = 0; i < totalRoundConsolation; i++) {
+      const consolationTeam = [...tempConsolationTeam]
+      tempConsolationTeam.length = 0
+      consolationTeam.forEach((team, index, self) => {
+        if (index % 2 === 1) {
+          arrangedMatches.push({
+            eventID: ObjectId(event._id),
+            eventName: event.name,
+            format: event.format,
+            level: event.level,
+            teamA: null,
+            teamB: null,
+            step: MATCH.STEP.CONSOLATION,
+            round: Math.pow(2, totalRoundConsolation - i),
+            eventOrder,
+            bracketOrder: (index - 1) / 2
+          })
+          tempConsolationTeam.push({ teamA: null, teamB: null })
+        }
+      })
+    }
+  }
+
   return arrangedMatches
 }
 export default arrangeMatchRoundRobin

@@ -49,6 +49,7 @@ const setScore = async (req, res) => {
     && currentMatch.round
     && currentMatch.round > 2 // not final round
     && (currentMatch.step === MATCH.STEP.KNOCK_OUT
+      || currentMatch.step === MATCH.STEP.CONSOLATION
       || currentMatch.format === EVENT.FORMAT.SINGLE_ELIMINATION)) {
     if (scoreSetA === scoreSetB) return res.status(400).send('should have winner for knock out round')
     const winTeam = scoreSetA > scoreSetB ? 'teamA' : 'teamB'
@@ -58,6 +59,7 @@ const setScore = async (req, res) => {
         {
           eventID: currentMatch.eventID,
           round: currentMatch.round / 2,
+          step: currentMatch.step,
           bracketOrder: Math.floor(currentMatch.bracketOrder / 2)
         },
         {
