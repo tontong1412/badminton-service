@@ -66,7 +66,9 @@ const randomOrder = async (req, res) => {
     }
   }
   else {
-    order = randomMethod.knockOut(event.teams, { seeded: body.seeded, seededCount: body.seededCount })
+    order = {
+      knockOut: randomMethod.knockOut(event.teams, { seeded: body.seeded, seededCount: body.seededCount })
+    }
   }
 
   const saveResponse = await EventModel.findByIdAndUpdate(

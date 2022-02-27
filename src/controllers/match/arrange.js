@@ -46,6 +46,8 @@ const arrangeMatch = async (req, res) => {
   const arrangedMatches = await Promise.all(tournament.events.map((event, index) => {
     if (event.format === EVENT.FORMAT.ROUND_ROBIN || event.format === EVENT.FORMAT.ROUND_ROBIN_CONSOLATION) {
       return arrangeMatchLib.roundRobin(event, index)
+    } else if (event.format === EVENT.FORMAT.SINGLE_ELIMINATION) {
+      return arrangeMatchLib.singleElim(event,)
     }
     return []
   }))

@@ -75,7 +75,7 @@ const knockOut = (playerList, { seededCount = 2, seeded } = {}) => {
   const byeOrder = findByeOrder(round, round - playersCount)
   const chosenIndex = []
   byeOrder.forEach(index => {
-    order[index] = 'bye'
+    order[index] = undefined
     chosenIndex.push(index)
   })
   if (seeded) {
@@ -90,7 +90,7 @@ const knockOut = (playerList, { seededCount = 2, seeded } = {}) => {
   }
   playerList.forEach((player, i) => {
     const random = randomNoDup(round, chosenIndex)
-    order[random] = player
+    order[random] = player.team
     chosenIndex.push(random)
   })
   return order

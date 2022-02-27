@@ -29,9 +29,12 @@ const getByIDTournament = async (req, res) => {
     await getByIDResponse.populate({
       path: ` events events.teams ${populateEvent.join(' ')}`,
       populate: {
-        path: `team players teams.contact teams.team ${populateGroup.join(' ')}`,
+        path: `team players teams.contact teams.team ${populateGroup.join(' ')} order.knockOut`,
+        options: { retainNullValues: true },
         populate: {
-          path: 'team players'
+          path: 'team players',
+          options: { retainNullValues: true }
+
         }
       }
     }).execPopulate()
