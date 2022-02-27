@@ -14,6 +14,10 @@ const EVENT = {
     PAID: 'paid',
     PENDING: 'pending',
     IDLE: 'idle'
+  },
+  TYPE: {
+    SINGLE: 'single',
+    DOUBLE: 'double'
   }
 }
 
