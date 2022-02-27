@@ -29,14 +29,6 @@ var teamSchema = mongoose.Schema({
   slip: String,
   note: String,
   isInQueue: { type: Boolean, default: false },
-  type: {
-    type: String,
-    trim: true,
-    enum: [
-      EVENT.TYPE.SINGLE,
-      EVENT.TYPE.DOUBLE,
-    ]
-  },
   contact: { type: SchemaModel.Types.ObjectId, ref: MONGO.COLLECTION_NAME.PLAYER }
 }, {
   _id: false,
@@ -75,6 +67,14 @@ const eventSchema = new SchemaModel({
       MATCH.STEP.GROUP,
       MATCH.STEP.KNOCK_OUT,
     ],
+  },
+  type: {
+    type: String,
+    trim: true,
+    enum: [
+      EVENT.TYPE.SINGLE,
+      EVENT.TYPE.DOUBLE,
+    ]
   },
 }, {
   versionKey: false,
