@@ -8,14 +8,14 @@ const EventModel = eventCollection.model
 const TournamentModel = tournamentCollection.model
 
 const roundUp = async (req, res) => {
-  const { eventID, order } = req.body
+  const { eventID, order, step = MATCH.STEP.KNOCK_OUT } = req.body
   try {
     for (let i = 0; i < order.length; i++) {
       const teamOrder = i % 2 === 0 ? 'teamA' : 'teamB'
       await MatchModel.updateMany(
         {
           eventID,
-          step: MATCH.STEP.KNOCK_OUT,
+          step: step,
           round: order.length,
           bracketOrder: Math.floor(i / 2)
         },

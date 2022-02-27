@@ -11,7 +11,8 @@ const MATCH = {
   },
   STEP: {
     GROUP: 'group',
-    KNOCK_OUT: 'knockOut'
+    KNOCK_OUT: 'knockOut',
+    CONSOLATION: 'consolation'
   }
 }
 

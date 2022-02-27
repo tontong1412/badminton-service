@@ -47,6 +47,7 @@ const eventSchema = new SchemaModel({
     trim: true,
     enum: [
       EVENT.FORMAT.ROUND_ROBIN,
+      EVENT.FORMAT.ROUND_ROBIN_CONSOLATION,
       EVENT.FORMAT.SINGLE_ELIMINATION,
       EVENT.FORMAT.DOUBLE_ELIMINATION,
     ],
@@ -56,7 +57,8 @@ const eventSchema = new SchemaModel({
   seeded: Boolean,
   order: {
     group: [[{ type: SchemaModel.Types.ObjectId, ref: MONGO.COLLECTION_NAME.TEAM }]],
-    knockOut: [{ type: SchemaModel.Types.Mixed, ref: MONGO.COLLECTION_NAME.TEAM }]
+    knockOut: [{ type: SchemaModel.Types.Mixed, ref: MONGO.COLLECTION_NAME.TEAM }],
+    consolation: [{ type: SchemaModel.Types.Mixed, ref: MONGO.COLLECTION_NAME.TEAM }],
   },
   step: {
     type: String,
@@ -65,6 +67,14 @@ const eventSchema = new SchemaModel({
       MATCH.STEP.GROUP,
       MATCH.STEP.KNOCK_OUT,
     ],
+  },
+  type: {
+    type: String,
+    trim: true,
+    enum: [
+      EVENT.TYPE.SINGLE,
+      EVENT.TYPE.DOUBLE,
+    ]
   },
 }, {
   versionKey: false,

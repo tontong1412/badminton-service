@@ -1,6 +1,7 @@
 const EVENT = {
   FORMAT: {
     ROUND_ROBIN: 'roundRobin',
+    ROUND_ROBIN_CONSOLATION: 'roundRobinConsolation',
     SINGLE_ELIMINATION: 'singleElim',
     DOUBLE_ELIMINATION: 'doubleElim',
   },
@@ -13,6 +14,10 @@ const EVENT = {
     PAID: 'paid',
     PENDING: 'pending',
     IDLE: 'idle'
+  },
+  TYPE: {
+    SINGLE: 'single',
+    DOUBLE: 'double'
   }
 }
 
