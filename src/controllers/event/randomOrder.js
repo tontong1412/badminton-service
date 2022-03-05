@@ -67,7 +67,7 @@ const randomOrder = async (req, res) => {
   }
   else {
     order = {
-      knockOut: randomMethod.knockOut(event.teams, { seeded: body.seeded, seededCount: body.seededCount })
+      singleElim: randomMethod.knockOut(event.teams, { seeded: body.seeded, seededCount: body.seededCount })
     }
   }
 

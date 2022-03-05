@@ -22,14 +22,14 @@ const getByIDTournament = async (req, res) => {
     }).execPopulate()
     let populateGroup = []
     const populateEvent = await Promise.all(getByIDResponse.events.map(async (event, i) => {
-      event.order.group.forEach((group, j) => populateGroup.push(`order.group.${j}`))
+      event.order?.group?.forEach((group, j) => populateGroup.push(`order.group.${j}`))
       return `events.${i}`
     }))
 
     await getByIDResponse.populate({
-      path: ` events events.teams ${populateEvent.join(' ')}`,
+      path: ` events events.teams ${populateEvent?.join(' ')}`,
       populate: {
-        path: `team players teams.contact teams.team ${populateGroup.join(' ')} order.knockOut`,
+        path: `team players teams.contact teams.team ${populateGroup?.join(' ')} order.singleElim`,
         options: { retainNullValues: true },
         populate: {
           path: 'team players',
