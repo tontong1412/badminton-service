@@ -33,7 +33,10 @@ const randomOrder = async (req, res) => {
     // }, [])
     // const orderKnockOut = randomMethod.knockOut(qualifiedTeams, { seeded: true, seededCount: qualifiedTeams.length })
 
-    const orderKnockOut = Array.apply(null, Array(body.qualifiedPerGroup)).map(() => 'รอผลรอบแบ่งกลุ่ม')
+    const qualifiedTeams = Array.apply(null, Array(body.qualified)).map(() => 'รอผลรอบแบ่งกลุ่ม')
+    const orderKnockOut = randomMethod.knockOut(qualifiedTeams)
+
+    // const orderKnockOut = Array.apply(null, Array(body.qualifiedPerGroup * orderGroup.length)).map(() => 'รอผลรอบแบ่งกลุ่ม')
     order = {
       group: orderGroup,
       knockOut: orderKnockOut
@@ -57,8 +60,13 @@ const randomOrder = async (req, res) => {
     // }, [])
     // const orderKnockOut = randomMethod.knockOut(qualifiedTeams, { seeded: true, seededCount: qualifiedTeams.length })
 
-    const orderKnockOut = Array.apply(null, Array(body.qualifiedPerGroup)).map(() => 'รอผลรอบแบ่งกลุ่ม')
-    const orderConsolation = Array.apply(null, Array(body.consolationQualified)).map(() => 'รอผลรอบแบ่งกลุ่ม')
+    const qualifiedTeams = Array.apply(null, Array(body.qualified)).map(() => 'รอผลรอบแบ่งกลุ่ม')
+    const consolationTeams = Array.apply(null, Array(body.qualifiedConsolation)).map(() => 'รอผลรอบแบ่งกลุ่ม')
+    const orderKnockOut = randomMethod.knockOut(qualifiedTeams)
+    const orderConsolation = randomMethod.knockOut(consolationTeams)
+
+    // const orderKnockOut = Array.apply(null, Array(body.qualifiedPerGroup)).map(() => 'รอผลรอบแบ่งกลุ่ม')
+    // const orderConsolation = Array.apply(null, Array(body.consolationQualified)).map(() => 'รอผลรอบแบ่งกลุ่ม')
     order = {
       group: orderGroup,
       knockOut: orderKnockOut,
@@ -67,7 +75,7 @@ const randomOrder = async (req, res) => {
   }
   else {
     order = {
-      singleElim: randomMethod.knockOut(event.teams, { seeded: body.seeded, seededCount: body.seededCount })
+      singleElim: body.order || randomMethod.knockOut(event.teams, { seeded: body.seeded, seededCount: body.seededCount })
     }
   }
 

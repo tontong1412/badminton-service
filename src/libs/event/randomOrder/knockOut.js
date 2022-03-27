@@ -90,7 +90,7 @@ const knockOut = (playerList, { seededCount = 2, seeded } = {}) => {
   }
   playerList.forEach((player, i) => {
     const random = randomNoDup(round, chosenIndex)
-    order[random] = player.team
+    order[random] = player.team || player
     chosenIndex.push(random)
   })
   return order
