@@ -7,8 +7,8 @@ const arrangeSingleElimination = (event, eventOrder) => {
   const { order } = event
   let arrangedMatches = []
   // knockout
-  const totalRound = Math.log2(order.knockOut.length)
-  const tempKnockOutTeam = order.knockOut
+  const totalRound = Math.log2(order.singleElim.length)
+  const tempKnockOutTeam = order.singleElim
   for (let i = 0; i < totalRound; i++) {
     const knockOutTeam = [...tempKnockOutTeam]
     tempKnockOutTeam.length = 0
@@ -19,8 +19,8 @@ const arrangeSingleElimination = (event, eventOrder) => {
           eventName: event.name,
           format: event.format,
           level: event.level,
-          teamA: null,
-          teamB: null,
+          teamA: self[index - 1]?.hasOwnProperty('teamA') ? null : { team: self[index - 1] },
+          teamB: self[index]?.hasOwnProperty('teamA') ? null : { team: self[index] },
           step: MATCH.STEP.KNOCK_OUT,
           round: Math.pow(2, totalRound - i),
           eventOrder,
