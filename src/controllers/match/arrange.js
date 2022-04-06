@@ -97,15 +97,15 @@ const arrangeMatch = async (req, res) => {
   let j = 0
   let skip = 0
   let isKnockOut
+
   sortedArrangedMatches.forEach((match, index) => {
-    if (match.teamA && match.teamB && ((match.teamA.team && !match.teamB.team) || (match.teamB.team && !match.teamA.team))) {
+    if (match.skip || (match.teamA && match.teamB && ((match.teamA.team && !match.teamB.team) || (match.teamB.team && !match.teamA.team)))) {
       match.status = 'finished'
       skip++
     } else {
       match.matchNumber = index + 1 - skip
       if (match.step === MATCH.STEP.GROUP) {
-        match.date = moment(startTime.group)
-          .add(matchDuration.group * i, 'minutes')
+        match.date = moment(startTime.group).add(matchDuration.group * i, 'minutes')
         if (index % numberOfCourt === numberOfCourt - 1) i++
       } else if (match.step === MATCH.STEP.KNOCK_OUT || match.step === MATCH.STEP.CONSOLATION) {
         if (!isKnockOut) isKnockOut = true
@@ -150,8 +150,8 @@ const arrangeMatch = async (req, res) => {
       currentMatch = await MatchModel.findByIdAndUpdate(
         match._id,
         {
-          'teamA.scoreSet': match.teamA?.team ? 1 : 0,
-          'teamB.scoreSet': match.teamB?.team ? 1 : 0,
+          'teamA.scoreSet': match.byePosition || (match.teamA?.team ? 1 : 0),
+          'teamB.scoreSet': (match.byePosition || match.byePosition === 0) ? Math.abs(match.byePosition - 1) : (match.teamB?.team ? 1 : 0),
         },
         { new: true }
       ).populate({
