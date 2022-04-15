@@ -12,9 +12,9 @@ const updateEvent = async (req, res) => {
       body,
       { new: true },
     )
-    const populateArray = updateResponse.order.group.map((group, i) => `order.group.${i}`)
+    const populateArray = updateResponse?.order?.group?.map((group, i) => `order.group.${i}`)
     await updateResponse.populate({
-      path: `${populateArray.join(' ')}`,
+      path: `${populateArray?.join(' ')}`,
       populate: {
         path: 'players'
       }

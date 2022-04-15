@@ -4,6 +4,7 @@ const GangModel = gang.model
 
 const updateGang = async (req, res) => {
   const { body, params: { id } } = req
+  console.info(`Update gang ${id}`)
 
   let updateResponse
   try {
