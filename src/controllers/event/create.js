@@ -7,7 +7,12 @@ const TournamentModel = tournament.model
 
 const createEvent = async (req, res) => {
   const { body } = req
-  const eventObject = new EventModel({ ...body, step: (body.format === EVENT.FORMAT.ROUND_ROBIN || body.format === EVENT.FORMAT.ROUND_ROBIN_CONSOLATION) ? 'group' : null })
+  const eventObject = new EventModel({
+    ...body,
+    step: (body.format === EVENT.FORMAT.ROUND_ROBIN || body.format === EVENT.FORMAT.ROUND_ROBIN_CONSOLATION)
+      ? 'group'
+      : 'knockOut'
+  })
   let saveResponse
   try {
     saveResponse = await eventObject.save()

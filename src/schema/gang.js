@@ -25,6 +25,7 @@ const gangSchema = new SchemaModel({
   numberOfCourt: Number,
   creator: { type: SchemaModel.Types.ObjectId, ref: MONGO.COLLECTION_NAME.PLAYER },
   managers: [{ type: SchemaModel.Types.ObjectId, ref: MONGO.COLLECTION_NAME.PLAYER }],
+  clearPlayerWhenReset: { type: Boolean, default: true },
   courtFee: {
     type: {
       type: String,

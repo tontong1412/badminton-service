@@ -78,7 +78,9 @@ const arrangeMatchRoundRobin = (event, eventOrder) => {
           step: MATCH.STEP.KNOCK_OUT,
           round: Math.pow(2, totalRound - i),
           eventOrder,
-          bracketOrder: (index - 1) / 2
+          bracketOrder: (index - 1) / 2,
+          skip: self[index] === null || self[index - 1] === null,
+          byePosition: self[index - 1] ? 1 : 0
         })
         tempKnockOutTeam.push({ teamA: null, teamB: null })
       }
@@ -104,7 +106,9 @@ const arrangeMatchRoundRobin = (event, eventOrder) => {
             step: MATCH.STEP.CONSOLATION,
             round: Math.pow(2, totalRoundConsolation - i),
             eventOrder,
-            bracketOrder: (index - 1) / 2
+            bracketOrder: (index - 1) / 2,
+            skip: self[index] === null || self[index - 1] === null,
+            byePosition: self[index - 1] ? 1 : 0
           })
           tempConsolationTeam.push({ teamA: null, teamB: null })
         }

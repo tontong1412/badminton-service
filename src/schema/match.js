@@ -65,7 +65,9 @@ const matchSchema = new SchemaModel({
       MATCH.STEP.CONSOLATION,
     ],
   },
-  reference: { type: Number, default: 0 }
+  reference: { type: Number, default: 0 },
+  skip: Boolean,
+  byePosition: Number
 }, {
   versionKey: false,
   timestamps: { createdAt: true, updatedAt: true }
