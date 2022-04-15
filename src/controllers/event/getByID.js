@@ -10,9 +10,10 @@ const getByIDEvent = async (req, res) => {
     getByIDResponse = await EventModel.findById(id)
     const populateArray = getByIDResponse.order.group.map((group, i) => `order.group.${i}`)
     await getByIDResponse.populate({
-      path: `teams ${populateArray.join(' ')}`,
+      path: `teams order.singleElim ${populateArray.join(' ')} `,
+      options: { retainNullValues: true },
       populate: {
-        path: 'players team',
+        path: 'players team teams',
         populate: {
           path: 'players'
         }
