@@ -10,6 +10,7 @@ import randomOrder from './randomOrder'
 import roundUp from './roundUp'
 import updateTeam from './updateTeam'
 import updatePaymentStatus from './updatePaymentStatus'
+import updateShuttlecockCredit from './updateShuttlecockCredit'
 
 import controllerErrorHandler from '../../libs/controllerErrorHandler'
 
@@ -24,5 +25,6 @@ export default {
   randomOrder: controllerErrorHandler(randomOrder),
   roundUp: controllerErrorHandler(roundUp),
   updateTeam: controllerErrorHandler(updateTeam),
-  updatePaymentStatus: controllerErrorHandler(updatePaymentStatus)
+  updatePaymentStatus: controllerErrorHandler(updatePaymentStatus),
+  updateShuttlecockCredit: controllerErrorHandler(updateShuttlecockCredit)
 }

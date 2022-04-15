@@ -6,6 +6,7 @@ const TournamentModel = tournamentCollection.model
 const addUmpire = async (req, res) => {
   const { body } = req
   let player = body.playerID
+  if (!player) return res.status(404).send('กรรมการต้องมีบัญชีผู้ใช้')
 
   let updateResponse
   try {

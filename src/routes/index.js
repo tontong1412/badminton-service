@@ -85,6 +85,8 @@ route.post('/event/random-order', eventControllers.randomOrder)
 route.post('/event/round-up', eventControllers.roundUp)
 route.post('/event/team', eventControllers.updateTeam)
 route.post('/event/payment-status', eventControllers.updatePaymentStatus)
+route.post('/event/shuttlecock-credit', eventControllers.updateShuttlecockCredit)
+
 
 // match
 route.get('/match', matchControllers.getAll)

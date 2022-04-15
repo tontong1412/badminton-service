@@ -28,6 +28,7 @@ var teamSchema = mongoose.Schema({
   },
   slip: String,
   note: String,
+  shuttlecockCredit: { type: Number, default: 0 },
   isInQueue: { type: Boolean, default: false },
   contact: { type: SchemaModel.Types.ObjectId, ref: MONGO.COLLECTION_NAME.PLAYER }
 }, {
