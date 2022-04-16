@@ -1,3 +1,4 @@
+import moment from 'moment'
 import matchCollection from '../../schema/match'
 import teamCollection from '../../schema/team'
 import tournamentCollection from '../../schema/tournament'
@@ -35,7 +36,13 @@ const getNextMatch = async (req, res) => {
     let latestMatch = await MatchModel.findOne({
       $and: [
         { eventID: { $in: tournament.events } },
-        { status: 'playing' }
+        { status: 'playing' },
+        {
+          date: {
+            $gte: moment().startOf('day'),
+            $lt: moment().endOf('day')
+          }
+        }
       ]
 
     })
@@ -51,7 +58,14 @@ const getNextMatch = async (req, res) => {
       latestMatch = await MatchModel.findOne({
         $and: [
           { eventID: { $in: tournament.events } },
-          { status: 'finished' }
+          { status: 'finished' },
+          { skip: false },
+          {
+            date: {
+              $gte: moment().startOf('day'),
+              $lt: moment().endOf('day')
+            }
+          }
         ]
 
       })
