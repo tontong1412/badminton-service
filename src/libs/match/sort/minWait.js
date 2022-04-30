@@ -53,6 +53,10 @@ const sortMinWait = (arrangedMatches, numberOfCourt, matchDuration, startTime) =
       let factor
       let offset = 0
       let timeGap = 2
+      let newGroup = false
+      if (i > 0 && match.groupOrder !== self[i - 1].groupOrder) {
+        newGroup = true
+      }
       if (match.step === 'group') {
         factor = match.round
         groupStepMax = match.round
@@ -77,9 +81,9 @@ const sortMinWait = (arrangedMatches, numberOfCourt, matchDuration, startTime) =
         timeTable[currentCourtRound + offset + (timeGap * factor)] = [match]
       }
 
-      // while (timeTable[currentCourtRound]?.length >= numberOfCourt) {
-      //   currentCourtRound++
-      // }
+      while (newGroup && timeTable[currentCourtRound]?.length >= numberOfCourt) {
+        currentCourtRound++
+      }
 
     })
   })

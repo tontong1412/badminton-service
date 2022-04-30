@@ -14,7 +14,8 @@ const arrangeMatch = async (req, res) => {
     numberOfCourt,
     numberOfCourtKnockOut,
     startTime,
-    matchDuration
+    matchDuration,
+    method
   } = req.body
 
   const tournament = await TournamentModel.findById(tournamentID)
@@ -53,39 +54,22 @@ const arrangeMatch = async (req, res) => {
     return []
   }))
 
-  const sortedArrangedMatches = sortLib.minWait(arrangedMatches, numberOfCourt, matchDuration, startTime)
-  // const sortedArrangedMatches = sortLib.official(arrangedMatches)
+  let sortedArrangedMatches = []
 
-  // // arrange time 
-  // // ตอนนี้ทำได้แค่จัดแข่งแบบ 2 วันจบ
-  // // วันแรก group วันที่สอง knock out
-  // let knockOutCount = 0
-  // let i = 0
-  // let j = 0
-  // let skip = 0
-  // let isKnockOut
+  if (method === 'official') {
+    sortedArrangedMatches = sortLib.official(
+      arrangedMatches,
+      numberOfCourt,
+      numberOfCourtKnockOut,
+      startTime,
+      matchDuration)
+  } else if (method === 'minWait') {
+    sortedArrangedMatches = sortLib.minWait(arrangedMatches, numberOfCourt, matchDuration, startTime)
+  } else {
+    sortedArrangedMatches = arrangedMatches
+  }
 
-  // sortedArrangedMatches.forEach((match, index) => {
-  //   if (match.skip || (match.teamA && match.teamB && ((match.teamA.team && !match.teamB.team) || (match.teamB.team && !match.teamA.team)))) {
-  //     match.status = 'finished'
-  //     skip++
-  //   } else {
-  //     match.matchNumber = index + 1 - skip
-  //     if (match.step === MATCH.STEP.GROUP) {
-  //       match.date = moment(startTime.group).add(matchDuration.group * i, 'minutes')
-  //       if (index % numberOfCourt === numberOfCourt - 1) i++
-  //     } else if (match.step === MATCH.STEP.KNOCK_OUT || match.step === MATCH.STEP.CONSOLATION) {
-  //       if (!isKnockOut) isKnockOut = true
-  //       if (numberOfCourtKnockOut) numberOfCourt = numberOfCourtKnockOut
-  //       match.date = moment(startTime.knockOut || moment(startTime.group).add(matchDuration.group * i, 'minutes'))
-  //         .add(matchDuration.knockOut * j, 'minutes')
-  //       knockOutCount++
-  //     }
 
-  //     if (isKnockOut && knockOutCount % numberOfCourt === 0) j++
-  //   }
-
-  // })
 
   // save to db
   try {
