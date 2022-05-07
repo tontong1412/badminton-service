@@ -15,7 +15,8 @@ const arrangeMatch = async (req, res) => {
     numberOfCourtKnockOut,
     startTime,
     matchDuration,
-    method
+    method,
+    timeGap
   } = req.body
 
   const tournament = await TournamentModel.findById(tournamentID)
@@ -44,8 +45,21 @@ const arrangeMatch = async (req, res) => {
     return matchCountB - matchCountA
   })
 
+  const newEvents = tournament.events
+
+  // const newEvents = []
+  // tournament.events.forEach((event, i, self) => {
+  //   if (i < self.length / 2) {
+  //     newEvents[2 * i] = event
+  //   } else {
+  //     newEvents[2 * (self.length - i) - 1] = event
+  //   }
+  // })
+
+  // console.log(newEvents)
+
   // arrange round robin
-  const arrangedMatches = await Promise.all(tournament.events.map((event, index) => {
+  const arrangedMatches = await Promise.all(newEvents.map((event, index) => {
     if (event.format === EVENT.FORMAT.ROUND_ROBIN || event.format === EVENT.FORMAT.ROUND_ROBIN_CONSOLATION) {
       return arrangeMatchLib.roundRobin(event, index)
     } else if (event.format === EVENT.FORMAT.SINGLE_ELIMINATION) {
@@ -64,7 +78,9 @@ const arrangeMatch = async (req, res) => {
       startTime,
       matchDuration)
   } else if (method === 'minWait') {
-    sortedArrangedMatches = sortLib.minWait(arrangedMatches, numberOfCourt, matchDuration, startTime)
+    sortedArrangedMatches = sortLib.minWait(arrangedMatches, numberOfCourt, matchDuration, startTime, timeGap)
+  } else if (method === 'test') {
+    sortedArrangedMatches = sortLib.test(arrangedMatches, numberOfCourt, matchDuration, startTime, timeGap)
   } else {
     sortedArrangedMatches = arrangedMatches
   }

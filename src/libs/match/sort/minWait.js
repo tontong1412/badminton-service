@@ -1,6 +1,6 @@
 import moment from "moment"
 
-const sortMinWait = (arrangedMatches, numberOfCourt, matchDuration, startTime) => {
+const sortMinWait = (arrangedMatches, numberOfCourt, matchDuration, startTime, timeGap) => {
   // console.log(arrangedMatches)
   const totalMatchEachEvent = arrangedMatches.map(elm => elm.length)
   const totalGroupMatchEachEvent = arrangedMatches.map(event => event.filter(match => match.step === 'group').length)
@@ -44,48 +44,57 @@ const sortMinWait = (arrangedMatches, numberOfCourt, matchDuration, startTime) =
   })
 
   let timeTable = []
-  let currentCourtRound = 0
-
+  let currentAvailableCourtRound = 0
 
   arrangedMatches.forEach((event, i) => {
     let groupStepMax = 0
+    let offset = 0
     event.forEach((match, i, self) => {
       let factor
-      let offset = 0
-      let timeGap = 2
+      let CurrentTimeGap = timeGap.group
       let newGroup = false
-      if (i > 0 && match.groupOrder !== self[i - 1].groupOrder) {
+      if (i > 0 && (match.groupOrder !== self[i - 1].groupOrder || match.step !== self[i - 1].step)) {
         newGroup = true
       }
+      if ((match.step === 'group') && newGroup) {
+        offset = 0
+        while ((match.step === 'group') && timeTable[currentAvailableCourtRound]?.length >= numberOfCourt) {
+          currentAvailableCourtRound++
+        }
+      }
+
       if (match.step === 'group') {
         factor = match.round
         groupStepMax = match.round
       } else {
         const maxKORound = Math.max(...event.filter(elm => elm.step !== 'group').map(elm => elm.round))
-        console.log('=============', maxKORound, match.round, Math.log2(maxKORound / match.round), groupStepMax)
         factor = (Math.log2(maxKORound) - Math.log2(match.round)) + groupStepMax + 1
-        timeGap = 3
+        CurrentTimeGap = timeGap.knockOut
       }
 
-      while (timeTable[currentCourtRound + offset + (timeGap * factor)]?.length >= numberOfCourt) {
+      while (timeTable[currentAvailableCourtRound + offset + (CurrentTimeGap * factor)]?.length >= numberOfCourt) {
         offset++
       }
-      if (Array.isArray(timeTable[currentCourtRound + offset + (timeGap * factor)])) {
-        console.log(currentCourtRound, factor, offset, currentCourtRound + offset + (timeGap * factor))
-        console.log('====================1', currentCourtRound + offset + (timeGap * factor), factor)
-        console.log(match)
-        timeTable[currentCourtRound + offset + (timeGap * factor)].push(match)
+
+      if (Array.isArray(timeTable[currentAvailableCourtRound + offset + (CurrentTimeGap * factor)])) {
+        timeTable[currentAvailableCourtRound + offset + (CurrentTimeGap * factor)].push(match)
       } else {
-        console.log('====================2', currentCourtRound + offset + (timeGap * factor), factor)
-        console.log(match)
-        timeTable[currentCourtRound + offset + (timeGap * factor)] = [match]
+        timeTable[currentAvailableCourtRound + offset + (CurrentTimeGap * factor)] = [match]
       }
 
-      while (newGroup && timeTable[currentCourtRound]?.length >= numberOfCourt) {
-        currentCourtRound++
-      }
+      console.log(match)
+      console.log('currentAvailableCourtRound', currentAvailableCourtRound)
+      console.log('offset', offset)
+      console.log('CurrentTimeGap', CurrentTimeGap)
+      console.log('factor', factor)
+      console.log('calculation', currentAvailableCourtRound + offset + (CurrentTimeGap * factor))
 
+      console.log('==========================================')
     })
+
+    // while (timeTable[currentAvailableCourtRound]?.length >= numberOfCourt) {
+    //   currentAvailableCourtRound++
+    // }
   })
 
   let result = []
