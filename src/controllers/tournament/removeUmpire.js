@@ -1,6 +1,6 @@
-import gangCollection from '../../schema/gang'
+import tournamentCollection from '../../schema/tournament'
 
-const GangModel = gangCollection.model
+const TournamentModel = tournamentCollection.model
 
 const removeUmpire = async (req, res) => {
   const { body } = req
@@ -8,8 +8,8 @@ const removeUmpire = async (req, res) => {
 
   let updateResponse
   try {
-    updateResponse = await GangModel.findOneAndUpdate(
-      { _id: body.gangID },
+    updateResponse = await TournamentModel.findOneAndUpdate(
+      { _id: body.tournamentID },
       {
         $pull: { umpires: body.playerID },
       },
