@@ -3,6 +3,7 @@ import tournamentCollection from '../../schema/tournament'
 import matchCollection from '../../schema/match'
 import arrangeMatchLib from '../../libs/match/arrange'
 import { EVENT, MATCH } from '../../constants'
+import sortLib from '../../libs/match/sort'
 
 const TournamentModel = tournamentCollection.model
 const MatchModel = matchCollection.model
@@ -13,7 +14,9 @@ const arrangeMatch = async (req, res) => {
     numberOfCourt,
     numberOfCourtKnockOut,
     startTime,
-    matchDuration
+    matchDuration,
+    method,
+    timeGap
   } = req.body
 
   const tournament = await TournamentModel.findById(tournamentID)
@@ -42,8 +45,21 @@ const arrangeMatch = async (req, res) => {
     return matchCountB - matchCountA
   })
 
+  const newEvents = tournament.events
+
+  // const newEvents = []
+  // tournament.events.forEach((event, i, self) => {
+  //   if (i < self.length / 2) {
+  //     newEvents[2 * i] = event
+  //   } else {
+  //     newEvents[2 * (self.length - i) - 1] = event
+  //   }
+  // })
+
+  // console.log(newEvents)
+
   // arrange round robin
-  const arrangedMatches = await Promise.all(tournament.events.map((event, index) => {
+  const arrangedMatches = await Promise.all(newEvents.map((event, index) => {
     if (event.format === EVENT.FORMAT.ROUND_ROBIN || event.format === EVENT.FORMAT.ROUND_ROBIN_CONSOLATION) {
       return arrangeMatchLib.roundRobin(event, index)
     } else if (event.format === EVENT.FORMAT.SINGLE_ELIMINATION) {
@@ -51,74 +67,25 @@ const arrangeMatch = async (req, res) => {
     }
     return []
   }))
-  const sortedArrangedMatches = arrangedMatches.reduce((prev, curr) => {
-    return [...prev, ...curr]
-  }, [])
 
-  sortedArrangedMatches.sort((a, b) => {
-    if (a.step === 'group') return -1
-    if (b.step === 'group') return 1
-    return a.step === 'knockOut' ? 1 : -1
-  })
+  let sortedArrangedMatches = []
 
-  // sort match round robin
-  sortedArrangedMatches.sort((a, b) => {
-    if (a.step === 'group' || b.step === 'group') {
-      if (a.step === b.step) {
-        if (a.round === b.round) {
-          if (a.eventOrder === b.eventOrder) {
-            return a.groupOrder - b.groupOrder
-          }
-          return a.eventOrder - b.eventOrder
-        }
-        return a.round - b.round
-      }
-      return a.step === 'group' ? -1 : 1
-    }
+  if (method === 'official') {
+    sortedArrangedMatches = sortLib.official(
+      arrangedMatches,
+      numberOfCourt,
+      numberOfCourtKnockOut,
+      startTime,
+      matchDuration)
+  } else if (method === 'minWait') {
+    sortedArrangedMatches = sortLib.minWait(arrangedMatches, numberOfCourt, matchDuration, startTime, timeGap)
+  } else if (method === 'test') {
+    sortedArrangedMatches = sortLib.test(arrangedMatches, numberOfCourt, matchDuration, startTime, timeGap)
+  } else {
+    sortedArrangedMatches = arrangedMatches
+  }
 
-    if (a.round === b.round) {
-      if (a.eventOrder === b.eventOrder) {
-        if (a.groupOrder === b.groupOrder) {
-          return a.step === 'knockOut' ? 1 : -1
-        }
-        return a.groupOrder - b.groupOrder
-      }
-      return a.eventOrder > b.eventOrder ? 1 : -1
 
-    }
-    return a.round < b.round ? 1 : -1
-  })
-
-  // arrange time 
-  // ตอนนี้ทำได้แค่จัดแข่งแบบ 2 วันจบ
-  // วันแรก group วันที่สอง knock out
-  let knockOutCount = 0
-  let i = 0
-  let j = 0
-  let skip = 0
-  let isKnockOut
-
-  sortedArrangedMatches.forEach((match, index) => {
-    if (match.skip || (match.teamA && match.teamB && ((match.teamA.team && !match.teamB.team) || (match.teamB.team && !match.teamA.team)))) {
-      match.status = 'finished'
-      skip++
-    } else {
-      match.matchNumber = index + 1 - skip
-      if (match.step === MATCH.STEP.GROUP) {
-        match.date = moment(startTime.group).add(matchDuration.group * i, 'minutes')
-        if (index % numberOfCourt === numberOfCourt - 1) i++
-      } else if (match.step === MATCH.STEP.KNOCK_OUT || match.step === MATCH.STEP.CONSOLATION) {
-        if (!isKnockOut) isKnockOut = true
-        if (numberOfCourtKnockOut) numberOfCourt = numberOfCourtKnockOut
-        match.date = moment(startTime.knockOut || moment(startTime.group).add(matchDuration.group * i, 'minutes'))
-          .add(matchDuration.knockOut * j, 'minutes')
-        knockOutCount++
-      }
-
-      if (isKnockOut && knockOutCount % numberOfCourt === 0) j++
-    }
-
-  })
 
   // save to db
   try {
@@ -194,7 +161,8 @@ const arrangeMatch = async (req, res) => {
     }
   })
 
-  return res.status(200).send(allMatches)
+  // return res.status(200).send(allMatches)
+  return res.send(sortedArrangedMatches)
 
 }
 export default arrangeMatch
