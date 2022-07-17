@@ -80,6 +80,7 @@ const arrangeMatchRoundRobin = (event, eventOrder) => {
           eventOrder,
           bracketOrder: (index - 1) / 2,
           skip: self[index] === null || self[index - 1] === null,
+          status: (self[index] === null || self[index - 1] === null) ? 'finished' : 'waiting',
           byePosition: self[index - 1] ? 1 : 0
         })
         tempKnockOutTeam.push({ teamA: null, teamB: null })
@@ -108,6 +109,7 @@ const arrangeMatchRoundRobin = (event, eventOrder) => {
             eventOrder,
             bracketOrder: (index - 1) / 2,
             skip: self[index] === null || self[index - 1] === null,
+            status: (self[index] === null || self[index - 1] === null) ? 'finished' : 'waiting',
             byePosition: self[index - 1] ? 1 : 0
           })
           tempConsolationTeam.push({ teamA: null, teamB: null })

@@ -21,12 +21,12 @@ const sortMinWait = (arrangedMatches, numberOfCourt, matchDuration, startTime, t
     }
     return a
   })
-  console.log('totalMatchEachEvent', totalMatchEachEvent)
-  console.log('totalGroupMatchEachEvent', totalGroupMatchEachEvent)
-  console.log('totalKOMatchEachEvent', totalKOMatchEachEvent)
-  console.log('totalGroupRoundEachEvent', totalGroupRoundEachEvent)
-  console.log('totalMatchPerRound', totalMatchPerRound)
-  console.log('numberOfCourt', numberOfCourt)
+  // console.log('totalMatchEachEvent', totalMatchEachEvent)
+  // console.log('totalGroupMatchEachEvent', totalGroupMatchEachEvent)
+  // console.log('totalKOMatchEachEvent', totalKOMatchEachEvent)
+  // console.log('totalGroupRoundEachEvent', totalGroupRoundEachEvent)
+  // console.log('totalMatchPerRound', totalMatchPerRound)
+  // console.log('numberOfCourt', numberOfCourt)
 
   arrangedMatches.forEach((event, i) => {
     event.sort((a, b) => {
@@ -82,14 +82,14 @@ const sortMinWait = (arrangedMatches, numberOfCourt, matchDuration, startTime, t
         timeTable[currentAvailableCourtRound + offset + (CurrentTimeGap * factor)] = [match]
       }
 
-      console.log(match)
-      console.log('currentAvailableCourtRound', currentAvailableCourtRound)
-      console.log('offset', offset)
-      console.log('CurrentTimeGap', CurrentTimeGap)
-      console.log('factor', factor)
-      console.log('calculation', currentAvailableCourtRound + offset + (CurrentTimeGap * factor))
+      // console.log(match)
+      // console.log('currentAvailableCourtRound', currentAvailableCourtRound)
+      // console.log('offset', offset)
+      // console.log('CurrentTimeGap', CurrentTimeGap)
+      // console.log('factor', factor)
+      // console.log('calculation', currentAvailableCourtRound + offset + (CurrentTimeGap * factor))
 
-      console.log('==========================================')
+      // console.log('==========================================')
     })
 
     // while (timeTable[currentAvailableCourtRound]?.length >= numberOfCourt) {
@@ -100,13 +100,11 @@ const sortMinWait = (arrangedMatches, numberOfCourt, matchDuration, startTime, t
   let result = []
   let matchNumber = 1
   timeTable.forEach(((schedule, i) => {
-    // console.log(schedule)
     schedule.forEach((match, j) => {
-      match.matchNumber = matchNumber
-      // console.log(i, matchDuration, i * matchDuration.group)
+      match.matchNumber = !match.skip && matchNumber
       match.date = moment(startTime.group).add(i * matchDuration.group, 'minutes')
       result.push(match)
-      matchNumber++
+      if (!match.skip) matchNumber++
     })
   }))
 
