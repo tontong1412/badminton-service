@@ -1,33 +1,6 @@
 import moment from "moment"
 
-const sortMinWait = (arrangedMatches, numberOfCourt, matchDuration, startTime, timeGap) => {
-  // console.log(arrangedMatches)
-  const totalMatchEachEvent = arrangedMatches.map(elm => elm.length)
-  const totalGroupMatchEachEvent = arrangedMatches.map(event => event.filter(match => match.step === 'group').length)
-  const totalKOMatchEachEvent = arrangedMatches.map(event => event.filter(match => match.step !== 'group').length)
-
-  const totalGroupRoundEachEvent = arrangedMatches.map(event => {
-    const a = event.filter(match => {
-      return match.step === 'group'
-    }).map(elm => elm.round)
-    if (a.length === 0) a.push(0)
-    return Math.max(...a)
-  })
-
-  const totalMatchPerRound = arrangedMatches.map((event, i) => {
-    let a = []
-    for (let j = 0; j <= totalGroupRoundEachEvent[i]; j++) {
-      a.push(event.filter(match => match.step === 'group' && match.round === j).length)
-    }
-    return a
-  })
-  // console.log('totalMatchEachEvent', totalMatchEachEvent)
-  // console.log('totalGroupMatchEachEvent', totalGroupMatchEachEvent)
-  // console.log('totalKOMatchEachEvent', totalKOMatchEachEvent)
-  // console.log('totalGroupRoundEachEvent', totalGroupRoundEachEvent)
-  // console.log('totalMatchPerRound', totalMatchPerRound)
-  // console.log('numberOfCourt', numberOfCourt)
-
+const sortMinWait = (arrangedMatches, numberOfCourt, matchDuration, startTime, timeGap, startMatchNumber = 1) => {
   arrangedMatches.forEach((event, i) => {
     event.sort((a, b) => {
       if (a.eventOrder === b.eventOrder) {
@@ -49,7 +22,7 @@ const sortMinWait = (arrangedMatches, numberOfCourt, matchDuration, startTime, t
   arrangedMatches.forEach((event, i) => {
     let groupStepMax = 0
     let offset = 0
-    event.forEach((match, i, self) => {
+    event.filter(e => e.skip !== true).forEach((match, i, self) => {
       let factor
       let CurrentTimeGap = timeGap.group
       let newGroup = false
@@ -70,12 +43,16 @@ const sortMinWait = (arrangedMatches, numberOfCourt, matchDuration, startTime, t
         const maxKORound = Math.max(...event.filter(elm => elm.step !== 'group').map(elm => elm.round))
         factor = (Math.log2(maxKORound) - Math.log2(match.round)) + groupStepMax + 1
         CurrentTimeGap = timeGap.knockOut
+
+        // ถ้ามีแต่รอบ knockout
+        if (groupStepMax === 0) {
+          factor -= 1
+        }
       }
 
       while (timeTable[currentAvailableCourtRound + offset + (CurrentTimeGap * factor)]?.length >= numberOfCourt) {
         offset++
       }
-
       if (Array.isArray(timeTable[currentAvailableCourtRound + offset + (CurrentTimeGap * factor)])) {
         timeTable[currentAvailableCourtRound + offset + (CurrentTimeGap * factor)].push(match)
       } else {
@@ -98,22 +75,16 @@ const sortMinWait = (arrangedMatches, numberOfCourt, matchDuration, startTime, t
   })
 
   let result = []
-  let matchNumber = 1
+  let matchNumber = startMatchNumber
   timeTable.forEach(((schedule, i) => {
     schedule.forEach((match, j) => {
       match.matchNumber = !match.skip && matchNumber
-      match.date = moment(startTime.group).add(i * matchDuration.group, 'minutes')
+      const currentMatchDuration = match.step === 'group' ? matchDuration.group : matchDuration.knockOut
+      match.date = moment(startTime).add(i * currentMatchDuration, 'minutes')
       result.push(match)
       if (!match.skip) matchNumber++
     })
   }))
-
-  // console.log(result)
-
-
-
-
-
 
   return result
 }

@@ -2,4 +2,5 @@
 
 - feature shuttlecock credit
 - fix bug remove umpire and manager from tournament
-- sort match min wait one day only
+- sort match min wait one day and tow days
+- fix bug bye in round robin
