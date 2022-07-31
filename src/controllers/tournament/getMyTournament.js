@@ -13,14 +13,17 @@ const getMyTournament = async (req, res) => {
   try {
     const teams = await TeamModel.find({ players: payload.playerID })
     const myEvents = await EventModel.find({
-      'teams.team': { $in: teams }
+      $or: [
+        { 'teams.team': { $in: teams } },
+        { 'teams.contact': payload.playerID }
+      ]
     })
     const tournaments = await TournamentModel.find({
       $or: [
         { events: { $in: myEvents } },
         { creator: payload.playerID },
         { managers: payload.playerID },
-        { umpires: payload.playerID }
+        { umpires: payload.playerID },
       ],
     }).populate({
       path: 'events events.teams events.order managers',
