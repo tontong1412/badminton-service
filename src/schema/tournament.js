@@ -11,6 +11,7 @@ const tournamentSchema = new SchemaModel({
     latitude: Number,
     longitude: Number,
   },
+  isPrivate: { type: Boolean, default: false },
   startDate: Date,
   endDate: Date,
   registerDate: Date,
