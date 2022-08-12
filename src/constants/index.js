@@ -13,5 +13,5 @@ export {
   MATCH,
   GANG,
   TRANSACTION,
-  TOURNAMENT
+  TOURNAMENT,
 }

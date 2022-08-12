@@ -25,18 +25,21 @@ const randomOrder = async (req, res) => {
     }
 
     // for random knockout draw
-    // const qualifiedTeams = Array.apply(null, Array(body.qualifiedPerGroup)).reduce((prev, curr, rank) => {
-    //   Array.apply(null, Array(body.groupCount)).forEach((val, group) => {
-    //     prev.push(`ที่ ${rank + 1} กลุ่ม ${group + 1}`)
-    //   })
-    //   return prev
-    // }, [])
-    // const orderKnockOut = randomMethod.knockOut(qualifiedTeams, { seeded: true, seededCount: qualifiedTeams.length })
+    const qualifiedTeams = Array.apply(null, Array(Math.floor(body.qualified / body.groupCount))).reduce((prev, curr, rank) => {
+      Array.apply(null, Array(body.groupCount)).forEach((val, group) => {
+        prev.push(`ที่ ${rank + 1} กลุ่ม ${EVENT.GROUP_NAME[group].NAME}`)
+      })
+      return prev
+    }, [])
+    while (qualifiedTeams.length < body.qualified) {
+      qualifiedTeams.push('ที่ X กลุ่ม X')
+    }
+    const orderKnockOut = randomMethod.knockOut(qualifiedTeams, { seeded: true, seededCount: Math.pow(2, Math.floor(Math.log2(qualifiedTeams.length))) })
 
-    const qualifiedTeams = Array.apply(null, Array(body.qualified)).map(() => 'รอผลรอบแบ่งกลุ่ม')
-    const orderKnockOut = randomMethod.knockOut(qualifiedTeams)
+    // // not random knockout draw put dummy
+    // const qualifiedTeams = Array.apply(null, Array(body.qualified)).map(() => 'รอผลรอบแบ่งกลุ่ม')
+    // const orderKnockOut = randomMethod.knockOut(qualifiedTeams)
 
-    // const orderKnockOut = Array.apply(null, Array(body.qualifiedPerGroup * orderGroup.length)).map(() => 'รอผลรอบแบ่งกลุ่ม')
     order = {
       group: orderGroup,
       knockOut: orderKnockOut
@@ -60,13 +63,40 @@ const randomOrder = async (req, res) => {
     // }, [])
     // const orderKnockOut = randomMethod.knockOut(qualifiedTeams, { seeded: true, seededCount: qualifiedTeams.length })
 
-    const qualifiedTeams = Array.apply(null, Array(body.qualified)).map(() => 'รอผลรอบแบ่งกลุ่ม')
-    const consolationTeams = Array.apply(null, Array(body.qualifiedConsolation)).map(() => 'รอผลรอบแบ่งกลุ่ม')
-    const orderKnockOut = randomMethod.knockOut(qualifiedTeams)
-    const orderConsolation = randomMethod.knockOut(consolationTeams)
+    // for random knockout draw
+    let maindrawRank = 1
+    const qualifiedTeams = Array.apply(null, Array(Math.floor(body.qualified / body.groupCount))).reduce((prev, curr, rank) => {
+      Array.apply(null, Array(body.groupCount)).forEach((val, group) => {
+        prev.push(`ที่ ${rank + 1} กลุ่ม ${EVENT.GROUP_NAME[group].NAME}`)
+      })
+      maindrawRank++
+      return prev
+    }, [])
+    while (qualifiedTeams.length < body.qualified) {
+      qualifiedTeams.push('ที่ X กลุ่ม X')
+    }
+    const orderKnockOut = randomMethod.knockOut(qualifiedTeams, { seeded: true, seededCount: Math.pow(2, Math.floor(Math.log2(qualifiedTeams.length))) })
 
-    // const orderKnockOut = Array.apply(null, Array(body.qualifiedPerGroup)).map(() => 'รอผลรอบแบ่งกลุ่ม')
-    // const orderConsolation = Array.apply(null, Array(body.consolationQualified)).map(() => 'รอผลรอบแบ่งกลุ่ม')
+    const consolationTeams = Array.apply(null, Array(Math.floor(body.qualifiedConsolation / body.groupCount))).reduce((prev, curr, rank) => {
+      Array.apply(null, Array(body.groupCount)).forEach((val, group) => {
+        prev.push(`ที่ ${rank + maindrawRank} กลุ่ม ${EVENT.GROUP_NAME[group].NAME}`)
+      })
+      return prev
+    }, [])
+    while (consolationTeams.length < body.qualifiedConsolation) {
+      consolationTeams.push('ที่ X กลุ่ม X')
+    }
+    const orderConsolation = randomMethod.knockOut(consolationTeams, { seeded: true, seededCount: Math.pow(2, Math.floor(Math.log2(consolationTeams.length))) })
+
+
+
+
+    // const qualifiedTeams = Array.apply(null, Array(body.qualified)).map(() => 'รอผลรอบแบ่งกลุ่ม')
+    // const orderKnockOut = randomMethod.knockOut(qualifiedTeams)
+
+    // const consolationTeams = Array.apply(null, Array(body.qualifiedConsolation)).map(() => 'รอผลรอบแบ่งกลุ่ม')
+    // const orderConsolation = randomMethod.knockOut(consolationTeams)
+
     order = {
       group: orderGroup,
       knockOut: orderKnockOut,

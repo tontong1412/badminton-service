@@ -24,14 +24,14 @@ const roundUp = async (req, res) => {
         },
         { new: true }
       )
-      console.log(currentMatch)
-      if (currentMatch.status === 'finished'
-        && currentMatch.eventID
-        && currentMatch.round
-        && currentMatch.round > 2 // not final round
-        && (currentMatch.step === MATCH.STEP.KNOCK_OUT
-          || currentMatch.step === MATCH.STEP.CONSOLATION
-          || currentMatch.format === EVENT.FORMAT.SINGLE_ELIMINATION)) {
+
+      if (currentMatch?.status === 'finished'
+        && currentMatch?.eventID
+        && currentMatch?.round
+        && currentMatch?.round > 2 // not final round
+        && (currentMatch?.step === MATCH.STEP.KNOCK_OUT
+          || currentMatch?.step === MATCH.STEP.CONSOLATION
+          || currentMatch?.format === EVENT.FORMAT.SINGLE_ELIMINATION)) {
         const winTeam = currentMatch.teamA.scoreSet > currentMatch.teamB.scoreSet ? 'teamA' : 'teamB'
         const nextMatchTeam = currentMatch.bracketOrder % 2 === 0 ? 'teamA' : 'teamB'
         try {
