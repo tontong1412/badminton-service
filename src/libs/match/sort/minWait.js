@@ -17,13 +17,15 @@ const sortMinWait = (arrangedMatches, numberOfCourt, matchDuration, startTime, t
   })
 
   let timeTable = []
+  let skipMatch = []
   let currentAvailableCourtRound = 0
 
   arrangedMatches.forEach((event, i) => {
     let groupStepMax = 0
     let offset = 0
-    // event.filter(e => e.skip !== true).forEach((match, i, self) => {
-    event.forEach((match, i, self) => {
+
+    skipMatch = event.filter(e => e.skip === true)
+    event.filter(e => e.skip !== true).forEach((match, i, self) => {
       let factor
       let CurrentTimeGap = timeGap.group
       let newGroup = false
@@ -86,6 +88,7 @@ const sortMinWait = (arrangedMatches, numberOfCourt, matchDuration, startTime, t
       if (!match.skip) matchNumber++
     })
   }))
+  result = [...result, ...skipMatch]
 
   return result
 }
