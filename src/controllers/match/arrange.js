@@ -45,16 +45,16 @@ const arrangeMatch = async (req, res) => {
     return matchCountB - matchCountA
   })
 
-  const newEvents = tournament.events
+  const newEvents = [...tournament.events]
 
-  // // สลับมือใกล้กันแข่งห่างกัน
-  // tournament.events.forEach((event, i, self) => {
-  //   if (i < self.length / 2) {
-  //     newEvents[2 * i] = event
-  //   } else {
-  //     newEvents[2 * (self.length - i) - 1] = event
-  //   }
-  // })
+  // สลับมือใกล้กันแข่งห่างกัน
+  tournament.events.forEach((event, i, self) => {
+    if (i < self.length / 2) {
+      newEvents[2 * i] = event
+    } else {
+      newEvents[(2 * (i - Math.ceil(self.length / 2))) + 1] = event
+    }
+  })
 
   // arrange round robin
   const arrangedMatches = await Promise.all(newEvents.map((event, index) => {
