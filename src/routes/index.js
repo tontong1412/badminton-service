@@ -25,7 +25,7 @@ route.get('/user/current', authMiddlewares.required, userControllers.getCurrentU
 route.get('/player', playerControllers.getAll)
 route.get('/player/:id([a-z0-9]+)', playerControllers.getByID)
 route.post('/player', playerControllers.create)
-route.put('/player/:id([a-z0-9]+)', playerControllers.update)
+route.put('/player/:id([a-z0-9]+)', authMiddlewares.required, playerControllers.update)
 // route.delete('/player/:id([a-z0-9]+)', playerControllers.remove)
 
 route.post('/player/claim', authMiddlewares.required, playerControllers.claim)

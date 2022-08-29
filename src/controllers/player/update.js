@@ -5,7 +5,9 @@ import { CLOUDINARY } from '../../config'
 const PlayerModel = player.model
 
 const updatePlayer = async (req, res) => {
-  const { body, params: { id } } = req
+  const { body, params: { id }, payload } = req
+  console.info(`[PUT] update player ${id}`)
+  if (payload.playerID !== id) return res.status(401).send('Permission Denied')
 
   let updateResponse
   try {
