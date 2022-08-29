@@ -7,7 +7,12 @@ const TournamentModel = tournament.model
 const PlayerModel = playerCollection.model
 
 const updateTournament = async (req, res) => {
-  const { body, params: { id } } = req
+  const { body, params: { id }, payload } = req
+
+  console.info(`[PUT] update tournament ${id} ${JSON.stringify(body)}`)
+  const tournament = await TournamentModel.findById(id)
+  // tournament.creator is a Mongo ObjectId but payload gives string
+  if (payload.playerID != tournament.creator) return res.status(401).send('Permission Denied')
 
   const contactID = async () => {
     const { contact } = body
