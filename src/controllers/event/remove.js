@@ -1,11 +1,16 @@
 import event from '../../schema/event'
-import tournament from '../../schema/tournament'
+import tournamentCollection from '../../schema/tournament'
 
 const EventModel = event.model
-const TournamentModel = tournament.model
+const TournamentModel = tournamentCollection.model
 
 const removeEvent = async (req, res) => {
+  const { payload } = req
   const { id } = req.params
+
+
+  const tournament = await TournamentModel.findOne({ events: id })
+  if (payload.playerID != tournament.creator) return res.status(401).send('Permission Denied')
 
   let removeResponse
   try {

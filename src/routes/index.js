@@ -77,7 +77,7 @@ route.get('/event', eventControllers.getAll)
 route.get('/event/:id([a-z0-9]+)', eventControllers.getByID)
 route.post('/event', eventControllers.create)
 route.put('/event/:id([a-z0-9]+)', eventControllers.update)
-// route.delete('/event/:id([a-z0-9]+)', eventControllers.remove)
+route.delete('/event/:id([a-z0-9]+)', authMiddlewares.required, eventControllers.remove)
 
 route.post('/event/register', authMiddlewares.required, eventControllers.register)
 route.post('/event/leave', eventControllers.leave)
