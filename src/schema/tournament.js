@@ -45,7 +45,8 @@ const tournamentSchema = new SchemaModel({
     name: String,
     bank: String
   },
-  contact: { type: mongoose.Schema.Types.ObjectId, ref: MONGO.COLLECTION_NAME.PLAYER }
+  contact: { type: mongoose.Schema.Types.ObjectId, ref: MONGO.COLLECTION_NAME.PLAYER },
+  sponsors: [String]
 }, {
   versionKey: false,
   timestamps: { createdAt: true, updatedAt: true }
