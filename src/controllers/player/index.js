@@ -3,6 +3,7 @@ import remove from './remove'
 import getAll from './getAll'
 import getByID from './getByID'
 import update from './update'
+import recentActivity from './recentActivity'
 
 import claim from './claim'
 
@@ -15,4 +16,5 @@ export default {
   getAll: controllerErrorHandler(getAll),
   update: controllerErrorHandler(update),
   claim: controllerErrorHandler(claim),
+  recentActivity: controllerErrorHandler(recentActivity)
 }
