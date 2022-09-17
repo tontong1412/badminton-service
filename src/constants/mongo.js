@@ -9,7 +9,8 @@ const MONGO = {
     EVENT: 'event',
     USER: 'user',
     TEAM: 'team',
-    GANG: 'gang'
+    GANG: 'gang',
+    BANNER: 'banner',
   },
 }
 

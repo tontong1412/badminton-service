@@ -8,6 +8,7 @@ import playerControllers from '../controllers/player'
 import matchControllers from '../controllers/match'
 import authMiddlewares from '../middlewares/auth'
 import transactionControllers from '../controllers/transaction'
+import bannerControllers from '../controllers/banner'
 
 const route = express.Router()
 
@@ -104,6 +105,10 @@ route.get('/match/next', authMiddlewares.required, matchControllers.getNextMatch
 route.put('/transaction/:id([a-z0-9]+)/add-other', transactionControllers.addOther)
 route.put('/transaction/:id([a-z0-9]+)/remove-other', transactionControllers.removeOther)
 route.put('/transaction/:id([a-z0-9]+)', transactionControllers.update)
+
+// banner
+route.get('/banner', bannerControllers.getAll)
+route.post('/banner', bannerControllers.create)
 
 
 export default route
