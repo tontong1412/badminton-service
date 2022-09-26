@@ -20,7 +20,12 @@ const playerSchema = new Schema({
   userID: { type: SchemaModel.Types.ObjectId, ref: MONGO.COLLECTION_NAME.USER },
   photo: String,
   lineID: String,
-  tel: String
+  tel: String,
+  subscription: {
+    endpoint: String,
+    expirationTime: SchemaModel.Types.Mixed,
+    keys: SchemaModel.Types.Mixed
+  }
 }, {
   timestamps: { createdAt: true, updatedAt: true }
 })

@@ -5,6 +5,7 @@ import getByID from './getByID'
 import update from './update'
 
 import claim from './claim'
+import subscribe from './subscribe'
 
 import controllerErrorHandler from '../../libs/controllerErrorHandler'
 
@@ -15,4 +16,6 @@ export default {
   getAll: controllerErrorHandler(getAll),
   update: controllerErrorHandler(update),
   claim: controllerErrorHandler(claim),
+  recentActivity: controllerErrorHandler(recentActivity),
+  subscribe: controllerErrorHandler(subscribe),
 }

@@ -6,6 +6,12 @@ const CLOUDINARY = {
   PREFIX: process.env.CLOUDINARY_PREFIX
 }
 
+const NOTI = {
+  VAPID_PUBLIC_KEY: process.env.VAPID_PUBLIC_KEY,
+  VAPID_PRIVATE_KEY: process.env.VAPID_PRIVATE_KEY,
+  EMAIL: process.env.EMAIL,
+}
+
 const {
   NODE_ENV,
   NODE_PORT,
@@ -21,5 +27,6 @@ export {
   AUTH_SECRET,
   AUTH_ALGORITHM,
   CLIENT,
-  CLOUDINARY
+  CLOUDINARY,
+  NOTI
 }

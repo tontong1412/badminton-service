@@ -5,7 +5,7 @@ const PlayerModel = player.model
 const getAllPlayer = async (req, res) => {
   let getAllResponse
   try {
-    getAllResponse = await PlayerModel.find({})
+    getAllResponse = await PlayerModel.find({}, { subscription: 0 })
     //   .populate('division.team.member').exec()
   } catch (error) {
     console.error('Error: Get all player had failed')

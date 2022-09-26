@@ -8,6 +8,10 @@ import playerControllers from '../controllers/player'
 import matchControllers from '../controllers/match'
 import authMiddlewares from '../middlewares/auth'
 import transactionControllers from '../controllers/transaction'
+import bannerControllers from '../controllers/banner'
+import { NOTI } from '../config'
+import player from '../schema/player'
+import webPush from 'web-push'
 
 const route = express.Router()
 
@@ -15,6 +19,36 @@ const route = express.Router()
 route.get('/', (req, res) => { res.status(200).send('This is badminton-service') })
 route.get('/healthz', (req, res) => { res.status(200).send('OK') })
 route.post('/mock', (req, res) => res.status(200).send())
+
+//test
+route.post('/test-noti', async (req, res) => {
+  try {
+    const payload = 'Test Notification'
+    const vapidPublicKey = NOTI.VAPID_PUBLIC_KEY //This line should be replaced with environment variable
+    const vapidPrivateKey = NOTI.VAPID_PRIVATE_KEY //This line should be replaced with environment variable
+    const options = {
+      TTL: 60,
+      vapidDetails: {
+        subject: `mailto:${NOTI.EMAIL}`,
+        publicKey: vapidPublicKey,
+        privateKey: vapidPrivateKey
+      }
+    }
+
+    //fetching all subscription of the users who opted-in the triggered reminder.
+    let subscriber = await player.model.find({ subscription: { $ne: null } })
+
+    //calling webPush on each subscription with message opsions.
+    const response = await Promise.all(subscriber.map(async sub => {
+      await webPush.sendNotification(sub.subscription, payload, options)
+    }))
+
+    res.status(200).send('Push Notification has been sent to User')
+  } catch (error) {
+    console.log(error)
+    res.status(500).send(error)
+  }
+})
 
 // user
 route.post('/signup', authMiddlewares.optional, userControllers.signup)
@@ -26,6 +60,7 @@ route.get('/player', playerControllers.getAll)
 route.get('/player/:id([a-z0-9]+)', playerControllers.getByID)
 route.post('/player', playerControllers.create)
 route.put('/player/:id([a-z0-9]+)', authMiddlewares.required, playerControllers.update)
+route.put('/player/subscribe/:id([a-z0-9]+)', authMiddlewares.required, playerControllers.subscribe)
 // route.delete('/player/:id([a-z0-9]+)', playerControllers.remove)
 
 route.post('/player/claim', authMiddlewares.required, playerControllers.claim)

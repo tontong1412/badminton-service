@@ -7,7 +7,7 @@ const getByIDPlayer = async (req, res) => {
 
   let getByIDResponse
   try {
-    getByIDResponse = await PlayerModel.findById(id)
+    getByIDResponse = await PlayerModel.findById(id, { subscription: 0 })
   } catch (error) {
     console.error('Error: Get by ID player had failed')
     throw error
