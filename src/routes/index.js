@@ -57,6 +57,7 @@ route.get('/user/current', authMiddlewares.required, userControllers.getCurrentU
 
 // player
 route.get('/player', playerControllers.getAll)
+route.get('/player/:id([a-z0-9]+)/recent-activity', playerControllers.recentActivity)
 route.get('/player/:id([a-z0-9]+)', playerControllers.getByID)
 route.post('/player', playerControllers.create)
 route.put('/player/:id([a-z0-9]+)', authMiddlewares.required, playerControllers.update)
@@ -138,6 +139,10 @@ route.get('/match/next', authMiddlewares.required, matchControllers.getNextMatch
 route.put('/transaction/:id([a-z0-9]+)/add-other', transactionControllers.addOther)
 route.put('/transaction/:id([a-z0-9]+)/remove-other', transactionControllers.removeOther)
 route.put('/transaction/:id([a-z0-9]+)', transactionControllers.update)
+
+// banner
+route.get('/banner', bannerControllers.getAll)
+route.post('/banner', bannerControllers.create)
 
 
 export default route

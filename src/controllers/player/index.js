@@ -3,6 +3,7 @@ import remove from './remove'
 import getAll from './getAll'
 import getByID from './getByID'
 import update from './update'
+import recentActivity from './recentActivity'
 
 import claim from './claim'
 import subscribe from './subscribe'
