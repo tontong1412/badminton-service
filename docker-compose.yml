@@ -12,5 +12,4 @@ services:
     command: ['/bin/sh', '-c', 'yarn && yarn dev']
 networks:
   default:
-    external:
-      name: badmintonnetwork
+    name: badmintonnetwork

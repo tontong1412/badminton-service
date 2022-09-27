@@ -4,6 +4,7 @@ const GangModel = gang.model
 
 const getMyGang = async (req, res) => {
   const { payload } = req
+  console.info(`[GET] get my-gang ${payload.playerID}`)
   let searchOptions = {}
   if (payload?.playerID) {
     searchOptions = {

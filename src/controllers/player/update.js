@@ -6,7 +6,7 @@ const PlayerModel = player.model
 
 const updatePlayer = async (req, res) => {
   const { body, params: { id }, payload } = req
-  console.info(`[PUT] update player ${id} ${body}`)
+  console.info(`[PUT] update player ${id} ${JSON.stringify(body)}`)
   if (payload.playerID !== id) return res.status(401).send('Permission Denied')
 
   let updateResponse

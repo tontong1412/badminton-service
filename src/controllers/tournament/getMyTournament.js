@@ -8,6 +8,7 @@ const EventModel = eventCollection.model
 
 const getMyTournament = async (req, res) => {
   const { payload } = req
+  console.info(`[GET] get my-tournament ${payload.playerID}`)
   if (!payload?.playerID) return res.status(401).send()
 
   try {
