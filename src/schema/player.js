@@ -31,7 +31,10 @@ const playerSchema = new Schema({
 })
 
 playerSchema.pre('save', function (next) {
+  // if no officialName means created from gang = don't care allow create
   if (!this.officialName) next()
+
+  // check if officialName exist return error duplicate
   this.model(MONGO.COLLECTION_NAME.PLAYER).find({ officialName: this.officialName }, (err, docs) => {
     if (!docs.length) {
       next()

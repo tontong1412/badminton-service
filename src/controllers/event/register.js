@@ -1,4 +1,6 @@
 import mongoose from 'mongoose'
+import { CLOUDINARY } from '../../config'
+import { uploadPhoto } from '../../libs/media'
 import eventCollection from '../../schema/event'
 import playerCollection from '../../schema/player'
 import teamCollection from '../../schema/team'
@@ -14,18 +16,42 @@ const { ObjectId } = mongoose.Types
 
 const registerEvent = async (req, res) => {
   const { body } = req
+  console.info(`[POST] register event ${body.eventID}`)
 
   const playersObject = await Promise.all(body.players.map(async (player) => {
+    let photo = player.photo
+    delete player.photo
 
+    // if body already has playerID update info and return
     if (player._id) {
+      if (photo) {
+        const photoUrl = await uploadPhoto(photo, `${CLOUDINARY.PREFIX}player`, player._id)
+        player.photo = photoUrl.url
+      }
       await PlayerModel.findByIdAndUpdate(player._id, player)
       return player._id
     }
+
+    // if body doesn't have playerID find by officialName to see if the player already in the system 
+    // if already have update info and return
     const playerResponse = await PlayerModel.findOneAndUpdate({ officialName: player.officialName }, player)
-    if (playerResponse) return playerResponse._id
+    if (playerResponse) {
+      if (photo) {
+        const photoUrl = await uploadPhoto(photo, `${CLOUDINARY.PREFIX}player`, id)
+        await PlayerModel.findByIdAndUpdate(playerResponse._id, { photo: photoUrl.url })
+      }
+      return playerResponse._id
+    }
+
+    // if body doesn't have playerID and the player never exist in the system
+    // create new player and update photo after get id of the player
     try {
       const playerObject = new PlayerModel(player)
       const saveResponse = await playerObject.save()
+      if (photo) {
+        const photoUrl = await uploadPhoto(photo, `${CLOUDINARY.PREFIX}player`, saveResponse._id)
+        await PlayerModel.findByIdAndUpdate(saveResponse._id, { photo: photoUrl.url })
+      }
       return saveResponse._id
     } catch (error) {
       console.error('Error: Fail to create player')
