@@ -17,6 +17,7 @@ const arrangeMatch = async (req, res) => {
     matchDuration,
     method,
     timeGap,
+    eventOrder,
   } = req.body
 
   const tournament = await TournamentModel.findById(tournamentID)
@@ -45,21 +46,26 @@ const arrangeMatch = async (req, res) => {
     return matchCountB - matchCountA
   })
 
+
   const newEvents = [...tournament.events]
 
-  // สลับมือใกล้กันแข่งห่างกัน
-  tournament.events.forEach((event, i, self) => {
-    if (i < self.length / 2) {
-      newEvents[2 * i] = event
-    } else {
-      newEvents[(2 * (i - Math.ceil(self.length / 2))) + 1] = event
-    }
-  })
+  // // สลับมือใกล้กันแข่งห่างกัน
+  // tournament.events.forEach((event, i, self) => {
+  //   if (i < self.length / 2) {
+  //     newEvents[2 * i] = event
+  //   } else {
+  //     newEvents[(2 * (i - Math.ceil(self.length / 2))) + 1] = event
+  //   }
+  // })
 
   // arrange round robin
   const arrangedMatches = await Promise.all(newEvents.map((event, index) => {
     if (event.format === EVENT.FORMAT.ROUND_ROBIN || event.format === EVENT.FORMAT.ROUND_ROBIN_CONSOLATION) {
-      return arrangeMatchLib.roundRobin(event, index)
+      return arrangeMatchLib.roundRobin(
+        event,
+        eventOrder.group.findIndex(e => e == event._id),
+        eventOrder.knockOut.findIndex(e => e == event._id)
+      )
     } else if (event.format === EVENT.FORMAT.SINGLE_ELIMINATION) {
       return arrangeMatchLib.singleElim(event, index)
     }
@@ -80,8 +86,9 @@ const arrangeMatch = async (req, res) => {
       const groupMatches = arrangedMatches.map(event => event.filter(e => e.step === 'group'))
       const knockOutMatches = arrangedMatches.map(event => event.filter(e => e.step !== 'group'))
 
-      const sortedGroup = sortLib.minWait(groupMatches, numberOfCourt, matchDuration, startTime.group, timeGap)
-      const sortedKO = sortLib.minWait(knockOutMatches, numberOfCourtKnockOut, matchDuration, startTime.knockOut, timeGap, sortedGroup.length + 1)
+      const sortedGroup = await sortLib.minWait(groupMatches, numberOfCourt, matchDuration, startTime.group, timeGap, undefined, eventOrder.group)
+      const sortedKO = await sortLib.minWait(knockOutMatches, numberOfCourtKnockOut, matchDuration, startTime.knockOut, timeGap, sortedGroup.length + 1, eventOrder.knockOut)
+
       sortedArrangedMatches = [
         ...sortedGroup,
         ...sortedKO

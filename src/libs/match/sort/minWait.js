@@ -1,7 +1,20 @@
 import moment from "moment"
 
-const sortMinWait = (arrangedMatches, numberOfCourt, matchDuration, startTime, timeGap, startMatchNumber = 1) => {
-  arrangedMatches.forEach((event, i) => {
+const sortMinWait = async (arrangedMatches, numberOfCourt, matchDuration, startTime, timeGap, startMatchNumber = 1, eventOrder = null) => {
+  let newArrangedMatches = [...arrangedMatches]
+  if (eventOrder) {
+    for (let i = 0; i < eventOrder.length; i++) {
+      const index = arrangedMatches.findIndex(e => e[0].eventID == eventOrder[i])
+      newArrangedMatches[i] = [...arrangedMatches[index]]
+    }
+    // newArrangedMatches = await Promise.all(eventOrder.map(eventID => {
+    //   const index = arrangedMatches.findIndex(e => e[0].eventID == eventID)
+    //   console.log('index', index)
+    //   return [...arrangedMatches[index]]
+    // }))
+  }
+
+  newArrangedMatches.forEach((event, i) => {
     event.sort((a, b) => {
       if (a.eventOrder === b.eventOrder) {
         if (a.step === 'group' && b.step === 'group') {
@@ -20,7 +33,7 @@ const sortMinWait = (arrangedMatches, numberOfCourt, matchDuration, startTime, t
   let skipMatch = []
   let currentAvailableCourtRound = 0
 
-  arrangedMatches.forEach((event, i) => {
+  newArrangedMatches.forEach((event, i) => {
     let groupStepMax = 0
     let offset = 0
 

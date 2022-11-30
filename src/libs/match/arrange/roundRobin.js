@@ -3,7 +3,7 @@ import { MATCH } from '../../../constants'
 
 const { ObjectId } = mongoose.Types
 
-const arrangeMatchRoundRobin = (event, eventOrder) => {
+const arrangeMatchRoundRobin = (event, eventOrder, eventOrderKO) => {
   const { order } = event
 
   let arrangedMatches = []
@@ -77,7 +77,7 @@ const arrangeMatchRoundRobin = (event, eventOrder) => {
           teamB: null,
           step: MATCH.STEP.KNOCK_OUT,
           round: Math.pow(2, totalRound - i),
-          eventOrder,
+          eventOrder: eventOrderKO || eventOrder,
           bracketOrder: (index - 1) / 2,
           skip: self[index] === null || self[index - 1] === null,
           status: (self[index] === null || self[index - 1] === null) ? 'finished' : 'waiting',
@@ -106,7 +106,7 @@ const arrangeMatchRoundRobin = (event, eventOrder) => {
             teamB: null,
             step: MATCH.STEP.CONSOLATION,
             round: Math.pow(2, totalRoundConsolation - i),
-            eventOrder,
+            eventOrder: eventOrderKO || eventOrder,
             bracketOrder: (index - 1) / 2,
             skip: self[index] === null || self[index - 1] === null,
             status: (self[index] === null || self[index - 1] === null) ? 'finished' : 'waiting',
