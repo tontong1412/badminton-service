@@ -13,12 +13,18 @@ const RecentActivity = async (req, res) => {
 
   try {
     const teams = await TeamModel.find({ players: id })
-    const events = await EventModel.find({ 'teams.team': { $in: teams } })
+    const teamsID = teams.map(t => t._id)
+    const events = await EventModel.find({ 'teams.team': { $in: teamsID } }).select('_id name')
     const tournaments = await TournamentModel
       .find({ events: { $in: events } })
       .limit(3)
-      .select('name')
-    return res.send(tournaments)
+      .select('name events')
+    const response = tournaments.map(t => {
+      const filteredEvents = events.filter(value => t.events.includes(value._id))
+      t.events = [...filteredEvents]
+      return t
+    })
+    return res.send(response)
   } catch (error) {
     console.error('Error: Get by ID player had failed')
     throw error
