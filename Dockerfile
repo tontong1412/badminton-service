@@ -4,7 +4,9 @@ COPY . /usr/src/app/
 
 WORKDIR /usr/src/app/
 
-RUN yarn install --production=false -q && \
+RUN yarn install && \
     yarn build && \
     yarn install --production= -q && \
     yarn cache clean --force
+
+CMD yarn start
