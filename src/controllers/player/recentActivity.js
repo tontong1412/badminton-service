@@ -17,7 +17,8 @@ const RecentActivity = async (req, res) => {
     const events = await EventModel.find({ 'teams.team': { $in: teamsID } }).select('_id name')
     const tournaments = await TournamentModel
       .find({ events: { $in: events } })
-      .limit(3)
+      .sort({ startDate: -1 })
+      .limit(4)
       .select('name events')
     const response = tournaments.map(t => {
       const filteredEvents = events.filter(value => t.events.includes(value._id))
