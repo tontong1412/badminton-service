@@ -9,4 +9,5 @@ RUN yarn install && \
     yarn install --production= -q && \
     yarn cache clean --force
 
+EXPOSE 8080
 CMD yarn start
