@@ -53,7 +53,7 @@ const matchSchema = new SchemaModel({
       MATCH.STATUS.FINISHED
     ]
   },
-  court: Number,
+  court: String,
   date: Date,
   umpire: { type: SchemaModel.Types.ObjectId, ref: MONGO.COLLECTION_NAME.PLAYER },
   step: {
