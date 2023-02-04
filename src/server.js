@@ -28,7 +28,7 @@ server.use(routes)
 const httpServer = createServer(server)
 const io = new Server(httpServer, {
   cors: {
-    origin: [CLIENT],
+    origin: '*',
     methods: ["GET", "POST"]
   }
 });
