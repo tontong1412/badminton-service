@@ -9,15 +9,6 @@ import './libs/authentication'
 
 const server = express()
 
-server.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", CLIENT);
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept"
-  );
-  next()
-})
-
 server.use(
   express.json({ extended: false, limit: '50mb' }),
   express.urlencoded({ limit: '50mb', extended: false, parameterLimit: 50000 }),
