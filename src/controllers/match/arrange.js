@@ -63,8 +63,8 @@ const arrangeMatch = async (req, res) => {
     if (event.format === EVENT.FORMAT.ROUND_ROBIN || event.format === EVENT.FORMAT.ROUND_ROBIN_CONSOLATION) {
       return arrangeMatchLib.roundRobin(
         event,
-        eventOrder.group.findIndex(e => e == event._id),
-        eventOrder.knockOut.findIndex(e => e == event._id)
+        eventOrder?.group.findIndex(e => e == event._id) || index,
+        eventOrder?.knockOut.findIndex(e => e == event._id) || index
       )
     } else if (event.format === EVENT.FORMAT.SINGLE_ELIMINATION) {
       return arrangeMatchLib.singleElim(event, index)
@@ -86,8 +86,8 @@ const arrangeMatch = async (req, res) => {
       const groupMatches = arrangedMatches.map(event => event.filter(e => e.step === 'group'))
       const knockOutMatches = arrangedMatches.map(event => event.filter(e => e.step !== 'group'))
 
-      const sortedGroup = await sortLib.minWait(groupMatches, numberOfCourt, matchDuration, startTime.group, timeGap, undefined, eventOrder.group)
-      const sortedKO = await sortLib.minWait(knockOutMatches, numberOfCourtKnockOut, matchDuration, startTime.knockOut, timeGap, sortedGroup.length + 1, eventOrder.knockOut)
+      const sortedGroup = await sortLib.minWait(groupMatches, numberOfCourt, matchDuration, startTime.group, timeGap, undefined, eventOrder?.group)
+      const sortedKO = await sortLib.minWait(knockOutMatches, numberOfCourtKnockOut, matchDuration, startTime.knockOut, timeGap, sortedGroup.length + 1, eventOrder?.knockOut)
 
       sortedArrangedMatches = [
         ...sortedGroup,

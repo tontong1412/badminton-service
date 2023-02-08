@@ -36,8 +36,8 @@ const sortMinWait = async (arrangedMatches, numberOfCourt, matchDuration, startT
   newArrangedMatches.forEach((event, i) => {
     let groupStepMax = 0
     let offset = 0
-
-    skipMatch = event.filter(e => e.skip === true)
+    const eventSkipMatch = event.filter(match => match.skip === true)
+    skipMatch = [...skipMatch, ...eventSkipMatch]
     event.filter(e => e.skip !== true).forEach((match, i, self) => {
       let factor
       let CurrentTimeGap = timeGap.group
