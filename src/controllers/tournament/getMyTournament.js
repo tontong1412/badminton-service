@@ -11,51 +11,42 @@ const getMyTournament = async (req, res) => {
   console.info(`[GET] get my-tournament ${payload.playerID}`)
   if (!payload?.playerID) return res.status(401).send()
 
-  try {
-    const teams = await TeamModel.find({ players: payload.playerID })
-    const myEvents = await EventModel.find({
-      $or: [
-        { 'teams.team': { $in: teams } },
-        { 'teams.contact': payload.playerID }
-      ]
-    })
-    const tournaments = await TournamentModel.find({
-      $or: [
-        { events: { $in: myEvents } },
-        { creator: payload.playerID },
-        { managers: payload.playerID },
-        { umpires: payload.playerID },
-      ],
-    }).populate({
-      path: 'events events.teams events.order managers',
+  const teams = await TeamModel.find({ players: payload.playerID }).populate('players')
+  const myEvents = await EventModel.find({
+    $or: [
+      { 'teams.team': { $in: teams.map(t => t._id) } },
+      { 'teams.contact': payload.playerID }
+    ]
+  }, { _id: 1 })
+
+  const tournaments = await TournamentModel.find({
+    $and: [
+      {
+        $or: [
+          { events: { $in: myEvents.map(e => e._id) } },
+          { creator: payload.playerID },
+          { managers: payload.playerID },
+          { umpires: payload.playerID },
+        ],
+      },
+      { status: { $ne: 'finish' } }
+    ]
+
+  }).populate({
+    path: 'events',
+    select: 'name type teams fee',
+    populate: {
+      path: 'teams.contact teams.team',
+      select: 'players officialName displayName club',
       populate: {
-        path: `players teams.team teams.contact`,
-        populate: {
-          path: 'players group.team',
-          populate: {
-            path: 'players'
-          }
-        }
+        path: 'players',
+        strictPopulate: false,
+        select: 'officialName displayName club'
       }
-    })
-    return res.send(tournaments)
-  }
-  catch (error) {
-
-  }
-
-  // let getAllResponse
-  // try {
-  //   getAllResponse = await TournamentModel.find({
-  //     'events.teams.team'
-  //   })
-  //     .populate('events').exec()
-  // } catch (error) {
-  //   console.error('Error: Get all tournament had failed')
-  //   throw error
-  // }
-
-  // return res.send(getAllResponse)
+    }
+  })
+  res.send(tournaments)
 }
+
 
 export default getMyTournament

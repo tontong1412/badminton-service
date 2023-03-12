@@ -39,18 +39,17 @@ const transactionSchema = new Schema({
   timestamps: { createdAt: true, updatedAt: true }
 })
 
-transactionSchema.pre('save', function (next) {
-  this.model(MONGO.COLLECTION_NAME.TRANSACTION).find({
+transactionSchema.pre('save', async function (next) {
+  const docs = await this.model(MONGO.COLLECTION_NAME.TRANSACTION).find({
     gangID: this.gangID,
     date: this.date,
     payer: this.payer
-  }, (err, docs) => {
-    if (!docs.length) {
-      next()
-    } else {
-      next(new Error('transaction exists'))
-    }
   })
+  if (!docs.length) {
+    next()
+  } else {
+    next(new Error('transaction exists'))
+  }
 })
 
 const transactionModel = mongoose.model(

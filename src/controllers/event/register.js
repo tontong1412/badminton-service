@@ -33,7 +33,7 @@ const registerEvent = async (req, res) => {
     }
 
     // if body doesn't have playerID find by officialName to see if the player already in the system 
-    // if already have update info and return
+    // if already have, update info and return
     const playerResponse = await PlayerModel.findOneAndUpdate({ officialName: player.officialName }, player)
     if (playerResponse) {
       if (photo) {
@@ -103,11 +103,11 @@ const registerEvent = async (req, res) => {
   let updateResponse
   try {
     updateResponse = await EventModel.findOneAndUpdate(
-      { _id: body.eventID, 'teams.team': { $ne: ObjectId(teamObject._id) } },
+      { _id: body.eventID, 'teams.team': { $ne: new ObjectId(teamObject._id) } },
       {
         $push: {
           teams: {
-            team: ObjectId(teamObject._id),
+            team: teamObject._id,
             _id: new mongoose.Types.ObjectId(),
             isInQueue: event.limit ? event.teams.length >= event.limit : false,
             contact: await contactID()
