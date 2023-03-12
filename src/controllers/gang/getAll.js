@@ -12,16 +12,6 @@ const getAllGang = async (req, res) => {
   let getAllResponse
   try {
     getAllResponse = await GangModel.find(searchOptions)
-      .populate({
-        path: 'creator players queue',
-        select: ['playerID', 'displayName', 'officialName'],
-        populate: {
-          path: 'playerID teamA.team teamB.team',
-          populate: {
-            path: 'players'
-          }
-        }
-      })
   } catch (error) {
     console.error('Error: Failed to get all gang')
     throw error

@@ -6,37 +6,39 @@ const MatchModel = matchCollection.model
 
 const removeQueue = async (req, res) => {
   const { body } = req
+  console.info(`[removeQueue] gang ${body.gangID} match ${body.matchID}`)
 
   await MatchModel.findByIdAndDelete(body.matchID)
 
-  let updateResponse
   try {
-    updateResponse = await GangModel.findOneAndUpdate(
+    const updateResponse = await GangModel.findOneAndUpdate(
       { _id: body.gangID },
       {
         $pull: { queue: body.matchID },
       },
       { new: true },
-    )
-      .populate({
-        path: 'creator players queue',
-        select: ['playerID', 'displayName', 'officialName'],
+    ).populate({
+      path: 'creator players queue',
+      select: 'playerID displayName officialName',
+      strictPopulate: false,
+      populate: {
+        path: 'playerID teamA.team teamB.team',
+        strictPopulate: false,
         populate: {
-          path: 'playerID teamA.team teamB.team',
-          populate: {
-            path: 'players'
-          }
+          path: 'players'
         }
-      })
+      }
+    })
+    if (updateResponse) {
+      return res.send(updateResponse.toObject())
+    }
+    return res.status(404).send('Gang not found')
   } catch (error) {
     console.log(error)
     console.error('Error: Fail to update Gang')
     throw error
   }
-  if (updateResponse) {
-    return res.send(updateResponse.toObject())
-  }
-  return res.status(404).send('gang not found')
+
 }
 
 export default removeQueue

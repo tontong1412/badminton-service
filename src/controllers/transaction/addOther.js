@@ -20,14 +20,10 @@ const addOther = async (req, res) => {
         }
       },
       { new: true },
-    )
-      .populate({
-        path: 'reciever payer matches',
-        populate: {
-          path: 'teamA.team teamB.team',
-          populate: 'players'
-        }
-      })
+    ).populate({
+      path: 'payer',
+      select: 'officialName displayName'
+    })
   } catch (error) {
     console.log(error)
     console.error('Error: Fail to update Gang')

@@ -77,13 +77,16 @@ const getBill = async (req, res) => {
       returnNewDocument: true,
       new: true
     }
-  ).populate({
-    path: 'reciever payer matches',
-    populate: {
-      path: 'teamA.team teamB.team',
-      populate: 'players'
-    }
-  })
+  )
+    .populate({
+      path: 'reciever payer matches',
+      select: 'officialName displayName teamA teamB shuttlecockUsed',
+      populate: {
+        path: 'teamA.team teamB.team',
+        strictPopulate: false,
+        populate: 'players'
+      }
+    })
   return res.json(response)
 }
 export default getBill

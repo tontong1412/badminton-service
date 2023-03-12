@@ -11,10 +11,11 @@ const MatchModel = matchCollection.model
 
 const addQueue = async (req, res) => {
   const { body } = req
-
+  console.info(`[addQueue] gang ${body.gangID}`)
   let teamAObject = await TeamModel.findOne({ players: { $all: body.teamA.players } })
   if (!teamAObject) {
     try {
+      console.info(`[create] team from ${body.teamA.players.join(' ')}`)
       const newTeam = new TeamModel({ players: body.teamA.players })
       teamAObject = await newTeam.save()
     } catch (error) {
@@ -26,6 +27,7 @@ const addQueue = async (req, res) => {
   let teamBObject = await TeamModel.findOne({ players: { $all: body.teamB.players } })
   if (!teamBObject) {
     try {
+      console.info(`[create] team from ${body.teamB.players.join(' ')}`)
       const newTeam = new TeamModel({ players: body.teamB.players })
       teamBObject = await newTeam.save()
     } catch (error) {
@@ -81,31 +83,24 @@ const addQueue = async (req, res) => {
     throw error
   }
 
-  let updateResponse
   try {
-    updateResponse = await GangModel.findOneAndUpdate(
+    const updateResponse = await GangModel.findOneAndUpdate(
       { _id: body.gangID },
       {
         $push: { queue: createMatchResponse._id },
       },
       { new: true },
     )
-      .populate({
-        path: 'queue',
-        populate: {
-          path: 'teamA.team teamB.team',
-          populate: 'players'
-        }
-      })
+    if (updateResponse) {
+      return res.send(updateResponse.toObject())
+    }
+    return res.status(404).send('Gang not found')
   } catch (error) {
     console.log(error)
     console.error('Error: Fail to update Gang')
     throw error
   }
-  if (updateResponse) {
-    return res.send(updateResponse.toObject())
-  }
-  return res.status(404).send('gang not found')
+
 }
 
 export default addQueue

@@ -7,10 +7,11 @@ const MatchModel = matchCollection.model
 
 const updateQueue = async (req, res) => {
   const { body } = req
-
+  console.info(`[update] match ${body.matchID}`)
   let teamAObject = await TeamModel.findOne({ players: { $all: body.teamA.players } })
   if (!teamAObject) {
     try {
+      console.info(`[create] team from ${body.teamA.players.join(' ')}`)
       const newTeam = new TeamModel({ players: body.teamA.players })
       teamAObject = await newTeam.save()
     } catch (error) {
@@ -22,6 +23,7 @@ const updateQueue = async (req, res) => {
   let teamBObject = await TeamModel.findOne({ players: { $all: body.teamB.players } })
   if (!teamBObject) {
     try {
+      console.info(`[create] team from ${body.teamA.players.join(' ')}`)
       const newTeam = new TeamModel({ players: body.teamB.players })
       teamBObject = await newTeam.save()
     } catch (error) {

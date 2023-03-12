@@ -22,6 +22,7 @@ const updatetransaction = async (req, res) => {
       path: 'reciever payer matches',
       populate: {
         path: 'teamA.team teamB.team',
+        strictPopulate: false,
         populate: 'players'
       }
     })

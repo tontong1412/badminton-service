@@ -30,18 +30,17 @@ const playerSchema = new Schema({
   timestamps: { createdAt: true, updatedAt: true }
 })
 
-playerSchema.pre('save', function (next) {
+playerSchema.pre('save', async function (next) {
   // if no officialName means created from gang = don't care allow create
   if (!this.officialName) next()
 
   // check if officialName exist return error duplicate
-  this.model(MONGO.COLLECTION_NAME.PLAYER).find({ officialName: this.officialName }, (err, docs) => {
-    if (!docs.length) {
-      next()
-    } else {
-      next(new Error('user exists'))
-    }
-  })
+  const docs = await this.model(MONGO.COLLECTION_NAME.PLAYER).find({ officialName: this.officialName })
+  if (!docs.length) {
+    next()
+  } else {
+    next(new Error('user exists'))
+  }
 })
 
 const playerModel = mongoose.model(

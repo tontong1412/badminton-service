@@ -15,16 +15,6 @@ const removeManager = async (req, res) => {
       },
       { new: true },
     )
-      .populate({
-        path: 'creator players queue managers',
-        select: ['playerID', 'displayName', 'officialName', 'shuttlecockUsed', 'status', 'scoreLabel'],
-        populate: {
-          path: 'playerID teamA.team teamB.team',
-          populate: {
-            path: 'players'
-          }
-        }
-      })
   } catch (error) {
     console.log(error)
     console.error('Error: Fail to update Gang')

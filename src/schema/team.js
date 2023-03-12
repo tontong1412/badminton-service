@@ -9,19 +9,18 @@ const teamSchema = new Schema({
   timestamps: { createdAt: true, updatedAt: true }
 })
 
-teamSchema.pre('save', function (next) {
-  this.model(MONGO.COLLECTION_NAME.TEAM).find({
+teamSchema.pre('save', async function (next) {
+  const docs = await this.model(MONGO.COLLECTION_NAME.TEAM).find({
     players: {
       $all: this.players,
       $size: this.players.length
     }
-  }, (err, docs) => {
-    if (!docs.length) {
-      next()
-    } else {
-      next(new Error('team exists'))
-    }
   })
+  if (!docs.length) {
+    next()
+  } else {
+    next(new Error('team exists'))
+  }
 })
 
 const teamModel = mongoose.model(
