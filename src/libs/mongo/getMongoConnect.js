@@ -11,13 +11,9 @@ const {
 mongoose.promise = global.promise
 const uri = `${ENDPOINT}`
 const options = {
-  user: USERNAME,
-  pass: PASSWORD,
   dbName: `${DATABASE}`,
   useNewUrlParser: true,
-  useCreateIndex: true,
   useUnifiedTopology: true,
-  useFindAndModify: false,
   keepAlive: true,
   keepAliveInitialDelay: 300000,
 }

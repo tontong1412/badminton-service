@@ -1,34 +1,31 @@
 import event from '../../schema/event'
+import team from '../../schema/team'
 
 const EventModel = event.model
+const TeamModel = team.model
 
 const getByIDEvent = async (req, res) => {
   const { id } = req.params
-
-  let getByIDResponse
   try {
-    getByIDResponse = await EventModel.findById(id)
-    const populateArray = getByIDResponse.order.group.map((group, i) => `order.group.${i}`)
-    await getByIDResponse.populate({
-      path: `teams order.singleElim ${populateArray.join(' ')} `,
-      options: { retainNullValues: true },
+    const getByIDResponse = await EventModel.findById(id).populate({
+      path: 'order.singleElim order.group teams.team',
+      model: TeamModel,
       populate: {
-        path: 'players team teams',
-        populate: {
-          path: 'players'
-        }
+        path: 'players',
+        select: 'officialName displayName club photo'
       }
-    }).execPopulate()
+    }).exec()
+
+    if (getByIDResponse) {
+      return res.send(getByIDResponse)
+    }
+
+    return res.status(404).send('Event not found')
+
   } catch (error) {
     console.error('Error: Failed to get event by id')
     throw error
   }
-
-  if (getByIDResponse) {
-    return res.send(getByIDResponse)
-  }
-
-  return res.status(404).send('event not found')
 }
 
 export default getByIDEvent

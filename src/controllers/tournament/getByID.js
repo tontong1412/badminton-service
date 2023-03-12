@@ -8,17 +8,19 @@ const getByIDTournament = async (req, res) => {
   try {
     getByIDResponse = await TournamentModel.findById(id)
     await getByIDResponse.populate({
-      path: 'events events.teams events.order managers contact umpires',
+      path: 'events creator managers umpires',
+      select: 'name format officialName displayName lineID tel club photo players teams',
       populate: {
-        path: `players teams.team teams.contact`,
+        path: 'teams.contact teams.team',
+        select: 'officialName displayName lineID tel club photo players',
+        strictPopulate: false,
         populate: {
-          path: 'players group.team',
-          populate: {
-            path: 'players'
-          }
+          path: 'players',
+          strictPopulate: false,
+          select: 'officialName displayName birthDate gender club photo'
         }
       }
-    }).execPopulate()
+    })
 
     // for populate order ===> not use due to slow performance
 
