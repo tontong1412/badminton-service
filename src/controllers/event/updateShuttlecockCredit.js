@@ -1,6 +1,8 @@
 import event from '../../schema/event'
+import team from '../../schema/team'
 
 const EventModel = event.model
+const TeamModel = team.model
 
 const updateShuttlecockCredit = async (req, res) => {
 
@@ -18,14 +20,14 @@ const updateShuttlecockCredit = async (req, res) => {
         $inc: { 'teams.$.shuttlecockCredit': body.action === 'increment' ? body.amount : 0 - body.amount }
       },
       { new: true },
-    )
-    const populateArray = updateResponse.order.group.map((group, i) => `order.group.${i}`)
-    await updateResponse.populate({
-      path: `${populateArray.join(' ')}`,
+    ).populate({
+      path: 'order.singleElim order.group teams.team',
+      model: TeamModel,
       populate: {
-        path: 'players'
+        path: 'players',
+        select: 'officialName displayName club photo'
       }
-    }).execPopulate()
+    }).exec()
   } catch (error) {
     console.error('Error: Failed to update event')
     throw error

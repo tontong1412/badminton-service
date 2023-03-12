@@ -1,8 +1,10 @@
 import event from '../../schema/event'
+import team from '../../schema/team'
 import { uploadPhoto } from '../../libs/media'
 import { CLOUDINARY } from '../../config'
 
 const EventModel = event.model
+const TeamModel = team.model
 
 const updateStatus = async (req, res) => {
   const { body } = req
@@ -35,14 +37,14 @@ const updateStatus = async (req, res) => {
         $set: updateObj
       },
       { new: true },
-    )
-    const populateArray = updateResponse.order.group.map((group, i) => `order.group.${i}`)
-    await updateResponse.populate({
-      path: `${populateArray.join(' ')}`,
+    ).populate({
+      path: 'order.singleElim order.group teams.team',
+      model: TeamModel,
       populate: {
-        path: 'players'
+        path: 'players',
+        select: 'officialName displayName club photo'
       }
-    }).execPopulate()
+    }).exec()
   } catch (error) {
     console.error('Error: Failed to update event')
     throw error

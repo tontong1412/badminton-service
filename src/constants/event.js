@@ -9,6 +9,7 @@ const EVENT = {
     IDLE: 'idle',
     APPROVED: 'approved',
     REJECTED: 'rejected',
+    WITHDRAW: 'withdraw'
   },
   PAYMENT_STATUS: {
     PAID: 'paid',

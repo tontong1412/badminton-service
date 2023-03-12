@@ -1,6 +1,8 @@
 import event from '../../schema/event'
+import team from '../../schema/team'
 
 const EventModel = event.model
+const TeamModel = team.model
 
 const updatePaymentStatus = async (req, res) => {
   const { body } = req
@@ -16,14 +18,14 @@ const updatePaymentStatus = async (req, res) => {
         $set: { 'teams.$.paymentStatus': body.paymentStatus }
       },
       { new: true },
-    )
-    const populateArray = updateResponse.order.group.map((group, i) => `order.group.${i}`)
-    await updateResponse.populate({
-      path: `order.knockOut ${populateArray.join(' ')}`,
+    ).populate({
+      path: 'order.singleElim order.group teams.team',
+      model: TeamModel,
       populate: {
-        path: 'players'
+        path: 'players',
+        select: 'officialName displayName club photo'
       }
-    }).execPopulate()
+    }).exec()
   } catch (error) {
     console.error('Error: Failed to update event')
     throw error
