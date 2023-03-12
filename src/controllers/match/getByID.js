@@ -11,7 +11,8 @@ const getByIDmatch = async (req, res) => {
       .populate({
         path: 'teamA.team teamB.team umpire',
         populate: {
-          path: 'players'
+          path: 'players',
+          strictPopulate: false
         }
       })
   } catch (error) {

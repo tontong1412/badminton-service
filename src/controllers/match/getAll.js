@@ -27,9 +27,12 @@ const getAllMatch = async (req, res) => {
   try {
     getAllResponse = await MatchModel.find(query)
       .populate({
-        path: 'teamA.team teamB.team',
+        path: 'umpire teamA.team teamB.team',
+        select: 'officialName displayName',
         populate: {
-          path: 'players'
+          path: 'players',
+          strictPopulate: false,
+          select: 'officialName displayName club'
         }
       })
   } catch (error) {

@@ -17,9 +17,6 @@ const addUmpire = async (req, res) => {
       },
       { new: true },
     )
-      .populate({
-        path: 'players',
-      })
   } catch (error) {
     console.log(error)
     console.error('Error: Fail to update tournament')
