@@ -94,7 +94,7 @@ const arrangeMatch = async (req, res) => {
         ...sortedKO
       ]
     } else {
-      sortedArrangedMatches = sortLib.minWait(arrangedMatches, numberOfCourt, matchDuration, startTime.group, timeGap)
+      sortedArrangedMatches = await sortLib.minWait(arrangedMatches, numberOfCourt, matchDuration, startTime.group, timeGap, undefined, eventOrder?.group)
     }
 
   } else if (method === 'test') {

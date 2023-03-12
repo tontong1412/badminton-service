@@ -26,7 +26,7 @@ const arrangeMatchRoundRobin = (event, eventOrder, eventOrderKO) => {
     for (let round = 0; round < totalRound; round++) {
       if (standTeam) {
         arrangedMatches.push({
-          eventID: ObjectId(event._id),
+          eventID: new ObjectId(event._id),
           eventName: event.name,
           format: event.format,
           level: event.level,
@@ -41,7 +41,7 @@ const arrangeMatchRoundRobin = (event, eventOrder, eventOrderKO) => {
 
       for (let j = 0; j < (roundRobinTeam.length - 1) / 2; j++) {
         arrangedMatches.push({
-          eventID: ObjectId(event._id),
+          eventID: new ObjectId(event._id),
           eventName: event.name,
           format: event.format,
           level: event.level,
@@ -69,7 +69,7 @@ const arrangeMatchRoundRobin = (event, eventOrder, eventOrderKO) => {
     knockOutTeam.forEach((team, index, self) => {
       if (index % 2 === 1) {
         arrangedMatches.push({
-          eventID: ObjectId(event._id),
+          eventID: new ObjectId(event._id),
           eventName: event.name,
           format: event.format,
           level: event.level,
@@ -98,7 +98,7 @@ const arrangeMatchRoundRobin = (event, eventOrder, eventOrderKO) => {
       consolationTeam.forEach((team, index, self) => {
         if (index % 2 === 1) {
           arrangedMatches.push({
-            eventID: ObjectId(event._id),
+            eventID: new ObjectId(event._id),
             eventName: event.name,
             format: event.format,
             level: event.level,
