@@ -32,7 +32,7 @@ const getAllMatch = async (req, res) => {
         populate: {
           path: 'players',
           strictPopulate: false,
-          select: 'officialName displayName club'
+          select: 'officialName displayName club photo'
         }
       })
   } catch (error) {
