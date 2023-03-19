@@ -14,15 +14,15 @@
     "test:integration:watch": "jest -c jest.config.integration.js ./test/integration --watch"
   },
   "dependencies": {
-    "@babel/cli": "7.14.3",
-    "@babel/core": "7.14.3",
-    "@babel/node": "7.14.2",
+    "@babel/cli": "7.21.0",
+    "@babel/core": "7.21.3",
+    "@babel/node": "7.20.7",
     "@babel/plugin-proposal-class-properties": "7.13.0",
     "@babel/plugin-proposal-optional-chaining": "7.14.2",
     "@babel/preset-env": "7.14.4",
     "axios": "0.21.1",
     "cloudinary": "1.27.0",
-    "core-js": "3.14.0",
+    "core-js": "3.29.1",
     "cors": "2.8.5",
     "dotenv": "10.0.0",
     "express": "4.17.1",
@@ -40,15 +40,7 @@
     "eslint": "7.28.0",
     "eslint-config-airbnb-base": "14.2.1",
     "eslint-plugin-import": "2.23.4",
-    "eslint-plugin-jest": "24.3.6",
+    "eslint-plugin-jest": "27.2.1",
     "nodemon": "2.0.7"
-  },
-  "optionalDependencies": {
-    "chokidar": "3.5.1"
-  },
-  "peerDependenciesMeta": {
-    "typescript": {
-      "optional": true
-    }
   }
 }
