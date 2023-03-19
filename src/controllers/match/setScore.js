@@ -5,7 +5,8 @@ import socket from '../../server'
 const MatchModel = matchCollection.model
 
 const setScore = async (req, res) => {
-  const { matchID, score, status = MATCH.STATUS.FINISHED } = req.body
+  const { matchID, score } = req.body
+  let { status = MATCH.STATUS.FINISHED } = req.body
 
   // calculate score
   let scoreSetA = 0
@@ -19,7 +20,7 @@ const setScore = async (req, res) => {
     scoreDiffA = scoreDiffA + Number(scoreA) - Number(scoreB)
     scoreDiffB = scoreDiffB + Number(scoreB) - Number(scoreA)
   })
-
+  status = (scoreSetA >= 2 || scoreSetB >= 2) ? 'finished' : status
   let currentMatch
   try {
     currentMatch = await MatchModel.findByIdAndUpdate(
@@ -29,7 +30,7 @@ const setScore = async (req, res) => {
         'teamB.scoreSet': scoreSetB,
         'teamA.scoreDiff': scoreDiffA,
         'teamB.scoreDiff': scoreDiffB,
-        status: (scoreSetA >= 2 || scoreSetB >= 2) ? 'finished' : status,
+        status,
         scoreLabel: score
       },
       { new: true }
@@ -45,7 +46,8 @@ const setScore = async (req, res) => {
   }
 
   // update player in next match for knock out type
-  if (currentMatch.eventID
+  if (status === MATCH.STATUS.FINISHED
+    && currentMatch.eventID
     && currentMatch.round
     && currentMatch.round > 2 // not final round
     && (currentMatch.step === MATCH.STEP.KNOCK_OUT
