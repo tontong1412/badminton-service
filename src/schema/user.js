@@ -15,18 +15,18 @@ const userSchema = new Schema({
   hash: String,
   salt: String,
   playerID: { type: SchemaModel.Types.ObjectId, ref: MONGO.COLLECTION_NAME.PLAYER },
+  facebookID: String,
 }, {
   timestamps: { createdAt: true, updatedAt: true }
 })
 
-userSchema.pre('save', function (next) {
-  this.model('user').find({ email: this.email }, (err, docs) => {
-    if (!docs.length) {
-      next()
-    } else {
-      next(new Error('user exists'))
-    }
-  })
+userSchema.pre('save', async function (next) {
+  const docs = await this.model('user').find({ email: this.email })
+  if (!docs.length) {
+    next()
+  } else {
+    next(new Error('user exists'))
+  }
 })
 
 userSchema.methods.setPassword = function (password) {

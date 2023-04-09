@@ -1,7 +1,19 @@
 import passport from 'passport'
+import userCollection from '../../schema/user'
+
+const UserModel = userCollection.model
 
 const login = async (req, res) => {
   const { body: { user } } = req
+
+  if (user.facebookID) {
+    const loggedInUser = await UserModel.findOne({ facebookID: user.facebookID })
+    if (loggedInUser) {
+      loggedInUser.token = loggedInUser.generateJWT()
+      return res.json({ user: loggedInUser.toAuthJSON() })
+    }
+  }
+
   // TODO: เปลี่ยนไปใช้ express validator
   if (!user.email) {
     return res.status(422).json({
@@ -18,6 +30,8 @@ const login = async (req, res) => {
       },
     })
   }
+
+
 
   return passport.authenticate('local', { session: false }, (err, passportUser, info) => {
     if (err) throw err
