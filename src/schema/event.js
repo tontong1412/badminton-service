@@ -13,6 +13,7 @@ var teamSchema = mongoose.Schema({
       EVENT.TEAM_STATUS.IDLE,
       EVENT.TEAM_STATUS.REJECTED,
       EVENT.TEAM_STATUS.APPROVED,
+      EVENT.TEAM_STATUS.WITHDRAW,
     ],
     default: EVENT.TEAM_STATUS.IDLE,
   },

@@ -7,15 +7,15 @@ const getByIDTournament = async (req, res) => {
   try {
     const getByIDResponse = await TournamentModel.findById(id).populate({
       path: 'events managers umpires',
-      select: 'name order format fee type teams description prize limit officialName displayName lineID tel club photo players',
+      select: 'name order format fee type teams description prize limit officialName displayName lineID tel club photo players level',
       populate: {
         path: 'teams.contact teams.team',
-        select: 'officialName displayName lineID tel club photo players',
+        select: 'officialName displayName lineID tel club photo players level',
         strictPopulate: false,
         populate: {
           path: 'players',
           strictPopulate: false,
-          select: 'officialName displayName birthDate gender club photo'
+          select: 'officialName displayName birthDate gender club photo level'
         }
       }
     })

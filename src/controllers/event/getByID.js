@@ -12,7 +12,7 @@ const getByIDEvent = async (req, res) => {
       model: TeamModel,
       populate: {
         path: 'players',
-        select: 'officialName displayName club photo'
+        select: 'officialName displayName club photo level'
       }
     }).exec()
 

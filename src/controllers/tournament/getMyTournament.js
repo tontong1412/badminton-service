@@ -37,11 +37,11 @@ const getMyTournament = async (req, res) => {
     select: 'name type teams fee',
     populate: {
       path: 'teams.contact teams.team',
-      select: 'players officialName displayName club',
+      select: 'players officialName displayName club level',
       populate: {
         path: 'players',
         strictPopulate: false,
-        select: 'officialName displayName club'
+        select: 'officialName displayName club level'
       }
     }
   })
