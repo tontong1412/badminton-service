@@ -4,6 +4,7 @@ import getAll from './getAll'
 import getByID from './getByID'
 import update from './update'
 import recentActivity from './recentActivity'
+import updatePlayerLevel from './set-level'
 
 import claim from './claim'
 import subscribe from './subscribe'
@@ -19,4 +20,5 @@ export default {
   claim: controllerErrorHandler(claim),
   recentActivity: controllerErrorHandler(recentActivity),
   subscribe: controllerErrorHandler(subscribe),
+  updatePlayerLevel: controllerErrorHandler(updatePlayerLevel),
 }

@@ -22,6 +22,7 @@ const playerSchema = new Schema({
   photo: String,
   lineID: String,
   tel: String,
+  admin: { Boolean },
   subscription: {
     endpoint: String,
     expirationTime: SchemaModel.Types.Mixed,

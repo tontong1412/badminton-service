@@ -61,6 +61,7 @@ route.get('/player/:id([a-z0-9]+)/recent-activity', playerControllers.recentActi
 route.get('/player/:id([a-z0-9]+)', playerControllers.getByID)
 route.post('/player', playerControllers.create)
 route.put('/player/:id([a-z0-9]+)', authMiddlewares.required, playerControllers.update)
+route.put('/player/:id([a-z0-9]+)/set-level', authMiddlewares.required, playerControllers.updatePlayerLevel)
 route.put('/player/subscribe/:id([a-z0-9]+)', authMiddlewares.required, playerControllers.subscribe)
 // route.delete('/player/:id([a-z0-9]+)', playerControllers.remove)
 
