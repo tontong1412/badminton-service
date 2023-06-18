@@ -20,6 +20,7 @@ const tournamentSchema = new SchemaModel({
   logo: String,
   poster: String,
   shuttlecockFee: Number,
+  useHandicap: Boolean,
   events: [{ type: mongoose.Schema.Types.ObjectId, ref: MONGO.COLLECTION_NAME.EVENT }],
   isPublished: Boolean,
   status: {
