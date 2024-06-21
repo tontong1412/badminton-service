@@ -31,7 +31,7 @@ var teamSchema = mongoose.Schema({
   note: String,
   shuttlecockCredit: { type: Number, default: 0 },
   isInQueue: { type: Boolean, default: false },
-  contact: { type: SchemaModel.Types.ObjectId, ref: MONGO.COLLECTION_NAME.PLAYER }
+  contact: { type: SchemaModel.Types.ObjectId, ref: MONGO.COLLECTION_NAME.PLAYER },
 }, {
   _id: false,
   timestamps: { createdAt: true, updatedAt: true }
@@ -41,6 +41,8 @@ const eventSchema = new SchemaModel({
   tournamentID: { type: mongoose.Schema.Types.ObjectId, ref: MONGO.COLLECTION_NAME.TOURNAMENT },
   name: { type: String, trim: true },
   level: { type: mongoose.Schema.Types.ObjectId },
+  participantPublished: Boolean,
+  drawPublished: Boolean,
   handicap: Number,
   description: String,
   fee: String,
