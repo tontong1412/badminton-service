@@ -54,6 +54,8 @@ route.post('/test-noti', async (req, res) => {
 route.post('/signup', authMiddlewares.optional, userControllers.signup)
 route.post('/login', authMiddlewares.optional, userControllers.login)
 route.get('/user/current', authMiddlewares.required, userControllers.getCurrentUser)
+route.post('/forgot-password', userControllers.forgot)
+route.post('/reset-password/:token', userControllers.setPassword)
 
 // player
 route.get('/player', playerControllers.getAll)
