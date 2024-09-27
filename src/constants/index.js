@@ -5,6 +5,7 @@ import MATCH from './match'
 import GANG from './gang'
 import TRANSACTION from './transaction'
 import TOURNAMENT from './tournament'
+import BOOKING from './booking'
 
 export {
   MONGO,
@@ -14,4 +15,5 @@ export {
   GANG,
   TRANSACTION,
   TOURNAMENT,
+  BOOKING
 }

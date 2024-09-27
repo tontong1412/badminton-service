@@ -11,6 +11,9 @@ const MONGO = {
     TEAM: 'team',
     GANG: 'gang',
     BANNER: 'banner',
+    VENUE: 'venue',
+    COURT: 'court',
+    BOOKING: 'booking',
   },
 }
 

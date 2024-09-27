@@ -8,7 +8,9 @@ import playerControllers from '../controllers/player'
 import matchControllers from '../controllers/match'
 import authMiddlewares from '../middlewares/auth'
 import transactionControllers from '../controllers/transaction'
+import venueControllers from '../controllers/venue'
 import bannerControllers from '../controllers/banner'
+import bookingControllers from '../controllers/booking'
 import { NOTI } from '../config'
 import player from '../schema/player'
 import webPush from 'web-push'
@@ -145,6 +147,20 @@ route.put('/transaction/:id([a-z0-9]+)', transactionControllers.update)
 // banner
 route.get('/banner', bannerControllers.getAll)
 route.post('/banner', bannerControllers.create)
+
+// venue
+route.get('/venue/:id([a-z0-9]+)', venueControllers.getByID)
+route.get('/venue', venueControllers.getAll)
+route.post('/venue', authMiddlewares.required, venueControllers.create)
+route.post('/venue/book', authMiddlewares.required, venueControllers.book)
+
+// route.post('/venue/book', bannerControllers.getAll)
+
+// booking
+route.get('/bookings', bookingControllers.getAll)
+route.post('/bookings', authMiddlewares.required, bookingControllers.create)
+route.get('/bookings/:id([a-z0-9]+)', bookingControllers.getByID)
+route.put('/bookings/:id([a-z0-9]+)', authMiddlewares.required, bookingControllers.update)
 
 
 export default route
