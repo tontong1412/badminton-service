@@ -43,10 +43,12 @@ const bookingSchema = new SchemaModel({
 // Automatically set expiresAt to 5 minutes after createdAt
 bookingSchema.pre('save', function (next) {
   if (!this.expiresAt) {
-    this.expiresAt = new Date(this.createdAt.getTime() + 5 * 60 * 1000); // Set to 5 minutes later
+    this.expiresAt = new Date(this.createdAt.getTime() + 10 * 60 * 1000); // Set to 10 minutes later
   }
   next();
 });
+
+bookingSchema.index({ expiresAt: 1 }, { expireAfterSeconds: 0, partialFilterExpression: { status: { $eq: 'idle' } } });
 
 const bookingModel = mongoose.model(
   MONGO.COLLECTION_NAME.BOOKING,
