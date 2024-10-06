@@ -161,6 +161,7 @@ route.get('/bookings', bookingControllers.getAll)
 route.post('/bookings', authMiddlewares.required, bookingControllers.create)
 route.get('/bookings/:id([a-z0-9]+)', bookingControllers.getByID)
 route.put('/bookings/:id([a-z0-9]+)', authMiddlewares.required, bookingControllers.update)
+route.delete('/bookings/:id([a-z0-9]+)', authMiddlewares.required, bookingControllers.remove)
 
 
 export default route
