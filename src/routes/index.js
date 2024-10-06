@@ -152,7 +152,6 @@ route.post('/banner', bannerControllers.create)
 route.get('/venue/:id([a-z0-9]+)', venueControllers.getByID)
 route.get('/venue', venueControllers.getAll)
 route.post('/venue', authMiddlewares.required, venueControllers.create)
-route.post('/venue/book', authMiddlewares.required, venueControllers.book)
 
 // route.post('/venue/book', bannerControllers.getAll)
 
