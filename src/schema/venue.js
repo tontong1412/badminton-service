@@ -50,12 +50,13 @@ const venueSchema = new SchemaModel({
   payment: {
     code: String,
     name: String,
-    bank: String
+    bank: String,
+    qrcode: String,
   },
   autoCheckSlip: {
     enable: { type: Boolean, default: false },
     api: String,
-    apiKey: String
+    apiKey: String,
   },
 
   members: [{ type: SchemaModel.Types.ObjectId, ref: MONGO.COLLECTION_NAME.PLAYER }],

@@ -17,7 +17,8 @@ const {
   NODE_PORT,
   AUTH_SECRET,
   AUTH_ALGORITHM,
-  CLIENT
+  CLIENT,
+  ENCRYPTION_KEY,
 } = process.env
 
 export {
@@ -28,5 +29,6 @@ export {
   AUTH_ALGORITHM,
   CLIENT,
   CLOUDINARY,
-  NOTI
+  NOTI,
+  ENCRYPTION_KEY,
 }

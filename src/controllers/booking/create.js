@@ -1,4 +1,6 @@
+import { BOOKING } from '../../constants';
 import booking from '../../schema/booking'
+import encryption from '../../libs/encryption'
 
 const BookingModel = booking.model
 
@@ -19,12 +21,11 @@ const create = async (req, res) => {
   const findExistBooking = await BookingModel.findOne({
     venue: body.venue,
     date: body.date,
+    status: { $ne: BOOKING.PAYMENT_STATUS.EXPIRED },
     $or: conditions
   })
-  console.log('exist booking', findExistBooking)
-
   if (!findExistBooking) {
-    const bookingObject = new BookingModel({ ...body, playerID })
+    const bookingObject = new BookingModel({ ...body, playerID, bookingRef: encryption.generateID() })
     let saveResponse
     try {
       saveResponse = await bookingObject.save()

@@ -157,6 +157,7 @@ route.post('/venue/book', authMiddlewares.required, venueControllers.book)
 // route.post('/venue/book', bannerControllers.getAll)
 
 // booking
+route.get('/bookings/my-booking', authMiddlewares.required, bookingControllers.myBooking)
 route.get('/bookings', bookingControllers.getAll)
 route.post('/bookings', authMiddlewares.required, bookingControllers.create)
 route.get('/bookings/:id([a-z0-9]+)', bookingControllers.getByID)

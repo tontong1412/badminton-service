@@ -3,12 +3,14 @@ import { uploadPhoto, deleteImage } from '../../libs/media'
 import { CLOUDINARY } from '../../config'
 import axios from 'axios'
 import { BOOKING } from '../../constants'
+import encryption from '../../libs/encryption'
 
 const BookingModel = booking.model
 
 const update = async (req, res) => {
   const { body } = req
   const { id } = req.params
+  console.log(`[PUT] booking ${id}`)
 
   if (body.slip) {
     const booking = await BookingModel.findById(id)
@@ -30,7 +32,7 @@ const update = async (req, res) => {
           },
           {
             headers: {
-              "x-authorization": booking.venue.autoCheckSlip.apiKey,
+              "x-authorization": encryption.decrypt(booking.venue.autoCheckSlip.apiKey),
             },
           }
         )
@@ -44,6 +46,8 @@ const update = async (req, res) => {
         await deleteImage(`${CLOUDINARY.PREFIX || ''}bookings/${id}`,)
         throw err
       }
+    } else {
+      body.status = BOOKING.PAYMENT_STATUS.PENDING
     }
   }
 
@@ -55,6 +59,7 @@ const update = async (req, res) => {
       { new: true },
     ).populate({
       path: 'venue',
+      select: { autoCheckSlip: 0 }
     }).exec()
   } catch (error) {
     console.error('Error: Failed to update event')

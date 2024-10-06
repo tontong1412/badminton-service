@@ -5,6 +5,7 @@ const SchemaModel = mongoose.Schema
 
 
 const bookingSchema = new SchemaModel({
+  bookingRef: String,
   playerID: { type: SchemaModel.Types.ObjectId, ref: MONGO.COLLECTION_NAME.PLAYER },      // Reference to the user who booked
   date: Date,  // Date of the booking
   price: Number, // Price of the booking
@@ -19,6 +20,7 @@ const bookingSchema = new SchemaModel({
     ],
     default: BOOKING.PAYMENT_STATUS.IDLE,
   },
+  isPublic: { type: Boolean, default: false },
   note: String,
   slip: String,
   name: String,
@@ -32,6 +34,7 @@ const bookingSchema = new SchemaModel({
     price: Number
   }],
   expiresAt: Date,
+  isCustomer: { type: Boolean, default: true },
 }, {
   versionKey: false,
   timestamps: { createdAt: true, updatedAt: true }
